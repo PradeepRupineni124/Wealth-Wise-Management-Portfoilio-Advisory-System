@@ -1,0 +1,104 @@
+/* Full screen center */
+.login_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f2f5; /* light background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card container */
+.login_card {
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Back button */
+.back-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* Form group spacing */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  width: 100%;
+}
+
+/* FloatLabel inputs width */
+p-floatLabel {
+  width: 100%;
+}
+
+/* Password panel fix */
+:host ::ng-deep .p-password-panel {
+  z-index: 9999;
+}
+
+/* Login button styling */
+p-button.login-btn {
+  width: 100%;
+}
+
+p-button.login-btn button {
+  height: 45px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+/* Signup text */
+.signup-text {
+  text-align: center;
+  font-size: 14px;
+  color: #374151;
+}
+
+.signup-text span {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.signup-text span:hover {
+  text-decoration: underline;
+}
+
+/* Make email and password same height as button */
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep .p-password input {
+  height: 45px;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 0 12px;
+}
+
