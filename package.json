@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@primeuix/themes": "^2.0.2",
+    "ag-grid-angular": "^35.0.0",
+    "primeng": "^21.0.2"
+  }
+}
