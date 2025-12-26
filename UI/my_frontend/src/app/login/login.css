@@ -1,0 +1,111 @@
+/* Full screen center */
+@import "primeicons/primeicons.css";
+.login_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login_card { 
+  position: relative;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15); 
+  border-radius: 12px; 
+}
+
+/* Back button */
+.back-btn {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: transparent;
+  border: none;
+  color: #2563eb;
+  font-size: 14px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.back-btn:hover {
+  text-decoration: underline;
+}
+
+/* Form group spacing */
+
+.theme-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+  font-size: 1.5rem; /* Icon size */
+  cursor: pointer;   /* Makes it look clickable */
+  color: #374151;    /* Default color (dark gray for light mode) */
+  transition: color 0.3s;
+}
+
+.theme-icon:hover {
+  color: #2563eb; /* Optional: Hover effect */
+}
+
+:host ::ng-deep .my-app-dark .theme-icon {
+  color: #ffffff;
+}
+
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 25px; /* Increased slightly to accommodate messages */
+  align-items: center;
+  width: 350px; /* Adjusted to fit p-password comfortably */
+  padding: 1rem;
+}
+
+.field-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Inputs styling */
+:host ::ng-deep .p-inputtext,
+:host ::ng-deep .p-password input {
+  height: 45px;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 0 12px;
+  width: 100%;
+}
+.error-placeholder {
+  min-height: 21px; /* Reserves vertical space for the message */
+  display: flex;    /* Ensures content aligns correctly */
+  align-items: center;
+}
+/* Ensure password wrapper is full width */
+:host ::ng-deep .p-password {
+  width: 100%;
+}
+
+/* Login button full width */
+:host ::ng-deep .login-btn {
+  width: 100%;
+}
+
+/* Signup text */
+.signup-text {
+  text-align: center;
+  font-size: 14px;
+  color: #374151;
+  margin-top: 10px;
+}
+
+.signup-text span {
+  color: #2563eb;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.signup-text span:hover {
+  text-decoration: underline;
+}
