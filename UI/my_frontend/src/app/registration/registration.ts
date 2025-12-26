@@ -76,10 +76,10 @@ export class Registration {
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
-    const element = document.querySelector('html');
-    if (element) {
-      element.classList.toggle('my-app-dark');
-    }
+    // const element = document.querySelector('html');
+    // if (element) {
+    //   element.classList.toggle('my-app-dark');
+    // }
   }
 
   submit() {

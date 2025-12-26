@@ -1,4 +1,6 @@
 
+@import "primeicons/primeicons.css";
+
 .register_wrapper {
   min-height: 100vh;
   width: 100%;
@@ -93,7 +95,7 @@ h2 {
 
 
 .error-placeholder {
-  min-height: 1.2rem;
+  min-height: 21px;
   margin-top: 0.25rem;
   font-size: 0.8rem;
 }
@@ -134,9 +136,9 @@ h2 {
 }
 
 /* Page background */
-.dark-mode .register_wrapper {
+.register_wrapper .dark-mode {
   background-color: #0f172a;
-}
+} 
 
 /* Card */
 .dark-mode .register_card .p-card {
@@ -195,6 +197,7 @@ h2 {
   right: 1.25rem;
   font-size: 1.3rem;
   cursor: pointer;
+  z-index: 10;
   color: #64748b;
 }
 
