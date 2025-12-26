@@ -1,20 +1,23 @@
 <div class="login_wrapper">
- <i 
+  <i
     class="pi theme-icon"
     [class]="isDarkMode ? 'pi pi-sun' : 'pi pi-moon'"
-    (click)="toggleDarkMode()">
-  </i>
+    (click)="toggleDarkMode()"
+  ></i>
+
   <p-card class="login_card">
     <button class="back-btn" routerLink="/" type="button">
       ← Back
     </button>
 
     <ng-template pTemplate="header">
-      <h2 style="text-align: center; padding-top: 2rem; margin-bottom: 0;">Login to Your Account</h2>
+      <h2 style="text-align: center; padding-top: 2rem; margin-bottom: 0;">
+        Login to Your Account
+      </h2>
     </ng-template>
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form_group">
-      
+      <!-- Email -->
       <div class="field-container">
         <p-floatLabel variant="on">
           <input
@@ -27,7 +30,7 @@
           />
           <label for="email">Email</label>
         </p-floatLabel>
-        
+
         <div class="error-placeholder">
           @if (isInvalid('email')) {
             <p-message severity="error" size="small" variant="simple">
@@ -38,18 +41,23 @@
         </div>
       </div>
 
+      <!-- Password -->
       <div class="field-container">
         <p-floatLabel variant="on">
           <p-password
             inputId="password"
             formControlName="password"
             [toggleMask]="true"
-            [feedback]="false"
+            [feedback]="true"
+            promptLabel="Enter password"
+            weakLabel="Weak"
+            mediumLabel="Medium"
+            strongLabel="Strong"
             [invalid]="isInvalid('password')"
           ></p-password>
           <label for="password">Password</label>
         </p-floatLabel>
-        
+
         <div class="error-placeholder">
           @if (isInvalid('password')) {
             <p-message severity="error" size="small" variant="simple">
@@ -59,8 +67,15 @@
         </div>
       </div>
 
+      <!-- Forgot password -->
+      <p class="forgot-text">
+        <span routerLink="/forgot-password">Forgot Password?</span>
+      </p>
+
+      <!-- Sign In -->
       <p-button label="Sign In" styleClass="login-btn" type="submit"></p-button>
 
+      <!-- Signup -->
       <p class="signup-text">
         Don’t have an account?
         <span routerLink="/register">Sign up</span>
@@ -68,4 +83,6 @@
     </form>
   </p-card>
 </div>
+
 <p-toast></p-toast>
+``
