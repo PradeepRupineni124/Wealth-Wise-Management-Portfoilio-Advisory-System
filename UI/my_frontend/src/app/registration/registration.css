@@ -1,0 +1,210 @@
+
+.register_wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f7f6;
+  padding: 1rem;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position:relative;
+}
+
+
+.register_card {
+  width: 100%;
+  max-width: 440px;
+}
+
+
+::ng-deep .register_card .p-card-body {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+  display: flex;
+  justify-content: center;
+}
+
+
+::ng-deep .register_card .p-card {
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 1.5rem;
+  padding-top: 15px;
+  color: #1e293b;
+}
+
+
+.form_group {
+  width: 100%;
+}
+
+
+.form-column {
+  width: 100%;
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+
+.field-container {
+  width: 100%;
+}
+
+
+::ng-deep .p-floatlabel {
+  display: block !important;
+  width: 100% !important;
+}
+
+
+::ng-deep .p-inputtext {
+  width: 100% !important;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+::ng-deep .p-password{
+  width: 100% !important;
+}
+
+::ng-deep .p-password-input {
+  width: 100% !important;
+  box-sizing: border-box;
+  padding: 0.8rem 3rem 0.8rem 1rem !important;
+  font-size: 1rem;
+  border-radius: 8px;
+}
+
+
+.error-placeholder {
+  min-height: 1.2rem;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+}
+
+
+::ng-deep .register-btn {
+  width: 100% !important;
+  display: block;
+}
+
+::ng-deep .register-btn .p-button {
+  width: 100%;
+  padding: 0.9rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #10b981;
+  border: none;
+}
+
+
+.login-text {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.login-text span {
+  color: #10b981;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ================= DARK MODE ================= */
+.dark-mode {
+  background-color: #0f172a;
+}
+
+/* Page background */
+.dark-mode .register_wrapper {
+  background-color: #0f172a;
+}
+
+/* Card */
+.dark-mode .register_card .p-card {
+  background-color: #020617;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+/* Title */
+.dark-mode h2 {
+  color: #e5e7eb;
+}
+
+/* Inputs */
+.dark-mode ::ng-deep .p-inputtext,
+.dark-mode ::ng-deep .p-password-input {
+  background-color: #020617;
+  color: #e5e7eb;
+  border: 1px solid #334155;
+}
+
+/* Floating labels */
+.dark-mode ::ng-deep .p-floatlabel label {
+  color: #94a3b8;
+}
+
+/* Input focus */
+.dark-mode ::ng-deep .p-inputtext:focus,
+.dark-mode ::ng-deep .p-password-input:focus {
+  border-color: #22c55e;
+}
+
+/* Error text */
+.dark-mode .error-placeholder p-message {
+  color: #fca5a5;
+}
+
+/* Button */
+.dark-mode ::ng-deep .register-btn .p-button {
+  background-color: #22c55e;
+  color: #022c22;
+}
+
+/* Login text */
+.dark-mode .login-text {
+  color: #94a3b8;
+}
+
+.dark-mode .login-text span {
+  color: #22c55e;
+}
+
+/* Toggle icon */
+.theme-icon {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  font-size: 1.3rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.dark-mode .theme-icon {
+  color: #e5e7eb;
+}
+
+/* mobile responsive */
+@media (max-width: 500px) {
+  .form-column {
+    max-width: 100%;
+  }
+}
