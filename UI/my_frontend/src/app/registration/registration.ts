@@ -93,7 +93,7 @@ export class Registration {
   /** Email must contain '@' */
   private containsAtValidator(control: AbstractControl): ValidationErrors | null {
     const value = (control.value ?? '') as string;
-    return value.includes('@') && value.includes('cognizant.com') ? null : { atMissing: true };
+    return value.includes('@') && value.includes('mail.com') ? null : { atMissing: true };
   }
 
   /** Password must contain at least one uppercase, one number, and one special character */

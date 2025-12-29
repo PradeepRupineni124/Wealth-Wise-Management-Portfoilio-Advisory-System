@@ -38,7 +38,7 @@
     <div class="error-container">
       @if (isInvalid('email')) {
         <p-message severity="error" size="small" variant="simple">
-          {{ registrationForm.get('email')?.errors?.['required'] ? 'Required' : "Missing '@' or 'cognizant.com'" }}
+          {{ registrationForm.get('email')?.errors?.['required'] ? 'Required' : "Missing '@' or 'mail.com'" }}
         </p-message>
       }
     </div>
