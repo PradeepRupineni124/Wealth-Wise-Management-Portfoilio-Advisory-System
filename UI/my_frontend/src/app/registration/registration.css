@@ -41,7 +41,7 @@ h2 {
   margin: 0;
   text-align: center;
   font-size: 1.5rem;
-  padding-top: 20px;
+  padding-top: 10px;
   color: #1e293b;
 }
 
@@ -130,28 +130,74 @@ h2 {
   cursor: pointer;
 }
 
+.card-header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding-top: 1rem;
+}
+
+.account-icon{
+  font-size: 3rem;
+  color: #10b981;
+}
+
 /* ================= DARK MODE ================= */
 .dark-mode {
   background-color: #0f172a;
 }
 
-/* Page background */
+
 .register_wrapper .dark-mode {
   background-color: #0f172a;
 } 
 
-/* Card */
-.dark-mode .register_card .p-card {
+::ng-deep .register_card .p-card{
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+
+.register_card .dark-mode.p-card {
   background-color: #020617;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
 }
 
-/* Title */
-.dark-mode h2 {
-  color: #e5e7eb;
+
+.register_wrapper.dark-mode h2 {
+  color: #f8fafc;
+  background-color: #020617;
 }
 
-/* Inputs */
+.register_wrapper.dark-mode .card-header{
+  background-color: #020617;
+}
+
+.register_wrapper.dark-mode ::ng-deep .p-card-body{
+  background-color: #020617;
+}
+
+.register_wrapper.dark-mode ::ng-deep .p-card{
+  background-color: #020617;
+  border: 1px solid #1e293b;
+  border-radius: 16px;
+}
+
+.register_wrapper.dark-mode ::ng-deep .p-card,
+.register_wrapper.dark-mode ::ng-deep .p-card-body,
+.register_wrapper.dark-mode ::ng-deep .p-card-content,
+.register_wrapper.dark-mode ::ng-deep .p-card-header,
+.register_wrapper.dark-mode ::ng-deep .p-card-footer{
+  background-color: #020617 !important;
+}
+
+.register_wrapper ::ng-deep .p-card{
+  border-radius: 14px !important;
+  overflow:  hidden !important;
+}
+
+
 .dark-mode ::ng-deep .p-inputtext,
 .dark-mode ::ng-deep .p-password-input {
   background-color: #020617;
@@ -159,34 +205,44 @@ h2 {
   border: 1px solid #334155;
 }
 
-/* Floating labels */
-.dark-mode ::ng-deep .p-floatlabel label {
-  color: #94a3b8;
+
+.register_wrapper.dark-mode ::ng-deep .p-floatlabel label {
+  color: #ffffff !important;
+  background-color: #020617 !important;
+  padding: 0 0.35rem;
 }
 
-/* Input focus */
+/* .register_wrapper.dark-mode ::ng-deep .p-floatlabel input:focus~label{
+  color: #22c55e !important;
+} */
+
+
 .dark-mode ::ng-deep .p-inputtext:focus,
 .dark-mode ::ng-deep .p-password-input:focus {
   border-color: #22c55e;
 }
 
-/* Error text */
+
 .dark-mode .error-placeholder p-message {
   color: #fca5a5;
 }
 
-/* Button */
+
 .dark-mode ::ng-deep .register-btn .p-button {
   background-color: #22c55e;
   color: #022c22;
 }
 
-/* Login text */
+
 .dark-mode .login-text {
   color: #94a3b8;
 }
 
 .dark-mode .login-text span {
+  color: #22c55e;
+}
+
+.dark-mode .account-icon{
   color: #22c55e;
 }
 

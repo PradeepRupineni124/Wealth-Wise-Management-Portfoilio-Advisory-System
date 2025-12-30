@@ -7,7 +7,10 @@
 
   <p-card class="register_card">
     <ng-template pTemplate="header">
-      <h2>Register Your Account</h2>
+      <div class = "card-header">
+        <i class = "pi pi-user-plus account-icon"></i>
+        <h2>Register Your Account</h2>
+      </div>
     </ng-template>
 
     <form [formGroup]="registerForm" (ngSubmit)="submit()" class="form_group">
