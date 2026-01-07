@@ -13,7 +13,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import {CardModule} from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule } from '@angular/router';
-
+import {DividerModule} from 'primeng/divider';
 
 
 
@@ -28,7 +28,8 @@ import { RouterModule } from '@angular/router';
   FloatLabelModule,
   CardModule,
 ButtonModule,
-RouterModule],
+RouterModule,
+DividerModule],
   templateUrl: './registration.html',
   styleUrl: './registration.css',
   providers: [MessageService]
