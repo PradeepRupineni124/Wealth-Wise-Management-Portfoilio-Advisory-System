@@ -38,10 +38,24 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
 }
 
-.logo-icon {
+
+/* ---- chnaged for logo ----- */
+
+.brand{
+    margin-bottom: 0.3rem;
+}
+
+.brand-logo {
+    width: 270px; /* Adjust this width as needed */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Removes potential extra space below the image */
+}
+
+
+/* .logo-icon {
     background-color: var(--p-primary-500);
     color: white;
     width: 36px;
@@ -57,7 +71,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--p-primary-700);
-}
+} */
 
 .hero-text h1 {
     font-size: 2.75rem;
