@@ -1,0 +1,30 @@
+<p-button (click)="visible = true" icon="pi pi-bars"></p-button>
+
+<p-drawer [(visible)]="visible" [modal]="true" styleClass="wealthwise-drawer">
+    <ng-template #headless>
+        <div class="sidebar-container">
+            
+            <div class="brand-header">
+                <img src="Wealth_full.png" 
+                     alt="WealthWise Logo" 
+                     class="brand-logo-img" />
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li *ngFor="let item of menuItems">
+                        <a pRipple
+                           (click)="selectItem(item.label)"
+                           class="nav-item"
+                           [ngClass]="{'active': activeItem === item.label}">
+                            
+                            <i [class]="item.icon" class="nav-icon"></i>
+                            <span class="nav-label">{{ item.label }}</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+        </div>
+    </ng-template>
+</p-drawer>

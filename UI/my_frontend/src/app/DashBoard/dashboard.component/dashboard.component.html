@@ -1,0 +1,40 @@
+<p-menubar [model]="items" class="dashboard-menubar">
+    
+    <ng-template #start>
+        <div class="navbar-start">
+            
+            <app-sidebar></app-sidebar>
+
+            <!-- <a class="navbar-logo-container">
+                <img src="Wealth_full.png" alt="Logo" class="navbar-logo" />
+            </a> -->
+            
+        </div>
+    </ng-template>
+
+    <ng-template #item let-item let-root="root">
+        <a pRipple class="navbar-menu-link">
+            <i [class]="item.icon" *ngIf="item.icon" class="navbar-menu-icon"></i>
+            <span>{{ item.label }}</span>
+            <i *ngIf="item.items" 
+               [ngClass]="root ? 'pi pi-angle-down' : 'pi pi-angle-right'" 
+               class="ml-auto text-sm text-color-secondary"></i>
+        </a>
+    </ng-template>
+
+    <ng-template #end>
+        <div class="navbar-actions">
+            <p-avatar 
+                image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" 
+                shape="circle" 
+            />
+            <p-button 
+                label="Logout" 
+                icon="pi pi-sign-out" 
+                [text]="true" 
+                severity="danger" 
+                (onClick)="logout()">
+            </p-button>
+        </div>
+    </ng-template>
+</p-menubar>

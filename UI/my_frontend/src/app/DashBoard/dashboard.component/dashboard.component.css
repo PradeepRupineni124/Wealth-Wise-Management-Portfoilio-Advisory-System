@@ -1,0 +1,71 @@
+/* ----------------------------------------------------------
+   ALIGNMENT FIX
+   ---------------------------------------------------------- */
+
+:host ::ng-deep .p-menubar {
+    display: flex;
+    align-items: center;
+}
+
+:host ::ng-deep .p-menubar-root-list {
+    margin-left: auto !important;
+}
+
+:host ::ng-deep .p-menubar-end {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem; 
+}
+
+/* ----------------------------------------------------------
+   NEW STYLES FOR START SECTION
+   ---------------------------------------------------------- */
+
+/* Wrapper for Sidebar Button + Logo */
+.navbar-start {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between Hamburger and Logo */
+    margin-right: 1rem;
+}
+
+/* Logo Container */
+.navbar-logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo {
+    height: 35px; 
+    width: auto;
+    display: block;
+}
+
+/* ----------------------------------------------------------
+   EXISTING STYLES (Menu Links & Actions)
+   ---------------------------------------------------------- */
+
+.navbar-menu-link {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem; 
+    text-decoration: none;
+    color: var(--p-surface-700);
+    border-radius: var(--p-content-border-radius);
+    transition: background-color 0.2s;
+}
+
+.navbar-menu-link:hover {
+    background-color: var(--p-surface-100);
+    color: var(--p-primary-600);
+}
+
+.navbar-menu-icon {
+    margin-right: 0.5rem;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
