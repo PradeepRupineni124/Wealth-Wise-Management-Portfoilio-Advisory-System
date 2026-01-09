@@ -8,11 +8,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 
 import {ToastModule} from 'primeng/toast';
+import { Registration } from "./registration/registration";
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,PasswordModule,InputTextModule,ButtonModule,ReactiveFormsModule,],
+  imports: [RouterOutlet, PasswordModule, InputTextModule, ButtonModule, ReactiveFormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

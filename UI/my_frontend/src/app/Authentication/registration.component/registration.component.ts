@@ -36,11 +36,6 @@ DividerModule],
 })
 export class Registration {
 
-  // risks = [
-  //   { label: 'Low', value: 'LOW' },
-  //   { label: 'Medium', value: 'MEDIUM' },
-  //   { label: 'High', value: 'HIGH' }
-  // ];
 
   registerForm: any;
 
@@ -48,10 +43,6 @@ export class Registration {
     this.registerForm = this.fb.group({
       fullName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      // age: ['', [Validators.required, Validators.min(18)]],
-      // username: ['', Validators.required],
-      // risk: ['', Validators.required],
-      // amount: ['', Validators.required],
       password: ['', [
         Validators.required,
         Validators.minLength(6),
@@ -75,13 +66,9 @@ export class Registration {
 
   isDarkMode = false;
 
-  toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    // const element = document.querySelector('html');
-    // if (element) {
-    //   element.classList.toggle('my-app-dark');
-    // }
-  }
+  // toggleDarkMode() {
+  //   this.isDarkMode = !this.isDarkMode;
+  // }
 
   submit() {
     if (this.registerForm.valid) {

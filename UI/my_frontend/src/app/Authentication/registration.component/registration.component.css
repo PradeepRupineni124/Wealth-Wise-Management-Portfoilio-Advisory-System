@@ -1,6 +1,6 @@
 @import "primeicons/primeicons.css";
 
-/* --- 1. SHAKE ANIMATION --- */
+/* ---  SHAKE ANIMATION --- */
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -9,7 +9,7 @@
   100% { transform: translateX(0); }
 }
 
-/* --- 2. LAYOUT --- */
+/* ---  LAYOUT --- */
 .split-layout {
     display: flex;
     min-height: 100vh;
@@ -25,7 +25,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem; /* Reduced padding slightly to prevent overflow issues */
+    padding: 2rem; 
 }
 
 .content-wrapper {
@@ -33,7 +33,7 @@
     width: 100%;
 }
 
-/* --- 3. TYPOGRAPHY & BRANDING --- */
+/* ---  TYPOGRAPHY & BRANDING --- */
 .brand {
     display: flex;
     align-items: center;
@@ -42,36 +42,18 @@
 }
 
 
-/* ---- chnaged for logo ----- */
+
 
 .brand{
     margin-bottom: 0.3rem;
 }
 
 .brand-logo {
-    width: 270px; /* Adjust this width as needed */
-    height: auto; /* Maintains aspect ratio */
-    display: block; /* Removes potential extra space below the image */
+    width: 270px; 
+    height: auto; 
+    display: block; 
 }
 
-
-/* .logo-icon {
-    background-color: var(--p-primary-500);
-    color: white;
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-}
-
-.brand-text {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--p-primary-700);
-} */
 
 .hero-text h1 {
     font-size: 2.75rem;
@@ -92,14 +74,14 @@
     margin-bottom: 3rem;
 }
 
-/* --- 4. LEFT SIDE CARDS (Shadow + Shake) --- */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
 }
 
-/* Target the StyleClass: .stat-card */
+
 ::ng-deep .stat-card {
     background-color: #ffffff !important;
     border: 1px solid var(--p-surface-200) !important;
@@ -134,7 +116,7 @@
     font-weight: 500;
 }
 
-/* --- 5. RIGHT SIDE CARD --- */
+/* --- RIGHT SIDE CARD --- */
 
 .register_wrapper {
     width: 100%;
@@ -147,20 +129,20 @@
     position: relative;
 }
 
-/* IMPORTANT: This controls the width. It was missing in the previous step */
+
 .register_card {
     width: 100%;
     max-width: 440px;
 }
 
-/* This targets the internal PrimeNG card div to apply the green shadow */
+
 ::ng-deep .register-card-custom {
     background-color: #ffffff !important;
     border: none !important;
     border-radius: 14px !important;
     /* Stronger Green Shadow */
     box-shadow: 0 15px 40px rgba(16, 185, 129, 0.15) !important;
-    width: 100%; /* Ensure internal div fills the host width */
+    width: 100%; 
 }
 
 ::ng-deep .register-card-custom .p-card-body {
@@ -172,7 +154,7 @@
     justify-content: center;
 }
 
-/* --- 6. FORM INTERNALS --- */
+/* ---  FORM INTERNALS --- */
 .card-header {
     display: flex;
     flex-direction: column;
