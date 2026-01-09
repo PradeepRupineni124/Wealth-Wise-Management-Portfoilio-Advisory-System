@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* In styles.css (Global) */
+ 
+/* 1. Target the link when the mouse is over the menu item */
+.p-menubar .p-menuitem:hover > .p-menuitem-link {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364) !important;
+    color: #ffffff !important;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(32, 58, 67, 0.35);
+}
+ 
+/* 2. Ensure the icon and label inside also turn white */
+.p-menubar .p-menuitem:hover .p-menuitem-text,
+.p-menubar .p-menuitem:hover .p-menuitem-icon {
+    color: #ffffff !important;
+}
+
+html {
+  scroll-behavior: smooth;
+}

@@ -1,0 +1,140 @@
+<p-menubar [model]="items">
+ <ng-template pTemplate="start">
+  <img src="Wealth.logo.png" height="40" class="logo-img" alt="WealthWise Logo">
+</ng-template>
+
+  <ng-template pTemplate="end">
+    <button class="btn secondary" routerLink="/login">Login</button>
+    <button class="btn primary" routerLink="/register">Register</button>
+  </ng-template>
+</p-menubar>
+
+<section class="hero">
+  <div class="hero-left">
+    <h1>Smart <span>Wealth Management</span><br> Made Simple</h1>
+    <p>WealthWise helps financial institutions and high-net-worth individuals manage portfolios, assess risk, and receive intelligent investment recommendations.</p>
+    <button class="btn primary">Explore Features</button>
+  </div>
+  
+
+  <div class="hero-right">
+  <p-card styleClass="portfolio-card-modern">
+    <div class="value-highlight-box">
+      <div class="value-header">
+        <span class="label">Portfolio Value</span>
+        <div class="growth-badge">
+          <i class="pi pi-arrow-up-right"></i>
+          <span>+12.4%</span>
+        </div>
+      </div>
+      <h1 class="main-amount">$2,547,892</h1>
+    </div>
+
+    <div class="asset-grid-modern">
+      <div class="asset-col">
+        <span class="asset-label">Equities</span>
+        <span class="asset-value">45%</span>
+      </div>
+      <div class="asset-col">
+        <span class="asset-label">Bonds</span>
+        <span class="asset-value">30%</span>
+      </div>
+      <div class="asset-col">
+        <span class="asset-label">MF</span>
+        <span class="asset-value">25%</span>
+      </div>
+    </div>
+
+    <hr class="card-divider">
+
+    <div class="metric-row">
+      <span class="metric-label">Risk Score</span>
+      <span class="metric-tag">Low (2.4/10)</span>
+    </div>
+    <div class="metric-row">
+      <span class="metric-label">Annual Return</span>
+      <span class="metric-value-green">+18.2%</span>
+    </div>
+  </p-card>
+</div>
+</section> 
+
+<!-- TRUST METRICS -->
+<section class="stats">
+  <div class="stat">
+    <h2>100K+</h2>
+    <p>Daily Portfolio Updates</p>
+  </div>
+  <div class="stat">
+    <h2>Multi-Asset</h2>
+    <p>Equity, Mutual Funds & Bonds</p>
+  </div>
+  <div class="stat">
+    <h2>SEBI & GDPR</h2>
+    <p>Compliance Ready</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <h2>Why WealthWise?</h2>
+  <p>
+    WealthWise is a digital wealth management platform designed to provide
+    end-to-end portfolio advisory services. It integrates client profiling,
+    intelligent recommendations, compliance monitoring, and performance
+    analytics to help advisors and clients make confident investment decisions.
+  </p>
+</section>
+
+<!--FEATURES-->
+<section class="features" id="features">
+  <h2>Platform Capabilities</h2>
+
+  <div class="feature-grid">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="icon-container"><i class="pi pi-user"></i></div>
+        <div class="card-title">Client Profile Management</div>
+      </ng-template>
+      <p>Capture financial goals, risk appetite, and KYC information securely.</p>
+    </p-card>
+
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="icon-container"><i class="pi pi-clipboard"></i></div>
+        <div class="card-title">Portfolio Creation</div>
+      </ng-template>
+      <p>Build diversified portfolios with dynamic asset allocation.</p>
+    </p-card>
+
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="icon-container"><i class="pi pi-shield"></i></div>
+        <div class="card-title">Risk & Compliance</div>
+      </ng-template>
+      <p>Monitor exposure limits and regulatory compliance in real time.</p>
+    </p-card>
+
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="icon-container"><i class="pi pi-chart-bar"></i></div>
+        <div class="card-title">Wealth Analytics</div>
+      </ng-template>
+      <p>Advanced reports on returns, volatility, and risk-adjusted performance.</p>
+    </p-card>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="final-cta">
+  <h2>Start Managing Wealth Smarter</h2>
+  <p>Empowering better financial decisions through technology.</p>
+  <button class="btn primary" routerLink="">Get Started</button>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="footer">
+  <p>© 2025 WealthWise | Digital Wealth Management & Portfolio Advisory System</p>
+</footer>
+
+

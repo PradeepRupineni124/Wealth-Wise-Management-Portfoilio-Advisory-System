@@ -1,0 +1,129 @@
+
+@import "primeicons/primeicons.css";
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+}
+
+section {
+  padding: 70px 8%;
+}
+
+/* --- 2. NAVIGATION (Menubar) --- */
+:host ::ng-deep .p-menubar {
+  border: none;
+  background: #ffffff;
+}
+
+:host ::ng-deep .p-menubar .p-menuitem .p-menuitem-link:hover,
+:host ::ng-deep .p-menubar .p-menuitem.p-highlight > .p-menuitem-link {
+  background-color: #00FF99A7 !important;
+  transition: all 0.2s ease-in-out !important;
+  border-radius: 6px !important;
+  color: #000000 !important;
+}
+
+:host ::ng-deep .p-menubar .p-menuitem .p-menuitem-link:hover .p-menuitem-text,
+:host ::ng-deep .p-menubar .p-menuitem .p-menuitem-link:hover .p-menuitem-icon {
+  color: #000000 !important;
+}
+
+/* --- 3. HERO SECTION --- */
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 90vh;
+  padding: 0 8%;
+  background: linear-gradient(135deg, #042f2e, #115e59, #059669);
+  color: white;
+}
+
+.hero-left {
+  max-width: 600px;
+}
+
+.hero-left h1 {
+  font-size: 3.2rem;
+}
+
+.hero-left span {
+  color: #00ffa6;
+}
+
+.hero-left p {
+  margin: 20px 0;
+  line-height: 1.6;
+  font-size: 20px;
+  text-align: justify;
+  text-justify: inter-word;
+  width: 570px;
+  color: whitesmoke;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* --- MODIFIED HERO PORTFOLIO CARD --- */
+:host ::ng-deep .portfolio-card.p-card, :host ::ng-deep .portfolio-card-modern.p-card { width: 450px; border-radius: 18px; background: #ffffff; box-shadow: 0 20px 40px rgba(0,0,0,0.15); padding: 0; color: #000; overflow: hidden; }
+:host ::ng-deep .portfolio-card-modern .p-card-body { padding: 24px; }
+
+/* --- Top Green Box Area --- */
+.value-highlight-box { background-color: #f0fdf9; border-radius: 12px; padding: 20px; margin-bottom: 25px; }
+.value-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
+.label { color: #64748b; font-size: 14px; }
+
+/* --- Percentage with Arrow --- */
+.growth-badge { color: #10b981; display: flex; align-items: center; gap: 4px; font-weight: 700; font-size: 16px; }
+.main-amount { margin: 0; font-size: 2.4rem; font-weight: 800; color: #0f172a; letter-spacing: -1px; }
+
+/* --- Asset Columns (Equities, Bonds, MF) --- */
+.asset-col, .metric-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+/* Labels (Left Side) */
+.asset-label, .metric-label { font-size: 14px; color: #4b5563; }
+/* Values & Tags (Right Side) */
+.asset-value, .metric-tag, .metric-value-green { font-weight: 700; color: #1e293b; text-align: right; }
+/* Divider */
+.card-divider { border: 0; border-top: 1px solid #e5e7eb; margin: 15px 0; }
+
+/* --- 4. BUTTONS --- */
+.btn { padding: 12px 28px; border-radius: 6px; border: none; cursor: pointer; font-size: 1rem; font-weight: 500; transition: all 0.3s ease; }
+.btn.primary { background: #059669; color: white; }
+.btn.primary:hover { box-shadow: 0 4px 12px rgba(0, 214, 143, 0.3); }
+.btn.secondary { background: transparent; color: #059669; border: 2px solid #059669; margin-left: 15px; }
+.btn.secondary:hover { background: #059669; color: white; }
+
+/* --- 5. STATS & ABOUT --- */
+.stats { display: flex; justify-content: space-around; background: #f4f7fa; text-align: center; }
+.stat h2 { color: #203a43; font-size: 3rem; }
+.about { text-align: center; max-width: 1000px; margin: 60px auto; padding: 0 20px; }
+.about h2 { font-size: 2.8rem; margin-bottom: 25px; color: #203a43; }
+.about p { font-size: 1.2rem; line-height: 1.8; color: #444; max-width: 844px; margin: 0 auto; }
+
+/*---6. FEATURES --- */
+/* Layout & Spacing */
+.features { background: #f9fbfd; padding: 40px 20px; }
+.features h2 { margin-bottom: 40px; font-weight: bold; } 
+.feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+
+/* Card Styling */
+.p-card { background: white; padding: 25px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.08); transition: all .2s ease; }
+.p-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.18); }
+
+/* Card Content Alignment */
+.icon-container { background: #00a072; color: #fff; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 6px; margin-bottom: 20px; }
+.card-title { font-weight: bold; margin-bottom: 15px; font-size: 1.1rem; color: #333; display: block; } /* Bold Title + Gap */
+.p-card p { color: #333; line-height: 1.6; margin: 0;} /* Description alignment */
+
+/* --- 7. FOOTER & CTA --- */
+.final-cta { text-align: center; background: #203a43; color: white; padding: 80px 8%; }
+.final-cta h2 { font-size: 2.5rem; margin-bottom: 20px; }
+.final-cta p { font-size: 1.2rem; margin-bottom: 40px; opacity: 0.9; }
+.footer { text-align: center; background: #0d3441; color: white; padding: 25px; }
+
+
