@@ -1,79 +1,68 @@
-/* --- 1. Main Layout Container
-/* Ensure the icon inherits the dark text color in active state */
-.nav-item.active .nav-icon {
-    color: var(--p-primary-700);
+:host {
+  display: block;
+  height: 100%; /* Changed from 100vh to 100% to fit inside body-wrapper */
 }
+
 .sidebar-container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background-color: var(--p-surface-0);
-    border-right: 1px solid var(--p-surface-200); 
+  width: 280px;
+  height: 100%;
+  background-color: var(--p-surface-0); 
+  
+  /* Reduced top padding since logo is gone */
+  padding: 1rem 1.5rem; 
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--p-surface-200);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
 }
 
-/* --- 2. Header & Branding --- */
-.brand-header {
-    display: flex;
-    align-items: center;
-    /* Added slightly more padding to center the logo visually in the space */
-    padding: 2rem 1.5rem 1.5rem 1.5rem; 
+/* --- Navigation Menu --- */
+.nav-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
 }
 
-.brand-logo-img {
-    height: 2.5rem; 
-    width: auto;   
-    object-fit: contain;
-    /* Optional: If you want the logo strictly left-aligned, keep this removed.
-       If you want it centered in the drawer, add 'margin: 0 auto;' here. */
+.nav-menu .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px; /* Slightly tighter padding for a cleaner nav list */
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--p-surface-600); 
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-/* --- 3. Navigation List --- */
-.sidebar-nav {
-    overflow-y: auto;
-    padding: 0 1rem;
-    margin-top: 0.5rem;
+.nav-menu .nav-link i {
+  margin-right: 16px;
+  font-size: 1.25rem;
 }
 
-.nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+/* --- Hover State --- */
+.nav-menu .nav-link:hover:not(.active-link) {
+  background-color: var(--p-primary-50);
+  color: var(--p-primary-600);
 }
 
-/* --- 4. Individual Menu Items --- */
-.nav-item {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0.875rem;
-    border-radius: var(--p-content-border-radius); 
-    font-weight: 500;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    color: var(--p-surface-700); 
+.nav-menu .nav-link:hover:not(.active-link) i {
+  color: var(--p-primary-600);
 }
 
-.nav-item:hover {
-    background-color: var(--p-surface-50); 
-    color: var(--p-primary-600); 
+/* --- Active State --- */
+.nav-menu .active-link {
+  background-color: var(--p-primary-600);
+  color: var(--p-surface-0) !important;
+  box-shadow: 0 4px 12px -2px var(--p-primary-200);
+  font-weight: 700;
 }
 
-/* --- 5. Active State --- */
-.nav-item.active {
-    background-color: var(--p-primary-600); 
-    color: var(--p-surface-0);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-}
-
-/* --- 6. Icon & Label Styling --- */
-.nav-icon {
-    margin-right: 0.75rem;
-    font-size: 1.15rem;
-}
-
-.nav-label {
-    line-height: 1;
+.nav-menu .active-link i {
+  color: var(--p-surface-0) !important;
 }

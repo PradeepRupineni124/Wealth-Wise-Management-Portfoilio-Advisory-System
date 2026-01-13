@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class AuthService {
-    valid_username:string='pradeeprupineni@gmail.com';
-    valid_password:string='Pradeep@8977';
+    valid_username:string='admin@gmail.com';
+    valid_password:string='admin@123';
    
     validateData(username:string,password:string){
       if(this.valid_password==password && this.valid_username==username){

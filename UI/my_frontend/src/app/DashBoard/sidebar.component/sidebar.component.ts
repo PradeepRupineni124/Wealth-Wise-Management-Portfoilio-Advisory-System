@@ -1,31 +1,28 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DrawerModule } from 'primeng/drawer';
-import { ButtonModule } from 'primeng/button';
-import { RippleModule } from 'primeng/ripple';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+interface MenuItem {
+  label: string;
+  icon: string;
+  route: string;
+}
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, DrawerModule, ButtonModule, RippleModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
-  visible: boolean = true;
-  activeItem: string = 'Overview'; 
-
-  // Icons matched to your screenshot
-  menuItems = [
-    { label: 'Overview',   icon: 'pi pi-th-large' },   // Grid icon
-    { label: 'Portfolio',  icon: 'pi pi-briefcase' },  // Briefcase icon
-    { label: 'Advisory',   icon: 'pi pi-lightbulb' },  // Bulb icon
-    { label: 'Compliance', icon: 'pi pi-shield' },     // Shield icon
-    { label: 'Analytics',  icon: 'pi pi-chart-bar' },  // Chart icon
-    { label: 'Profile',    icon: 'pi pi-user' }        // User icon
+  
+  menuItems: MenuItem[] = [
+    { label: 'Overview', icon: 'pi pi-th-large', route: '/overview' },
+    { label: 'Portfolio', icon: 'pi pi-briefcase', route: '/portfolio' },
+    { label: 'Advisory', icon: 'pi pi-lightbulb', route: '/advisory' },
+    { label: 'Compliance', icon: 'pi pi-shield', route: '/compliance' },
+    { label: 'Analytics', icon: 'pi pi-chart-bar', route: '/analytics' },
+    { label: 'Profile', icon: 'pi pi-user', route: '/admin/dashboard' },
   ];
-
-  selectItem(label: string) {
-    this.activeItem = label;
-  }
 }

@@ -62,7 +62,7 @@ export class Login {
         // 3. Navigate to Dashboard
         // Optional: Add a slight delay if you want the user to read the toast
         setTimeout(() => {
-             this.router.navigate(['/dashboard']); 
+             this.router.navigate(['/admin/dashboard']); 
         }, 500);
 
       } else {
