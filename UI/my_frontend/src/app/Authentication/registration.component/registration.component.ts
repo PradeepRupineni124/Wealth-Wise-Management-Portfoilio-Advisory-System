@@ -30,8 +30,8 @@ import {DividerModule} from 'primeng/divider';
 ButtonModule,
 RouterModule,
 DividerModule],
-  templateUrl: './registration.html',
-  styleUrl: './registration.css',
+  templateUrl: './registration.component.html',
+  styleUrl: './registration.component.css',
   providers: [MessageService]
 })
 export class Registration {
