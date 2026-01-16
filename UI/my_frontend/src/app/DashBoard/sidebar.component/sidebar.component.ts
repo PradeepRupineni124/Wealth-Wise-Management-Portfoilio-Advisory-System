@@ -19,7 +19,7 @@ export class SidebarComponent {
   
   menuItems: MenuItem[] = [
     { label: 'Overview', icon: 'pi pi-th-large', route: '/overview' },
-    { label: 'Portfolio', icon: 'pi pi-briefcase', route: '/portfolio' },
+    { label: 'Portfolio', icon: 'pi pi-briefcase', route: '/admin/portfolio' },
     { label: 'Advisory', icon: 'pi pi-lightbulb', route: '/advisory' },
     { label: 'Compliance', icon: 'pi pi-shield', route: '/compliance' },
     { label: 'Analytics', icon: 'pi pi-chart-bar', route: '/analytics' },

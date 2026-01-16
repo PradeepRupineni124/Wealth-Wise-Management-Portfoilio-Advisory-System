@@ -1,0 +1,33 @@
+<div class="portfolio-container">
+  <header class="portfolio-header">
+    <div class="header-text">
+      <h2>Portfolio Holdings</h2>
+      <p>Manage and track your investment portfolio</p>
+    </div>
+    <button class="trigger-add-btn" (click)="addInvestmentModal.showDialog()">
+      <i class="pi pi-plus"></i> Add Investment
+    </button>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <section class="summary-grid">
+      <app-portfolio-card *ngFor="let s of portfolioStats" 
+        [title]="s.title" [value]="s.value" [valueColor]="s.color">
+      </app-portfolio-card>
+    </section>
+
+    <section class="table-section">
+      <app-portfolio-table [rowData]="portfolioData"></app-portfolio-table>
+    </section>
+
+    <section class="summary-box">
+      <app-portfolio-card *ngFor="let a of assetClasses" 
+        [title]="a.title" [value]="a.value" [badgeText]="a.badge"
+        [badgeBgColor]="a.badgeColor" [trendText]="a.trend" [trendColor]="a.trendColor">
+      </app-portfolio-card>
+    </section>
+  </div>
+
+  <app-add-investment #addInvestmentModal (investmentAdded)="onInvestmentAdded($event)">
+  </app-add-investment>
+</div>

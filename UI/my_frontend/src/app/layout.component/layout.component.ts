@@ -14,6 +14,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { SidebarComponent } from '../DashBoard/sidebar.component/sidebar.component';
 import { ClientRegistrationComponent } from '../client-registration.component/client-registration.component';
 import { ClientState } from '../client-state';
+import { ClientDataService } from '../DashBoard/Portfolio/client-data.service';
 
 @Component({
   selector: 'app-layout',
@@ -42,18 +43,20 @@ export class LayoutComponent implements OnInit {
 
   selectedClient: any;
 
-  constructor(private router: Router, private clientState: ClientState) {}
+  constructor(private router: Router, private clientState: ClientState,private clientService:ClientDataService) {}
 
   ngOnInit() {
     // Initialize with Pradeep
     this.selectedClient = this.clients[0];
     this.clientState.updateClient(this.selectedClient);
+    this.clientService.updateClient(this.selectedClient.id);
   }
 
   onClientChange(event: any) {
     // When dropdown changes, update the service
     console.log("User changed to:", event.value);
     this.clientState.updateClient(event.value);
+    this.clientService.updateClient(event.value.id);
   }
 
   onAddClient() {
@@ -68,6 +71,7 @@ export class LayoutComponent implements OnInit {
     this.clients = [...this.clients, newClient];
     this.selectedClient = newClient;
     this.clientState.updateClient(newClient);
+    this.clientService.updateClient(newClient.id);
   }
 
   logout() {
@@ -75,5 +79,9 @@ export class LayoutComponent implements OnInit {
     sessionStorage.clear();
     this.router.navigate(['/login']);
   }
+  
+  triggerInvestmentPopup() {
+  this.clientService.triggerAddInvestment();
+}
 }
  

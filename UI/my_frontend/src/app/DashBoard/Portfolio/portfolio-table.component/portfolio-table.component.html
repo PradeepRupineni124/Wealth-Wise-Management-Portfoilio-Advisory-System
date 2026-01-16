@@ -1,0 +1,30 @@
+<div class="table-container">
+  <div class="header-controls">
+    <div class="search-box">
+      <i class="pi pi-search"></i>
+      <input type="text" [(ngModel)]="searchText" (input)="onSearch()" 
+             placeholder="Search by symbol or name...">
+    </div>
+
+    <div class="filter-group">
+      <button *ngFor="let t of ['All', 'Equities', 'Bonds', 'Mutual Funds']"
+              [class.active]="activeTab === t" (click)="setFilter(t)">
+        {{ t }}
+      </button>
+    </div>
+  </div>
+
+  <div class="grid-wrapper">
+    @if (isBrowser) {
+      <ag-grid-angular
+        style="width: 100%;" class="ag-theme-alpine custom-grid"
+        [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef"
+        [domLayout]="'autoHeight'" [animateRows]="true" (gridReady)="onGridReady($event)">
+      </ag-grid-angular>
+    } @else {
+      <div class="loading-state">
+        <i class="pi pi-spin pi-spinner"></i> Initializing Portfolio...
+      </div>
+    }
+  </div>
+</div>

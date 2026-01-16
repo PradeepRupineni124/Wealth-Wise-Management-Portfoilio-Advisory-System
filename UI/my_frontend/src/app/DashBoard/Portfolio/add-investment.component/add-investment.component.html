@@ -1,0 +1,44 @@
+<p-dialog header="Add New Investment" [(visible)]="display" [modal]="true" 
+          [draggable]="false" [resizable]="false" class="investment-dialog"
+          [style]="{ width: '450px', 'border-radius': '12px' }">
+    
+    <div class="form-container">
+        <div class="field">
+            <label for="assetType">Asset Type</label>
+            <p-select id="assetType" [options]="assetTypes" [(ngModel)]="newInvestment.type" 
+                      optionLabel="label" optionValue="value" placeholder="Select asset type" class="w-full">
+            </p-select>
+        </div>
+
+        <div class="field">
+            <label for="symbol">Symbol</label>
+            <input pInputText id="symbol" type="text" [(ngModel)]="newInvestment.symbol" 
+                   placeholder="e.g., AAPL" class="w-full custom-input">
+        </div>
+
+        <div class="form-row">
+            <div class="field flex-1">
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" [(ngModel)]="newInvestment.qty" 
+                       placeholder="100" class="w-full custom-input">
+            </div>
+            <div class="field flex-1">
+                <label for="price">Purchase Price</label>
+                <input type="number" id="price" [(ngModel)]="newInvestment.purchasePrice" 
+                       placeholder="150.00" class="w-full custom-input">
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="allocation">Allocation Percentage</label>
+            <input type="number" id="allocation" [(ngModel)]="newInvestment.allocation" 
+                   placeholder="5.0" class="w-full custom-input">
+        </div>
+
+        <div class="actions">
+            <button class="add-to-portfolio-btn" (click)="onSubmit()">
+                Add to Portfolio
+            </button>
+        </div>
+    </div>
+</p-dialog>
