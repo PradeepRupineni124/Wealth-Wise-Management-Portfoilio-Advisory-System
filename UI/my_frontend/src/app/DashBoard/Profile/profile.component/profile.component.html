@@ -1,0 +1,74 @@
+<div class="page-wrapper">
+  <header class="profile-header">
+    <div class="header-text">
+      <h1>Client Profile</h1>
+      <p>Manage your personal information and investment preferences</p>
+    </div>
+
+    <div class="header-actions">
+      @if (!isEditing()) {
+        <p-button 
+          label="Edit Profile" 
+          icon="pi pi-pencil" 
+          styleClass="custom-edit-btn"
+          (onClick)="onEdit()">
+        </p-button>
+      } @else {
+        <div class="flex gap-3">
+          <p-button 
+            label="Cancel" 
+            [outlined]="true" 
+            severity="secondary" 
+            (onClick)="onCancel()">
+          </p-button>
+          <p-button 
+            label="Save Changes" 
+            (onClick)="onSave()">
+          </p-button>
+        </div>
+      }
+    </div>
+  </header>
+
+  <div class="content-container">
+    <app-client-card 
+      [name]="clientCard().name" 
+      [clientId]="clientCard().id" 
+      [riskProfile]="clientCard().risk" 
+      [goal]="clientCard().goal"
+      [isVerified]="clientCard().verified">
+    </app-client-card>
+  </div>
+
+  <div class="tabs-container">
+    <app-tab-filter 
+      [tabs]="profileTabs" 
+      (tabChanged)="onTabChange($event)">
+    </app-tab-filter>
+  </div>
+
+  <div class="tab-content-area">
+    
+    <div [style.display]="activeTab() === 'Personal Information' ? 'block' : 'none'">
+      <app-personal-details 
+        ngSkipHydration
+        [personalData]="personalData()"
+        [isEditMode]="isEditing()"> 
+      </app-personal-details>
+    </div>
+
+    <div [style.display]="activeTab() === 'Investment Profile' ? 'block' : 'none'">
+      <app-investement-profile 
+        ngSkipHydration 
+        [profileData]="investProfile()" 
+        [summary]="investSummary()"
+        [isEditMode]="isEditing()"> 
+      </app-investement-profile>
+    </div>
+
+    <div [style.display]="activeTab() === 'Security & Privacy' ? 'block' : 'none'">
+      <app-security-settings></app-security-settings>
+    </div>
+
+  </div>
+</div>

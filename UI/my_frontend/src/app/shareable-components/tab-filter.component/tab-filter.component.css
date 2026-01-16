@@ -1,0 +1,45 @@
+/* The Outer Track */
+.pill-track {
+  display: inline-flex;
+  align-items: center;
+  /* Using surface ground (Teal 50) for the track background */
+  background-color: var(--p-surface-100); 
+  padding: 4px;
+  border-radius: 100px;
+  user-select: none;
+  /* Using surface border (Teal 200) */
+  border: 1px solid var(--p-surface-200);
+}
+
+/* The Individual Buttons */
+.pill-item {
+  position: relative;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 6px 18px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  /* Using surface text (Deep Teal) */
+  color: var(--p-surface-700);
+  border-radius: 100px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* The Active White Pill State */
+.pill-item.active {
+  /* Surface 0 is White in light mode, Dark Teal in dark mode */
+  background-color: var(--p-surface-0);
+  /* Primary color for the active text */
+  color: var(--p-primary-600);
+  
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+.pill-item:hover:not(.active) {
+  /* Emerald 50 for a subtle green hover tint */
+  background-color: var(--p-primary-50);
+}

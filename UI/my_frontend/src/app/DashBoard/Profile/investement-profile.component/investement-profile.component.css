@@ -1,0 +1,102 @@
+/* ... Container Styles ... */
+.details-card {
+  background: var(--p-surface-card);
+  border: 1px solid var(--p-surface-border);
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+}
+
+/* MATCHING THE IMAGE: Light Blue Background Container */
+#d-card {
+  background-color: #f0f9ff; /* Soft Alice Blue */
+  border: 1px solid #e0f2fe; /* Subtle Blue Border */
+}
+
+.section-title {
+  margin: 0 0 24px 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--p-surface-text);
+}
+
+.grid-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 32px;
+  row-gap: 24px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--p-surface-secondary-text);
+  margin-left: 2px;
+}
+
+/* ... Summary Grid Styles ... */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* MATCHING THE IMAGE: White Inner Cards */
+.summary-box {
+  background-color: #ffffff;
+  border: 1px solid #eef2f6; /* Very light grey border */
+  border-radius: 12px;       /* Increased radius for softer look */
+  padding: 24px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Very subtle lift */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 120px;         /* Ensures consistent height */
+}
+
+.summary-label {
+  font-size: 14px; /* Slightly larger for readability */
+  color: #64748b;  /* Slate grey text */
+  display: block;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.summary-value {
+  font-size: 18px; /* Larger value text */
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.text-dark { color: #1e293b; } /* Dark Slate */
+.text-green { color: #10b981; } /* Emerald Green */
+
+/* --- PRIME NG SELECT OVERRIDES (Unchanged) --- */
+:host ::ng-deep .w-full { width: 100%; }
+:host ::ng-deep .p-select { width: 100%; border-radius: 8px; }
+:host ::ng-deep .p-select.p-disabled {
+  background-color: var(--p-gray-100) !important;
+  border: 1px solid var(--p-gray-200) !important;
+  opacity: 1;
+}
+:host ::ng-deep .p-select.p-disabled .p-select-label {
+  color: var(--p-gray-700) !important;
+  font-weight: 500;
+  padding-left: 1rem;
+}
+:host ::ng-deep .p-select.p-disabled .p-select-dropdown { display: none; }
+:host ::ng-deep .p-select:not(.p-disabled).p-focus {
+  border-color: var(--p-primary-color);
+  box-shadow: 0 0 0 2px var(--p-primary-100);
+}
+@media (max-width: 900px) {
+  .grid-form, .summary-grid { grid-template-columns: 1fr; }
+}

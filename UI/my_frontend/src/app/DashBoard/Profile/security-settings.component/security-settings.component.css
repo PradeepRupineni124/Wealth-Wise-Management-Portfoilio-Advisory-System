@@ -1,0 +1,247 @@
+/* security-settings.component.css */
+
+/* --- LAYOUT --- */
+.security-container {
+  padding: 2rem;
+  max-width: 900px;
+  background: var(--p-surface-0);
+  border-radius: 8px;
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--p-surface-900);
+}
+
+.page-title {
+  color: var(--p-surface-900);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* --- SECURE STATUS CARD --- */
+.secure-status-card {
+  background-color: var(--p-primary-50);
+  border: 1px solid var(--p-primary-100);
+  border-radius: 6px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: flex-start;
+}
+
+.secure-status-card .card-content {
+  display: flex;
+  gap: 1rem;
+}
+
+.secure-status-card .icon-wrapper {
+  background-color: var(--p-primary-600);
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.secure-status-card .icon-wrapper i {
+  font-size: 1.2rem;
+}
+
+.secure-status-card .text-content h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--p-primary-800);
+  font-size: 1.1rem;
+}
+
+.secure-status-card .text-content p {
+  margin: 0 0 1rem 0;
+  color: var(--p-gray-600);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.secure-status-card .text-content ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.secure-status-card .text-content ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--p-gray-600);
+  font-size: 0.9rem;
+}
+
+.secure-status-card .text-content ul li:before {
+  content: "•";
+  color: var(--p-primary-600);
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  font-size: 1.2em;
+  line-height: 1;
+}
+
+/* --- SECTION HEADERS --- */
+.settings-section {
+  margin-bottom: 1.5rem;
+}
+
+.settings-section h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: var(--p-surface-900);
+}
+
+.settings-section .subtitle {
+  margin: 0;
+  color: var(--p-gray-500);
+  font-size: 0.9rem;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid var(--p-gray-200);
+  margin: 2rem 0;
+}
+
+/* --- 2FA SECTION --- */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background-color: var(--p-gray-100);
+  color: var(--p-gray-600);
+}
+
+.status-badge.enabled {
+  background-color: var(--p-primary-100);
+  color: var(--p-primary-800);
+}
+
+/* --- FORMS & INPUTS (CRITICAL FIXES) --- */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin-bottom: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.field label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--p-surface-900);
+}
+
+/* FORCE FULL WIDTH FOR PRIME PASSWORD COMPONENTS */
+:host ::ng-deep .p-password {
+    width: 100%;
+}
+
+:host ::ng-deep .p-password-input {
+    width: 100%;
+}
+
+/* Error Messages */
+.p-error {
+  color: #ef4444; 
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
+:host ::ng-deep .ng-invalid.ng-dirty > .p-inputtext {
+  border-color: #ef4444;
+}
+
+/* --- BUTTONS --- */
+.form-actions {
+  margin-top: 1rem;
+}
+
+.update-btn {
+  background-color: var(--p-primary-600) !important;
+  border-color: var(--p-primary-600) !important;
+  color: #ffffff !important;
+  width: 100%; /* Make button full width to match inputs */
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s;
+}
+
+.update-btn:hover:not(:disabled) {
+  background-color: var(--p-primary-700) !important;
+  border-color: var(--p-primary-700) !important;
+}
+
+/* DISABLED STATE FIX */
+.update-btn:disabled {
+  /* Keep the dark green base but make it semi-transparent */
+  background-color: var(--p-primary-600) !important; 
+  border-color: var(--p-primary-600) !important;
+  opacity: 0.5; 
+  cursor: not-allowed;
+}
+
+/* --- LOGIN HISTORY --- */
+.login-list {
+  background: var(--p-surface-50);
+  border-radius: 6px;
+  border: 1px solid var(--p-gray-200);
+}
+
+.login-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--p-gray-200);
+}
+
+.login-item:last-child {
+  border-bottom: none;
+}
+
+.login-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-info .device-name {
+  font-weight: 600;
+  color: var(--p-surface-900);
+  font-size: 0.95rem;
+}
+
+.login-info .location {
+  color: var(--p-gray-500);
+  font-size: 0.85rem;
+  margin-top: 0.2rem;
+}
+
+.login-date {
+  color: var(--p-gray-500);
+  font-size: 0.85rem;
+}

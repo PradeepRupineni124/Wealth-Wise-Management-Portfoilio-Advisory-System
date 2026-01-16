@@ -1,0 +1,106 @@
+<p-dialog 
+    [(visible)]="displayRegistration" 
+    [modal]="true" 
+    [draggable]="false" 
+    [resizable]="false"
+    styleClass="wealthwise-modal" 
+    maskStyleClass="custom-mask">
+
+  <ng-template pTemplate="header">
+    <div class="modal-header-content">
+      <span class="back-link" (click)="displayRegistration = false">
+        <i class="pi pi-arrow-left"></i> Back to Dashboard
+      </span>
+      <h1 class="title">Create Account</h1>
+      <p class="subtitle">Get started with your wealth management journey</p>
+    </div>
+  </ng-template>
+
+  <div class="form-container">
+    <div class="field">
+      <label>Full Name</label>
+      <input 
+        pInputText 
+        type="text" 
+        [(ngModel)]="clientData.fullName" 
+        placeholder="John Anderson" 
+        class="w-full" />
+    </div>
+
+    <div class="field">
+      <label>Email Address</label>
+      <input 
+        pInputText 
+        type="email" 
+        [(ngModel)]="clientData.email" 
+        placeholder="you@example.com" 
+        class="w-full" />
+    </div>
+
+    <div class="field">
+      <label>Phone Number</label>
+      <input 
+        pInputText 
+        type="tel" 
+        [(ngModel)]="clientData.phone" 
+        placeholder="+1 (555) 123-4567" 
+        class="w-full" />
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label>Password</label>
+        <input 
+            pInputText 
+            type="password" 
+            placeholder="••••••••" 
+            class="w-full" />
+        </div>
+      <div class="field">
+        <label>Confirm Password</label>
+        <input 
+            pInputText 
+            type="password" 
+            placeholder="••••••••" 
+            class="w-full" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Risk Profile</label>
+      <p-select 
+        [options]="riskProfiles" 
+        [(ngModel)]="clientData.riskProfile"
+        optionLabel="label" 
+        placeholder="Select your risk tolerance"
+        styleClass="w-full custom-select">
+      </p-select>
+    </div>
+
+    <div class="field">
+      <label>Primary Investment Goal</label>
+      <p-select 
+        [options]="goals" 
+        [(ngModel)]="clientData.goal"
+        optionLabel="label" 
+        placeholder="Select your investment goal"
+        styleClass="w-full custom-select">
+      </p-select>
+    </div>
+
+    <div class="terms-text">
+      <p>By creating an account, you agree to the <span class="green-link">Terms of Service</span> and <span
+          class="green-link">Privacy Policy</span>.</p>
+    </div>
+
+    <p-button 
+        label="Create Account" 
+        (onClick)="onSubmit()" 
+        styleClass="w-full submit-btn">
+    </p-button>
+
+    <p class="footer-login">
+      Already have an account? <span class="login-link">Sign in</span>
+    </p>
+  </div>
+</p-dialog>
