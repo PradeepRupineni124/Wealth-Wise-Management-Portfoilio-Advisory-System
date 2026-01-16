@@ -1,0 +1,14 @@
+<div class="diversification-card">
+  <h3 class="card-title">Geographic Diversification</h3>
+
+  <div class="region-grid">
+    
+    @for (region of regions; track region.name) {
+      <div class="region-metric-card" [ngClass]="region.class">
+        <span class="region-name">{{ region.name }}</span>
+        <span class="region-value">{{ region.value }}</span>
+      </div>
+    }
+
+  </div>
+</div>

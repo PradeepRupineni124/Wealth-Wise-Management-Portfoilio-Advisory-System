@@ -1,0 +1,113 @@
+<div class="analytics-container">
+
+  <div class="header-section">
+    <div class="header-title">
+      <h1 class="page-title">Wealth Analytics & Reporting</h1>
+      <p class="page-subtitle">Comprehensive performance analysis and insights</p>
+    </div>
+
+    <div class="header-actions">
+      
+      <p-button 
+        label="Date Range" 
+        icon="pi pi-calendar" 
+        severity="secondary" 
+        [outlined]="true" 
+        (onClick)="op.toggle($event)">
+      </p-button>
+
+      <p-button 
+        label="Export Report" 
+        icon="pi pi-download" 
+        class="export-btn" 
+        (onClick)="exportReport()">
+      </p-button>
+
+      <p-popover #op>
+        <ng-template pTemplate="content">
+          <div class="flex flex-column gap-2 p-2" style="min-width: 300px;">
+            <span class="text-700 font-bold mb-2 block">Select Time Period</span>
+            
+            <p-datepicker 
+              [(ngModel)]="dateRange" 
+              selectionMode="range" 
+              [readonlyInput]="true" 
+              placeholder="Start Date - End Date"
+              [showIcon]="false" 
+              [inline]="true">
+            </p-datepicker>
+            
+          </div>
+        </ng-template>
+      </p-popover>
+
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    @for (item of stats; track item.title) {
+      <div class="stat-card-wrapper">
+        <app-stat-card 
+          [title]="item.title" 
+          [value]="item.value" 
+          [subtext]="item.subtext" 
+          [isPositive]="item.isPositive">
+        </app-stat-card>
+      </div>
+    }
+  </div>
+
+  <div class="tab-container mb-4">
+    <app-tab-filter [tabs]="analyticsTabs" (tabChanged)="onTabChange($event)"></app-tab-filter>
+  </div>
+
+  <div class="content-section">
+    @switch (currentTab) {
+      
+      @case ('Performance') {
+        <div class="flex flex-column gap-4">
+          <app-graph1></app-graph1>
+          <app-graph2></app-graph2>
+        </div>
+      }
+
+      @case ('Asset Allocation') {
+        <div class="flex flex-column gap-4">
+          <div class="allocation-grid">
+            <div class="allocation-item surface-card border-round shadow-1">
+              <app-sector-allocation></app-sector-allocation>
+            </div>
+            <div class="allocation-item surface-card border-round shadow-1">
+              <app-allocation-breakdown></app-allocation-breakdown>
+            </div>
+          </div>
+          <div class="col-12 p-0">
+            <app-geographic-diversification></app-geographic-diversification>
+          </div>
+        </div>
+      }
+
+      @case ('Risk Analysis') {
+        <div class="flex flex-column gap-4">
+          <div class="col-12 p-0">
+            <app-risk-adjusted-metrics></app-risk-adjusted-metrics>
+          </div>
+          <div class="risk-split-grid">
+            <div class="split-col surface-card p-4 border-round shadow-1">
+              <app-value-at-risk></app-value-at-risk>
+            </div>
+            <div class="split-col">
+              <app-risk-assessment></app-risk-assessment>
+            </div>
+          </div>
+        </div>
+      }
+
+      @case ('Reports') {
+        <div class="reports-grid-container">
+          <app-reports></app-reports>
+        </div>
+      }
+    }
+  </div>
+</div>

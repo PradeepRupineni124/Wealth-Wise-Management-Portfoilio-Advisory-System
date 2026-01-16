@@ -1,0 +1,188 @@
+/* --- 1. Typography & Global Settings --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+.analytics-container {
+    padding: 2rem;
+    background-color: #f8fafc;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #0f172a;
+}
+
+/* --- 2. Header Section --- */
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.page-title {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+}
+
+.page-subtitle {
+    font-family: 'Inter', sans-serif;
+    color: #64748b;
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Button Styling Override */
+:host ::ng-deep .export-btn .p-button {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+}
+
+/* --- 3. Stats Grid --- */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+.stat-card-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+app-stat-card {
+    height: 100%;
+    width: 100%;
+    display: block;
+}
+
+/* --- 4. Card Typography Overrides --- */
+:host ::ng-deep app-stat-card .card-title,
+:host ::ng-deep app-stat-card .label {
+    font-family: 'Inter', sans-serif;
+    text-transform: none !important;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #64748b;
+    letter-spacing: normal;
+}
+
+:host ::ng-deep app-stat-card .card-value,
+:host ::ng-deep app-stat-card .value {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #10b981; 
+    letter-spacing: -0.03em;
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+}
+
+:host ::ng-deep app-stat-card .card-subtext,
+:host ::ng-deep app-stat-card .comparison {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: #64748b;
+}
+
+/* --- 5. Asset Allocation --- */
+.allocation-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    width: 100%;
+    align-items: stretch;
+}
+
+.allocation-item {
+    flex: 1; 
+    min-width: 0; 
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: #fff; 
+}
+
+/* --- 6. Risk Analysis Split Layout (FIXED) --- */
+.risk-split-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    width: 100%;
+    /* Ensures both columns stretch to the height of the tallest one */
+    align-items: stretch; 
+}
+
+.split-col {
+    flex: 1;        /* 50% width */
+    min-width: 0;   
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- FIX: Style the Components to Match Perfectly --- */
+
+/* 1. Make components blocks so they respect height */
+app-value-at-risk,
+app-risk-assessment {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+/* 2. Style ValueAtRisk to look like a Card (White) */
+/* This replaces the 'surface-card p-4' we removed from HTML */
+app-value-at-risk {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem; /* Matches padding of Risk Assessment */
+    border: 1px solid #e2e8f0; /* Matches border style */
+    box-sizing: border-box;
+}
+
+/* 3. Ensure Risk Assessment (Green) fills height */
+app-risk-assessment {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+/* --- 7. Responsive Breakpoints --- */
+@media screen and (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .risk-split-grid {
+        flex-direction: column; /* Stack vertically on tablet */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .header-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .allocation-grid {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

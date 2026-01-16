@@ -1,0 +1,17 @@
+<div class="var-container">
+  <h3 class="section-title">Value at Risk (VaR)</h3>
+
+  <div class="cards-wrapper">
+    <div class="var-card" *ngFor="let item of varData" [ngClass]="item.theme">
+      
+      <div class="card-header">
+        {{ item.confidence }}% Confidence ({{ item.period }})
+      </div>
+      
+      <div class="card-value">{{ item.value }}</div>
+      
+      <div class="card-subtext">{{ item.percentage }}</div>
+      
+    </div>
+  </div>
+</div>

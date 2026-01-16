@@ -22,7 +22,7 @@ export class SidebarComponent {
     { label: 'Portfolio', icon: 'pi pi-briefcase', route: '/admin/portfolio' },
     { label: 'Advisory', icon: 'pi pi-lightbulb', route: '/advisory' },
     { label: 'Compliance', icon: 'pi pi-shield', route: '/compliance' },
-    { label: 'Analytics', icon: 'pi pi-chart-bar', route: '/analytics' },
+    { label: 'Analytics', icon: 'pi pi-chart-bar', route: '/admin/analytics' },
     { label: 'Profile', icon: 'pi pi-user', route: '/admin/profile' },
   ];
 }

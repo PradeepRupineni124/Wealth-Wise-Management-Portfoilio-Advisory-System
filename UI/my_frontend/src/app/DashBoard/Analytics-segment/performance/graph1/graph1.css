@@ -1,0 +1,19 @@
+.graph-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid #eef2f6;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.chart-container {
+    position: relative;
+    height: 350px;
+}
+
+/* Matching the green UI toggle from your screenshot */
+:host ::v-deep .p-selectbutton .p-button.p-highlight {
+    background: #10b981;
+    border-color: #10b981;
+    color: white;
+}

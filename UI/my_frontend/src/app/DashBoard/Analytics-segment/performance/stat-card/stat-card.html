@@ -1,0 +1,11 @@
+<p-card styleClass="wealth-stat-card shadow-1">
+  <span class="card-title">{{ title }}</span>
+  
+  <div class="stat-value" [ngClass]="{'text-positive': isPositive}">
+    {{ value }}
+  </div>
+
+  <p class="stat-subtext" [ngClass]="{'text-positive': isPositive}">
+    {{ subtext }}
+  </p>
+</p-card>

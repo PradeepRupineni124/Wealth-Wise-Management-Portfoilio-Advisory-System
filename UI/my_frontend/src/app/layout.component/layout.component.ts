@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild,inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import { SidebarComponent } from '../DashBoard/sidebar.component/sidebar.compone
 import { ClientRegistrationComponent } from '../client-registration.component/client-registration.component';
 import { ClientState } from '../client-state';
 import { ClientDataService } from '../DashBoard/Portfolio/client-data.service';
-
+import { AllocationService } from '../allocation.service';
 @Component({
   selector: 'app-layout',
   standalone: true,
@@ -32,6 +32,7 @@ export class LayoutComponent implements OnInit {
   @ViewChild(ClientRegistrationComponent) registrationModal!: ClientRegistrationComponent;
 
   // New Names List
+  private allocationService= inject(AllocationService);
   clients = [
     { name: 'Pradeep', id: 1 },
     { name: 'Venu', id: 2 },
@@ -50,6 +51,7 @@ export class LayoutComponent implements OnInit {
     this.selectedClient = this.clients[0];
     this.clientState.updateClient(this.selectedClient);
     this.clientService.updateClient(this.selectedClient.id);
+    this.allocationService.updateClient(this.selectedClient.id);
   }
 
   onClientChange(event: any) {
@@ -57,6 +59,7 @@ export class LayoutComponent implements OnInit {
     console.log("User changed to:", event.value);
     this.clientState.updateClient(event.value);
     this.clientService.updateClient(event.value.id);
+    this.allocationService.updateClient(event.value.id);
   }
 
   onAddClient() {
@@ -66,14 +69,20 @@ export class LayoutComponent implements OnInit {
   handleNewClient(newClientData: any) {
     const newClient = { 
         name: newClientData.fullName, 
-        id: Math.floor(Math.random() * 10000) 
+        id: Math.floor(Math.random() * 100000) // Ensure ID is unique/large enough not to clash
     };
     this.clients = [...this.clients, newClient];
+
+    // 3. Select the new client
     this.selectedClient = newClient;
+
+    // 4. Update Legacy Services
     this.clientState.updateClient(newClient);
     this.clientService.updateClient(newClient.id);
-  }
 
+    // 5. IMPORTANT: Call 'addClient' on AllocationService so it generates data
+    this.allocationService.addClient(newClient.id, newClient.name);
+  }
   logout() {
     localStorage.removeItem('token');
     sessionStorage.clear();

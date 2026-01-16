@@ -1,0 +1,68 @@
+/* --- Main Card Container --- */
+.assessment-card {
+    /* The Light Mint Green Background from the image */
+    background-color: #f0fdf4; 
+    border: 1px solid #dcfce7; /* Subtle green border */
+    border-radius: 12px;
+    padding: 1.5rem;
+    width: 100%;
+    height: 100%; /* Fills height if in a grid */
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Title --- */
+.card-title {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 700;
+    color: #0f172a;      /* Dark Slate */
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+/* --- Level Header (Label + Value) --- */
+.level-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.level-label {
+    font-size: 0.875rem;
+    color: #64748b;      /* Slate-500 */
+    font-weight: 400;
+}
+
+.level-value {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #10b981;      /* Emerald-500 (Matches "Low-Moderate" color) */
+}
+
+/* --- Progress Bar --- */
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background-color: #ffffff; /* White track for contrast against green bg */
+    border-radius: 999px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #10b981; /* Emerald Green Fill */
+    border-radius: 999px;
+    transition: width 0.5s ease-out;
+}
+
+/* --- Description Text --- */
+.assessment-text {
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.6;    /* Good readability */
+    color: #475569;      /* Slate-600 */
+    margin: 0;
+}

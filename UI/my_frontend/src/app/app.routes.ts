@@ -6,6 +6,7 @@ import { LayoutComponent } from './layout.component/layout.component';
 import { ProfileComponent } from './DashBoard/Profile/profile.component/profile.component';
 import { HomeComponent } from './home.component/home.component';
 import { PortfolioComponent } from './DashBoard/Portfolio/portfolio.component/portfolio.component';
+import { AnalyticsComponent } from './DashBoard/Analytics-segment/analytics.component/analytics.component';
 
 export const routes: Routes = [
     {path:'',component:HomeComponent,pathMatch:'full'},
@@ -14,6 +15,8 @@ export const routes: Routes = [
     children:
     [{path:"profile",component:ProfileComponent},
     {path:"portfolio",component:PortfolioComponent},
-    {path:"sideBar",component:SidebarComponent}]},
+    {path:"sideBar",component:SidebarComponent},
+    {path:'analytics',component:AnalyticsComponent}
+]},
     { path: '**', redirectTo: '/login' }
 ];
