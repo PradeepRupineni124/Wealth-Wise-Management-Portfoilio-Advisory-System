@@ -8,17 +8,27 @@ import { HomeComponent } from './home.component/home.component';
 import { PortfolioComponent } from './DashBoard/Portfolio/portfolio.component/portfolio.component';
 import { AnalyticsComponent } from './DashBoard/Analytics-segment/analytics.component/analytics.component';
 import { AdvisoryComponent } from './DashBoard/advisory.component/advisory.component';
+import { ComplianceComponent } from './DashBoard/Compilance/compilance.component/compilance.component';
+import { ForgotPasswordComponent } from './Authentication/forgot-password.component/forgot-password.component';
+import { EmailVerificationComponent } from './Authentication/forgot-password.component/email-verification.component/email-verification.component';
+import { ResetPasswordComponent } from './Authentication/forgot-password.component/reset-password.component/reset-password.component';
 
 export const routes: Routes = [
-    {path:'',component:HomeComponent,pathMatch:'full'},
-    {path:"login",component:Login},
-    {path:"admin", component:LayoutComponent,
-    children:
-    [{path:"profile",component:ProfileComponent},
-    {path:"portfolio",component:PortfolioComponent},
-    {path:"sideBar",component:SidebarComponent},
-    {path:'analytics',component:AnalyticsComponent},
-    {path:'advisory',component:AdvisoryComponent}
-]},
+    { path: '', component: HomeComponent, pathMatch: 'full' },
+    { path: "login", component: Login },
+    { path: "forgot-password", component: ForgotPasswordComponent },
+    { path: "email-verification", component: EmailVerificationComponent },
+    { path: "reset-password", component: ResetPasswordComponent },
+    {
+        path: "admin", component: LayoutComponent,
+        children:
+            [{ path: "profile", component: ProfileComponent },
+            { path: "portfolio", component: PortfolioComponent },
+            { path: "sideBar", component: SidebarComponent },
+            { path: 'analytics', component: AnalyticsComponent },
+            { path: 'advisory', component: AdvisoryComponent },
+            { path: 'compliance', component: ComplianceComponent }
+            ]
+    },
     { path: '**', redirectTo: '/login' }
 ];

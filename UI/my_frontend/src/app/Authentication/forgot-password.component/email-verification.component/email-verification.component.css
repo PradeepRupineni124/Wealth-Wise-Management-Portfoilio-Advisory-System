@@ -1,0 +1,92 @@
+/* Shared Theme Styles */
+.wealth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ecfdf5 0%, #ffffff 100%);
+    font-family: 'Segoe UI', sans-serif;
+    padding: 1rem;
+}
+
+.wealth-card { width: 100%; max-width: 450px; }
+
+::ng-deep .wealth-card .p-card {
+    background: #ffffff;
+    border: none;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    border-radius: 16px;
+}
+::ng-deep .wealth-card .p-card-body { padding: 2.5rem 2rem; }
+
+.wealth-title {
+    text-align: center;
+    color: #1e293b;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.wealth-desc {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.back-nav { margin-bottom: 1.5rem; }
+.back-link {
+    color: #059669;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+.back-link:hover { text-decoration: underline; }
+
+/* OTP Specifics */
+.otp-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.error-placeholder {
+    min-height: 24px;
+    margin-bottom: 0.5rem;
+    display: flex;
+    justify-content: center; /* Center align error for OTP */
+}
+
+.p-error { color: #ef4444; font-size: 0.85rem; }
+
+.resend-section {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.resend-link {
+    color: #10b981;
+    font-weight: 700;
+    cursor: pointer;
+}
+.resend-link:hover { text-decoration: underline; color: #047857; }
+
+.button-row { width: 100%; }
+
+::ng-deep .wealth-btn {
+    width: 100%;
+    background-color: #4ade80 !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.5rem 0;
+    border-radius: 8px;
+}
+::ng-deep .wealth-btn:hover { background-color: #22c55e !important; }
