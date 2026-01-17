@@ -1,0 +1,39 @@
+<div class="advisory-card">
+  <div class="card-header">
+    <h2 class="card-title">{{ data.title }}</h2>
+    <div class="badges">
+      <p-tag [value]="data.priority" [severity]="data.prioritySeverity" [rounded]="true"></p-tag>
+      <span class="category-badge">{{ data.type }}</span>
+      <p-tag *ngIf="data.status === 'Accepted'" value="Accepted" severity="success" [rounded]="true" icon="pi pi-check"></p-tag>
+    </div>
+  </div>
+
+  <p class="card-desc">{{ data.description }}</p>
+
+  <div class="action-impact-grid">
+    <div class="action-col">
+      <div class="label">{{ data.actionTitle }}</div>
+      <div class="value-dark">{{ data.actionValue }}</div>
+    </div>
+    <div class="impact-col">
+      <div class="label">Potential Impact</div>
+      <div [class]="data.impactValue.includes('+') ? 'value-green' : 'value-dark'">
+        {{ data.impactValue }}
+      </div>
+    </div>
+  </div>
+
+  <div class="rationale-box">
+    <i class="pi pi-exclamation-circle rationale-icon"></i>
+    <div>
+      <div class="rationale-title">Advisory Rationale</div>
+      <div class="rationale-text">{{ data.rationale }}</div>
+    </div>
+  </div>
+
+  <div class="button-row" *ngIf="data.status !== 'Accepted'">
+    <button pButton label="Accept Recommendation" icon="pi pi-check" class="p-button-success p-button-sm" (click)="onAccept.emit(data.id)"></button>
+    <button pButton icon="pi pi-times" class="p-button-outlined p-button-secondary p-button-sm" label="Reject" (click)="onReject.emit(data.id)"></button>
+    <a href="#" class="consultation-link">Schedule Consultation</a>
+  </div>
+</div>

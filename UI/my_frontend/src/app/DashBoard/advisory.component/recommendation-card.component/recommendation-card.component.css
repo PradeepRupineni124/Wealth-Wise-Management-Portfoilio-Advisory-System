@@ -1,0 +1,151 @@
+.advisory-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem; /* Reduced for 100% zoom scaling */
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem; /* Scaled down */
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.badges {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* Tightening Tag scaling */
+::ng-deep .p-tag {
+  font-size: 0.7rem !important;
+  padding: 0.2rem 0.6rem !important;
+}
+
+.category-badge {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.card-desc {
+  color: #475569;
+  line-height: 1.5;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem; /* Smaller font for better density */
+}
+
+/* Gray Info Grid */
+.action-impact-grid {
+  display: flex;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.action-col {
+  flex: 2;
+  border-right: 1px solid #e2e8f0;
+  padding-right: 1rem;
+}
+
+.impact-col {
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.value-dark {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+.value-green {
+  font-weight: 700;
+  color: #10b981; /* Matches green in screenshot */
+  font-size: 0.9rem;
+}
+
+/* Blue Rationale Box */
+.rationale-box {
+  display: flex;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  gap: 10px;
+}
+
+.rationale-icon {
+  color: #3b82f6;
+  margin-top: 2px;
+  font-size: 0.9rem;
+}
+
+.rationale-title {
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.rationale-text {
+  color: #2563eb;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Buttons and Links */
+.button-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Scaling down PrimeNG buttons */
+::ng-deep .p-button.p-button-sm {
+  font-size: 0.85rem !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px !important;
+}
+
+::ng-deep .p-button-success {
+  background: #059669 !important;
+  border-color: #059669 !important;
+}
+
+.consultation-link {
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-left: 8px;
+}
+
+.consultation-link:hover {
+  text-decoration: underline;
+}
