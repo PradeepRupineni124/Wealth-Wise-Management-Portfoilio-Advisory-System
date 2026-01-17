@@ -12,17 +12,21 @@ import { ComplianceComponent } from './DashBoard/Compilance/compilance.component
 import { ForgotPasswordComponent } from './Authentication/forgot-password.component/forgot-password.component';
 import { EmailVerificationComponent } from './Authentication/forgot-password.component/email-verification.component/email-verification.component';
 import { ResetPasswordComponent } from './Authentication/forgot-password.component/reset-password.component/reset-password.component';
+import { Registration } from './Authentication/registration.component/registration.component';
+import { OverviewComponent } from './DashBoard/overview.component/overview.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: "login", component: Login },
+    {path:"register",component:Registration},
     { path: "forgot-password", component: ForgotPasswordComponent },
     { path: "email-verification", component: EmailVerificationComponent },
     { path: "reset-password", component: ResetPasswordComponent },
     {
         path: "admin", component: LayoutComponent,
         children:
-            [{ path: "profile", component: ProfileComponent },
+            [{path:"overview",component:OverviewComponent},
+            { path: "profile", component: ProfileComponent },
             { path: "portfolio", component: PortfolioComponent },
             { path: "sideBar", component: SidebarComponent },
             { path: 'analytics', component: AnalyticsComponent },

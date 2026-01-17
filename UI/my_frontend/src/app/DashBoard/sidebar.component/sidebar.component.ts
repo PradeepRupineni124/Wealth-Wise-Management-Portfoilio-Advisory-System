@@ -18,7 +18,7 @@ interface MenuItem {
 export class SidebarComponent {
 
   menuItems: MenuItem[] = [
-    { label: 'Overview', icon: 'pi pi-th-large', route: '/overview' },
+    { label: 'Overview', icon: 'pi pi-th-large', route: '/admin/overview' },
     { label: 'Portfolio', icon: 'pi pi-briefcase', route: '/admin/portfolio' },
     { label: 'Advisory', icon: 'pi pi-lightbulb', route: '/admin/advisory' },
     { label: 'Compliance', icon: 'pi pi-shield', route: '/admin/compliance' },
