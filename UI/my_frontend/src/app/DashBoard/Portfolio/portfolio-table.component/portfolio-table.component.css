@@ -17,7 +17,7 @@
   margin-bottom: 24px;
 }
 
-/* Search Box - Pill Style */
+
 .search-box {
   display: flex;
   align-items: center;
@@ -34,7 +34,7 @@
   border: none;
   outline: none;
   background: transparent;
-  margin-left: 8px; /* Brings text right next to icon */
+  margin-left: 8px; 
   width: 100%;
   font: 0.9rem 'Inter', sans-serif;
   color: #1e293b;
@@ -60,7 +60,6 @@
 
 .custom-grid { border: none !important; }
 
-/* Dynamic Pills */
 ::ng-deep .type-pill {
   padding: 4px 12px;
   border-radius: 8px;
@@ -72,7 +71,7 @@
 ::ng-deep .bond { background: #eff6ff; color: #3b82f6; border-color:#3b82f6; }
 ::ng-deep .mutual-fund { background: #fffbeb; color: #f59e0b; border-color:#f59e0b }
 
-/* SSR Loading State */
+
 .loading-state {
   padding: 40px;
   text-align: center;

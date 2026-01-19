@@ -1,6 +1,6 @@
 @import "primeicons/primeicons.css";
 
-/* ---  SHAKE ANIMATION --- */
+
 @keyframes shake {
   0% { transform: translateX(0); }
   25% { transform: translateX(-5px); }
@@ -9,7 +9,7 @@
   100% { transform: translateX(0); }
 }
 
-/* ---  LAYOUT --- */
+
 .split-layout {
     display: flex;
     min-height: 100vh;
@@ -33,7 +33,7 @@
     width: 100%;
 }
 
-/* ---  TYPOGRAPHY & BRANDING --- */
+
 .brand {
     display: flex;
     align-items: center;
@@ -116,7 +116,7 @@
     font-weight: 500;
 }
 
-/* --- RIGHT SIDE CARD --- */
+
 
 .register_wrapper {
     width: 100%;

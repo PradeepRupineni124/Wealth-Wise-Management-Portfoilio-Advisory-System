@@ -38,14 +38,12 @@ import { RippleModule } from 'primeng/ripple';
     </div>
   `,
   styles: [`
-    /* Specific override to force the p-button NOT to use the 
-       default primary (green) color on text or hover.
-    */
+    
     :host ::ng-deep .p-button.p-button-text:not(:disabled):hover {
-        background: transparent; /* We handle hover bg in the template manually */
+        background: transparent; 
     }
     :host ::ng-deep .p-button:focus {
-        box-shadow: none !important; /* Removes the default focus ring */
+        box-shadow: none !important;
     }
   `]
 })

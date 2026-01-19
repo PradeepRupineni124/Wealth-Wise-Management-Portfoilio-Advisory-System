@@ -31,9 +31,9 @@ export class ComplianceComponent implements OnInit, OnDestroy {
   auditLogs: any[] = [];
   private clientSubscription!: Subscription;
 
-  // --- FULL DATA STORE FOR ALL 6 USERS ---
+
   allData: any = {
-    // 1. PRADEEP (High Score -> Green)
+    
     1: {
       stats: { score: 92, compliant: 4, actionRequired: 1, reports: 28 },
       riskLimits: [
@@ -51,7 +51,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
       ]
     },
 
-    // 2. VENU (Perfect Score -> Green)
+    
     2: {
       stats: { score: 100, compliant: 5, actionRequired: 0, reports: 12 },
       riskLimits: [
@@ -69,7 +69,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
       ]
     },
 
-    // 3. NITHIN (Critical Risk -> Red)
+    
     3: {
       stats: { score: 65, compliant: 2, actionRequired: 3, reports: 45 },
       riskLimits: [
@@ -87,7 +87,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
       ]
     },
 
-    // 4. HARSHIT (Good Score -> Green)
+    
     4: {
       stats: { score: 88, compliant: 5, actionRequired: 0, reports: 18 },
       riskLimits: [
@@ -105,7 +105,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
       ]
     },
 
-    // 5. KIRAN (Medium Score -> Orange)
+    
     5: {
       stats: { score: 78, compliant: 3, actionRequired: 2, reports: 30 },
       riskLimits: [
@@ -123,7 +123,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
       ]
     },
 
-    // 6. GANESH (Critical Score -> Red)
+   
     6: {
       stats: { score: 55, compliant: 1, actionRequired: 4, reports: 50 },
       riskLimits: [
@@ -156,31 +156,30 @@ export class ComplianceComponent implements OnInit, OnDestroy {
   loadClientData(id: number) {
     const data = this.allData[id] || this.allData[1];
 
-    // Copy base stats
+   
     this.stats = { ...data.stats };
 
-    // 1. Calculate Icon Background (Class Name)
     this.stats.scoreColor = this.calculateScoreColor(this.stats.score);
 
-    // 2. Calculate Text Color (Hex Code)
+ 
     this.stats.scoreTextColor = this.getHexColor(this.stats.score);
 
     this.riskLimits = data.riskLimits || this.allData[1].riskLimits;
     this.auditLogs = data.auditLogs || this.allData[1].auditLogs;
   }
 
-  // Returns 'green' | 'orange' | 'red' for the icon class
+  
   calculateScoreColor(score: number): 'green' | 'orange' | 'blue' | 'red' {
     if (score >= 80) return 'green';
     if (score >= 60) return 'orange';
     return 'red';
   }
 
-  // Returns Hex Code for the text value
+
   getHexColor(score: number): string {
-    if (score >= 80) return '#16a34a'; // Green
-    if (score >= 60) return '#d97706'; // Orange
-    return '#dc2626'; // Red
+    if (score >= 80) return '#16a34a'; 
+    if (score >= 60) return '#d97706'; 
+    return '#dc2626'; 
   }
 
   getSeverity(status: string) {
@@ -190,9 +189,9 @@ export class ComplianceComponent implements OnInit, OnDestroy {
     return 'info';
   }
 
-  // --- FUNCTIONALITIES ---
+  
 
-  // 1. Audit Report (CSV)
+ 
   generateReport() {
     const headers = ['Review Type', 'Regulation', 'Status', 'Findings', 'Review Date', 'Next Review'];
     const rows = this.auditLogs.map(log => [
@@ -201,7 +200,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
     this.downloadCSV(headers, rows, `Compliance_Report_${this.currentClientName}.csv`);
   }
 
-  // 2. Risk Report (CSV)
+ 
   exportRiskReport() {
     const headers = ['Risk Type', 'Current Value (%)', 'Limit / Target', 'Status', 'Extra Note'];
     const rows = this.riskLimits.map(item => [
@@ -210,7 +209,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
     this.downloadCSV(headers, rows, `Risk_Exposure_Report_${this.currentClientName}.csv`);
   }
 
-  // 3. Schedule Calendar
+  
   scheduleReview() {
     const nextWeek = new Date();
     nextWeek.setDate(nextWeek.getDate() + 7);
@@ -225,7 +224,7 @@ export class ComplianceComponent implements OnInit, OnDestroy {
     window.open(url, '_blank');
   }
 
-  // CSV Helper
+ 
   private downloadCSV(headers: string[], rows: any[], filename: string) {
     const csvContent = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });

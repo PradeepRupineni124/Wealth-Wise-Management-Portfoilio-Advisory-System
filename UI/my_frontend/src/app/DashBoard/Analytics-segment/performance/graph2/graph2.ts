@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
-// Import Service and Interface
-import { AllocationService,AssetMetric } from '../../../../allocation.service';// Check path
+
+import { AllocationService,AssetMetric } from '../../../../allocation.service';
 
 @Component({
   selector: 'app-graph2',
@@ -19,22 +19,22 @@ export class Graph2Component implements OnInit {
   options: any;
 
   ngOnInit() {
-    // 1. Subscribe to the service
+   
     this.allocationService.getAssetMetrics().subscribe((metrics: AssetMetric[]) => {
       
-      // 2. Map data to ChartJS format
+      
       this.data = {
-        labels: metrics.map(m => m.label), // ['Equities', 'Bonds'...]
+        labels: metrics.map(m => m.label), 
         datasets: [
           {
             label: 'Market Value ($)',
-            backgroundColor: '#3b82f6', // Blue
+            backgroundColor: '#3b82f6', 
             data: metrics.map(m => m.value),
             yAxisID: 'y'
           },
           {
             label: 'Return (%)',
-            backgroundColor: '#10b981', // Green
+            backgroundColor: '#10b981', 
             data: metrics.map(m => m.returnRate),
             yAxisID: 'y1'
           }
@@ -42,7 +42,7 @@ export class Graph2Component implements OnInit {
       };
     });
 
-    // 3. Keep static visual options
+    
     this.options = {
       maintainAspectRatio: false,
       aspectRatio: 0.8,
@@ -61,7 +61,7 @@ export class Graph2Component implements OnInit {
           display: true,
           position: 'left',
           ticks: {
-            // Converts 1150000 -> $1150K
+            
             callback: (value: number) => '$' + value / 1000 + 'K'
           },
           grid: { color: '#f1f5f9' }
@@ -71,7 +71,7 @@ export class Graph2Component implements OnInit {
           display: true,
           position: 'right',
           min: 0,
-          max: 20, // Adjusted max for better visualization
+          max: 20, 
           ticks: {
             callback: (value: number) => value + '%'
           },

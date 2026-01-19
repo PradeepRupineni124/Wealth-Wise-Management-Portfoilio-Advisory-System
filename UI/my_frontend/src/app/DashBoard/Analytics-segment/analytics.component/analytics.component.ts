@@ -2,12 +2,11 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
 
-// --- PrimeNG v21 Imports ---
 import { ButtonModule } from 'primeng/button';
-import { PopoverModule } from 'primeng/popover';      // Replaces OverlayPanelModule
-import { DatePickerModule } from 'primeng/datepicker'; // Replaces CalendarModule
+import { PopoverModule } from 'primeng/popover';     
+import { DatePickerModule } from 'primeng/datepicker'; 
 
-// --- Child Components ---
+
 import { StatCardComponent } from '../performance/stat-card/stat-card';
 import { Graph1Component } from "../performance/graph1/graph1";
 import { Graph2Component } from "../performance/graph2/graph2";
@@ -30,10 +29,10 @@ import { AllocationService, KeyMetric } from '../../../allocation.service';
     CommonModule,
     FormsModule,
     ButtonModule,
-    PopoverModule,    // Updated
-    DatePickerModule, // Updated
+    PopoverModule,   
+    DatePickerModule, 
     
-    // Child Components
+   
     StatCardComponent,
     Graph1Component,
     Graph2Component,

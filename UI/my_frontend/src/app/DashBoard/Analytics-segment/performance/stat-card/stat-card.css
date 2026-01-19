@@ -1,10 +1,10 @@
-/* 1. Main Card Container */
+
 :host ::ng-deep .p-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     border-radius: 0.75rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    height: 100%; /* Fill the container provided by the grid */
+    height: 100%; 
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -20,10 +20,10 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Keeps Title at top and Subtext at bottom */
+    justify-content: space-between; 
 }
 
-/* 3. Text Elements */
+
 .card-title {
     color: #64748b;
     font-size: 0.85rem;
@@ -34,7 +34,7 @@
 }
 
 .stat-value {
-    font-size: 2rem; /* Balanced size to prevent overflow */
+    font-size: 2rem; 
     font-weight: 700;
     color: #059669;
     line-height: 1;
@@ -45,7 +45,7 @@
     font-size: 0.85rem;
     color: #64748b;
     line-height: 1.4;
-    margin-top: auto; /* Pushes to bottom */
+    margin-top: auto; 
 }
 
 .text-positive {

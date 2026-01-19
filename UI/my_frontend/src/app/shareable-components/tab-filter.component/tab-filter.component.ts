@@ -15,7 +15,7 @@ export class TabFilterComponent {
   activeTab: string = '';
 
   ngOnInit() {
-    // Automatically set the first tab as active on load
+    
     if (this.tabs && this.tabs.length > 0) {
       this.activeTab = this.tabs[0];
     }

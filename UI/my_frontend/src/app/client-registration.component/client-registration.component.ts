@@ -14,11 +14,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './client-registration.component.css',
 })
 export class ClientRegistrationComponent {
-  @Output() onClientAdded = new EventEmitter<any>(); // Event to send data back
+  @Output() onClientAdded = new EventEmitter<any>();
 
   displayRegistration: boolean = false;
 
-  // Data Model
+  
   clientData = {
     fullName: '',
     email: '',
@@ -44,12 +44,11 @@ export class ClientRegistrationComponent {
   }
 
   onSubmit() {
-    // 1. Validate (Optional)
+  
     if (this.clientData.fullName) {
-        // 2. Emit data to parent
+ 
         this.onClientAdded.emit(this.clientData);
-        
-        // 3. Close and Reset
+
         this.displayRegistration = false;
         this.resetForm();
     }

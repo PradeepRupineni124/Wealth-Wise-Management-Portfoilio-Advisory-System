@@ -11,7 +11,7 @@
     height: 350px;
 }
 
-/* Matching the green UI toggle from your screenshot */
+
 :host ::v-deep .p-selectbutton .p-button.p-highlight {
     background: #10b981;
     border-color: #10b981;

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-// Import the Service and Interface
+
 import { AllocationService,PerformanceData } from '../../../../allocation.service'; // <--- CHECK PATH
 
 @Component({
@@ -15,7 +15,7 @@ import { AllocationService,PerformanceData } from '../../../../allocation.servic
 })
 export class Graph1Component implements OnInit {
   
-  // 1. Inject the Service
+ 
   private allocationService = inject(AllocationService);
 
   data: any;
@@ -31,10 +31,9 @@ export class Graph1Component implements OnInit {
   selectedTime: string = 'All';
 
   ngOnInit() {
-    // 2. Subscribe to the Service Data
     this.allocationService.getPerformanceData().subscribe((response: PerformanceData) => {
       
-      // Update the chart data dynamically
+     
       this.data = {
         labels: response.labels,
         datasets: response.datasets
@@ -42,7 +41,7 @@ export class Graph1Component implements OnInit {
       
     });
 
-    // 3. Keep Options Static (Visual settings don't usually change with data)
+    
     this.options = {
       maintainAspectRatio: false,
       plugins: {

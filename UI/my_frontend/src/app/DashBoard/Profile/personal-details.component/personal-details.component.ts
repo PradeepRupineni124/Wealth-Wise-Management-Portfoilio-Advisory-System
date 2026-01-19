@@ -21,17 +21,14 @@ import { InputIconModule } from 'primeng/inputicon';
   styleUrl: './personal-details.component.css'
 })
 export class PersonalDetailsComponent {
-  // 1. TOOLS
-  // We need FormBuilder to create forms easily.
+  
   private fb = inject(FormBuilder);
 
-  // 2. INPUTS (Signals)
-  // These act like live variables. When the Parent changes them, we get notified.
-  isEditMode = input(false);       // Default is false (Not editing)
-  personalData = input<any>(null); // Default is null (No data yet)
+  
+  isEditMode = input(false);     
+  personalData = input<any>(null); 
 
-  // 3. THE FORM
-  // We define the fields and their rules (Validators)
+ 
   profileForm = this.fb.group({
     fullName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -43,43 +40,38 @@ export class PersonalDetailsComponent {
   });
 
   constructor() {
-    // 4. WATCHER: Handle Edit Mode
-    // This runs automatically whenever 'isEditMode' changes.
+ 
     effect(() => {
       if (this.isEditMode()) {
-        this.profileForm.enable(); // Unlock fields
+        this.profileForm.enable(); 
       } else {
-        this.profileForm.disable(); // Lock fields (make them gray)
+        this.profileForm.disable(); 
       }
     });
 
-    // 5. WATCHER: Handle New Data
-    // This runs automatically whenever 'personalData' changes.
     effect(() => {
       const data = this.personalData();
 
-      // Only run if we actually have data
       if (data) {
-        // Fix Date: Convert string dates to real Date objects if needed
+        
         if (typeof data.dob === 'string') {
           data.dob = new Date(data.dob);
         }
 
-        // Fill the form with the data
+       
         this.profileForm.patchValue(data);
       }
     });
   }
 
-  // 6. HELPER: Get Data for Saving
-  // The parent calls this when the user clicks "Save".
+ 
   getFormData() {
-    // If form is valid (green), give the data
+   
     if (this.profileForm.valid) {
       return this.profileForm.value;
     }
 
-    // If form is invalid (red), show error borders and return nothing
+    
     this.profileForm.markAllAsTouched();
     return null;
   }

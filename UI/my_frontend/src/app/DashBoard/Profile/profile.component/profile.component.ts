@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonModule } from 'primeng/button';
 
-// SERVICES
-import { ClientState } from '../../../client-state';       // 1. Knows WHO is selected
-import { MockDataService } from '../../../mock-data.service'; // 2. Knows the DATA (Import this)
+// --- ADD THESE IMPORTS ---
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
-// COMPONENTS
+import { ClientState } from '../../../client-state';       
+import { MockDataService } from '../../../mock-data.service'; 
+
 import { TabFilterComponent } from '../../../shareable-components/tab-filter.component/tab-filter.component';
 import { PersonalDetailsComponent } from '../personal-details.component/personal-details.component';
 import { ClientCardComponent } from "../client-card.component/client-card.component";
@@ -18,61 +20,53 @@ import { SecuritySettingsComponent } from "../security-settings.component/securi
   selector: 'app-profile',
   standalone: true,
   imports: [
-    CommonModule, ButtonModule, ClientCardComponent, TabFilterComponent, 
-    PersonalDetailsComponent, InvestementProfileComponent, SecuritySettingsComponent
+    CommonModule, 
+    ButtonModule, 
+    ToastModule, 
+    ClientCardComponent, 
+    TabFilterComponent, 
+    PersonalDetailsComponent, 
+    InvestementProfileComponent, 
+    SecuritySettingsComponent
   ],
+  providers: [MessageService], 
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
   
-  // --- INJECT SERVICES ---
   private clientState = inject(ClientState);
-  private dataService = inject(MockDataService); // <--- Inject the new service
+  private dataService = inject(MockDataService);
+  private messageService = inject(MessageService); 
 
-  // --- SIGNALS ---
-  // This signal listens to your Layout dropdown automatically
   selectedClient = toSignal(this.clientState.currentClient$);
 
-  // Data Signals
   clientCard = signal<any>({});
   personalData = signal<any>(null);
   investProfile = signal<any>(null);
   investSummary = signal<any>(null);
 
-  // View Children (for Saving)
   personalComp = viewChild(PersonalDetailsComponent);
   investComp = viewChild(InvestementProfileComponent);
 
-  // UI State
   activeTab = signal('Personal Information');
   isEditing = signal(false);
   profileTabs = ['Personal Information', 'Investment Profile', 'Security & Privacy'];
 
   constructor() {
-    // --- THE TRIGGER ---
-    // This runs automatically whenever 'selectedClient' changes
     effect(() => {
       const client = this.selectedClient();
-
       if (client) {
-        console.log("Client changed to:", client.name, "- Fetching new data...");
-
-        // Call our Mock Service
         this.dataService.getProfileData(client).subscribe(data => {
-          
-          // Update the UI with the new data
           this.clientCard.set(data.cardInfo);
           this.personalData.set(data.personalInfo);
           this.investProfile.set(data.investInfo);
           this.investSummary.set(data.summaryInfo);
-          
         });
       }
     });
   }
 
-  // --- ACTIONS (Keep these exactly the same) ---
   onTabChange(t: string) { this.activeTab.set(t); }
   onEdit() { this.isEditing.set(true); }
   
@@ -87,7 +81,12 @@ export class ProfileComponent {
     const iComp = this.investComp();
 
     if (pComp?.profileForm.invalid || iComp?.investForm.invalid) {
-      alert("Please fix errors.");
+      
+      this.messageService.add({ 
+        severity: 'error', 
+        summary: 'Validation Error', 
+        detail: 'Please fix the errors highlighted in the form.' 
+      });
       return;
     }
 
@@ -95,6 +94,12 @@ export class ProfileComponent {
     if (iComp) this.investProfile.set(iComp.getFormData());
 
     this.isEditing.set(false);
-    alert("Saved!");
+    
+    
+    this.messageService.add({ 
+      severity: 'success', 
+      summary: 'Success', 
+      detail: 'Profile updated successfully!' 
+    });
   }
 }

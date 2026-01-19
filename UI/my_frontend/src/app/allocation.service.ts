@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-// ==========================================
-// 1. INTERFACES (Keep these the same)
-// ==========================================
+
 export interface Sector { name: string; value: number; color: string; }
 export interface Region { name: string; value: string; class: string; }
 export interface ChartDataset {
@@ -27,10 +25,10 @@ export interface Report {
 })
 export class AllocationService {
   
-  // Cache to store generated clients so we don't regenerate them (keeps data stable)
+
   private clientCache = new Map<number, any>();
 
-  // Initial State (Will be populated in constructor)
+
   private sectorsSubject = new BehaviorSubject<Sector[]>([]);
   private regionsSubject = new BehaviorSubject<Region[]>([]);
   private performanceSubject = new BehaviorSubject<PerformanceData>({ labels: [], datasets: [] });
@@ -42,13 +40,11 @@ export class AllocationService {
   private reportsSubject = new BehaviorSubject<Report[]>([]);
 
   constructor() {
-    // Initialize with Client 1 immediately
+  
     this.updateClient(1);
   }
 
-  // ==========================================
-  // PUBLIC GETTERS
-  // ==========================================
+
   getAllocationData(): Observable<Sector[]> { return this.sectorsSubject.asObservable(); }
   getGeographicData(): Observable<Region[]> { return this.regionsSubject.asObservable(); }
   getPerformanceData(): Observable<PerformanceData> { return this.performanceSubject.asObservable(); }
@@ -59,20 +55,18 @@ export class AllocationService {
   getVaRData(): Observable<VaRMetric[]> { return this.varDataSubject.asObservable(); }
   getReports(): Observable<Report[]> { return this.reportsSubject.asObservable(); }
 
-  // ==========================================
-  // MAIN ACTION: UPDATE CLIENT
-  // ==========================================
+
   updateClient(clientId: number) {
     console.log(`Switching to Client ID: ${clientId}`);
 
-    // 1. Check if we already generated data for this client
+   
     if (!this.clientCache.has(clientId)) {
-      // 2. If not, generate it fresh!
+     
       const newProfile = this.generateRandomProfile(clientId);
       this.clientCache.set(clientId, newProfile);
     }
 
-    // 3. Retrieve from cache and broadcast
+    
     const data = this.clientCache.get(clientId);
 
     this.sectorsSubject.next(data.sectors);
@@ -86,33 +80,27 @@ export class AllocationService {
     this.reportsSubject.next(data.reports);
   }
 
-  // --- SHORTCUT FOR ADDING NEW CLIENT ---
   addClient(id: number, name: string) {
-    // We just trigger updateClient, the generator handles the rest based on ID
+    
     this.updateClient(id); 
-    // Ideally, we'd store the name in the generated profile, but for charts, ID is enough seed
+    
   }
 
-  // ==========================================
-  // THE GENERATOR (The Magic Logic)
-  // ==========================================
+
   private generateRandomProfile(id: number): any {
     
-    // Determine archetype based on ID (Cycles through 3 types)
-    // ID 1, 4, 7 -> Aggressive
-    // ID 2, 5, 8 -> Balanced
-    // ID 3, 6, 9 -> Conservative
+    
     const typeIndex = id % 3; 
     
-    // Add some random noise based on ID so "Aggressive 1" != "Aggressive 4"
-    const noise = (id * 7) % 10; // Simple pseudo-random number 0-9
+    
+    const noise = (id * 7) % 10; 
 
     if (typeIndex === 1) return this.createAggressiveProfile(noise);
     if (typeIndex === 2) return this.createBalancedProfile(noise);
     return this.createConservativeProfile(noise);
   }
 
-  // --- PROFILE ARCHETYPES ---
+ 
 
   private createAggressiveProfile(noise: number) {
     return {
@@ -231,10 +219,10 @@ export class AllocationService {
     };
   }
 
-  // --- Helper to Generate Wobbly Graphs ---
+  
   private generatePerformanceData(isVolatile: boolean, noise: number) {
     const base = isVolatile ? [5, 4, -2, 6, 4, 5, 4] : [2, 3, 1, 3, 2, 3, 2];
-    // Add noise to each point
+    
     const data = base.map(v => v + (Math.random() * 1.5 - 0.75)); 
     
     return {

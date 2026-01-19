@@ -1,21 +1,20 @@
-/* 1. The Container: Forces 2 equal columns */
+
 .reports-layout-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Exactly two equal columns */
-    gap: 1.5rem; /* Space between cards */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1.5rem; 
     padding: 1rem;
     width: 100%;
     box-sizing: border-box;
 }
 
-/* 2. Responsive: Stack on mobile */
+
 @media (max-width: 768px) {
     .reports-layout-grid {
-        grid-template-columns: 1fr; /* Single column on mobile */
+        grid-template-columns: 1fr; 
     }
 }
 
-/* 3. The Card: Forced to fill the grid cell perfectly */
 .report-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -23,22 +22,22 @@
     padding: 24px;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Stretches to match the tallest card in the row */
+    height: 100%; 
     transition: all 0.2s ease-in-out;
 }
 
-/* 4. Content Area: Aligns icon and text */
+
 .card-content {
     display: flex;
     align-items: flex-start;
     gap: 1.25rem;
-    flex: 1; /* Takes up all available space to push footer down */
+    flex: 1; 
 }
 
-/* 5. Text logic: Ensures width doesn't expand */
+
 .text-wrapper {
     flex: 1;
-    min-width: 0; /* Critical: allows text to wrap instead of expanding width */
+    min-width: 0; 
 }
 
 .report-title {
@@ -53,10 +52,9 @@
     line-height: 1.6;
     color: #64748b;
     margin: 0;
-    word-wrap: break-word; /* Prevents long words from breaking width */
+    word-wrap: break-word; 
 }
 
-/* 6. Footer: Perfectly aligned at the bottom */
 .footer-row {
     margin-top: auto;
     padding-top: 1.25rem;
@@ -66,7 +64,7 @@
     align-items: center;
 }
 
-/* UI Elements preserved from your style */
+
 .report-icon-box {
     width: 52px;
     height: 52px;

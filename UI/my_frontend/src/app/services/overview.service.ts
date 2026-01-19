@@ -5,7 +5,7 @@ import { StatMetric, Asset, Activity, Notification } from '../models/overview.mo
 @Injectable({ providedIn: 'root' })
 export class OverviewService {
 
-  // 1. STATE MANAGEMENT
+
   private selectedClientSource = new BehaviorSubject<any>({ name: 'Kiran', id: 1 });
   selectedClient$ = this.selectedClientSource.asObservable();
 
@@ -13,20 +13,18 @@ export class OverviewService {
     this.selectedClientSource.next(client);
   }
 
-  // --- DYNAMIC DATA GENERATORS ---
 
   getStats(clientId: number): Observable<StatMetric[]> {
-    // 1. Generate deterministic random values based on Client ID
-    // (We use clientId in the math so the numbers stay same for the same person)
+    
     
     const baseVal = 1000000 + (clientId * 123456) % 2000000; 
     const isUp = clientId % 2 !== 0; 
     
-    // Generate dynamic percentages (e.g., 5.4%, 12.8%)
+    
     const portfolioPercent = (3 + (clientId * 13 % 120) / 10).toFixed(1); 
     const returnPercent = (4 + (clientId * 17 % 150) / 10).toFixed(1);
     
-    // Calculate the actual dollar amount for the trend based on that percentage
+    
     const trendAmount = (baseVal * (Number(portfolioPercent) / 100));
 
     return of([
@@ -37,20 +35,20 @@ export class OverviewService {
         subTextColor: isUp ? 'text-green-600' : 'text-red-600', 
         trend: isUp ? 'up' : 'down', 
         
-        // FIX: Dynamic Trend Value (Calculated from %)
+        
         trendValue: (isUp ? '+' : '-') + '$' + new Intl.NumberFormat().format(Math.round(trendAmount)), 
         
         icon: 'pi pi-dollar', 
         iconBg: isUp ? 'bg-green-100' : 'bg-red-100', 
         iconColor: isUp ? 'text-green-600' : 'text-red-600', 
         
-        // FIX: Dynamic Badge Label (The requested change)
+       
         badgeLabel: (isUp ? '+' : '-') + portfolioPercent + '%', 
         badgeColor: isUp ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600' 
       },
       { 
         title: 'Annual Return', 
-        // FIX: Dynamic Return Percentage
+        
         value: (isUp ? '+' : '-') + returnPercent + '%', 
         subValue: isUp ? 'Beating market by 4.5%' : 'Underperforming market', 
         subTextColor: isUp ? 'text-blue-600' : 'text-orange-600', 
@@ -120,30 +118,29 @@ export class OverviewService {
   }
 
   getNotifications(clientId: number): Observable<Notification[]> {
-    // 1. Define a pool of different notification scenarios
+    
     const scenarios = [
-      // Scenario A (Standard)
+      
       [
         { id: '1', title: 'Portfolio Rebalanced', message: 'Automatic rebalancing complete.', time: 'Today at 9:30 AM', type: 'success' },
         { id: '2', title: 'Advisory', message: 'Tech sector exposure is high.', time: 'Yesterday', type: 'info' }
       ],
-      // Scenario B (Warning / Compliance)
+      
       [
          { id: '3', title: 'Compliance Action', message: 'KYC documents expiring soon.', time: '2 hours ago', type: 'warning' },
          { id: '4', title: 'Market Alert', message: 'Unexpected volatility in Asian markets.', time: 'Just now', type: 'info' }
       ],
-      // Scenario C (Income / Activity)
+     
       [
          { id: '5', title: 'Dividend Received', message: '$1,200 credited to cash account.', time: '1 day ago', type: 'success' },
          { id: '6', title: 'New Statement', message: 'Monthly statement is available.', time: '3 days ago', type: 'info' }
       ]
     ];
 
-    // 2. Select a scenario based on the Client ID
-    // (Client 1 -> Scenario A, Client 2 -> Scenario B, Client 3 -> Scenario C, etc.)
+    
     const index = (clientId - 1) % scenarios.length;
     
-    // Cast to 'any' or 'Notification[]' to avoid strict type issues with literal strings
+    
     return of(scenarios[index] as Notification[]);
   }
 

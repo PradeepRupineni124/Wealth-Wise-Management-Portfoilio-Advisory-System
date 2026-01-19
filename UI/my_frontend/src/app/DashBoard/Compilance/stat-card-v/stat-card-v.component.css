@@ -1,4 +1,4 @@
-/* Container */
+
 .stat-card {
   background: white;
   border: 1px solid #f1f5f9;
@@ -11,7 +11,7 @@
   justify-content: space-between;
 }
 
-/* Header Section */
+
 .card-header { 
   display: flex; 
   align-items: center; 
@@ -19,7 +19,7 @@
   margin-bottom: 16px; 
 }
 
-/* Icon Box */
+
 .icon-container {
   width: 40px;
   height: 40px;
@@ -30,14 +30,13 @@
   font-size: 18px;
 }
 
-/* --- COLORS --- */
+
 .green { background: #dcfce7; color: #16a34a; }
 .orange { background: #fef3c7; color: #d97706; }
 .blue { background: #dbeafe; color: #2563eb; }
-/* New Red Class */
+
 .red { background: #fee2e2; color: #dc2626; }
 
-/* Typography */
 .header-label { 
   color: #64748b; 
   font-weight: 600; 
@@ -47,7 +46,7 @@
 .stat-value { 
   font-size: 26px; 
   font-weight: 800; 
-  /* Color is now handled via inline style in HTML */
+  
   margin: 0 0 8px 0; 
   line-height: 1.2;
 }
@@ -59,7 +58,7 @@
   font-weight: 500;
 }
 
-/* Progress Bar */
+
 .progress-track { 
   height: 6px; 
   background: #f1f5f9; 

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AllocationService,RiskAssessment } from '../../../../allocation.service'; // Check path
+import { AllocationService,RiskAssessment } from '../../../../allocation.service'; 
 
 @Component({
   selector: 'app-risk-assessment',
@@ -13,7 +13,7 @@ export class RiskAssessmentComponent implements OnInit {
   
   private allocationService = inject(AllocationService);
   
-  // Initialize with empty default values to prevent HTML errors before data loads
+  
   riskData: RiskAssessment = {
     level: 'Loading...',
     score: 0,

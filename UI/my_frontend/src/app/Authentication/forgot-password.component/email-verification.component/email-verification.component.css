@@ -1,4 +1,4 @@
-/* Shared Theme Styles */
+
 .wealth-wrapper {
     min-height: 100vh;
     display: flex;
@@ -46,7 +46,7 @@
 }
 .back-link:hover { text-decoration: underline; }
 
-/* OTP Specifics */
+
 .otp-container {
     display: flex;
     justify-content: center;
@@ -57,7 +57,7 @@
     min-height: 24px;
     margin-bottom: 0.5rem;
     display: flex;
-    justify-content: center; /* Center align error for OTP */
+    justify-content: center; 
 }
 
 .p-error { color: #ef4444; font-size: 0.85rem; }

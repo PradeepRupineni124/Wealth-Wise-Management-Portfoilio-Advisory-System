@@ -1,8 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
-// Import the Service and Interface
-import { AllocationService,Sector } from '../../../../allocation.service';// <--- CHECK PATH
+
+import { AllocationService,Sector } from '../../../../allocation.service';
 
 @Component({
   selector: 'app-sector-allocation',
@@ -18,16 +18,16 @@ export class SectorAllocationComponent implements OnInit {
   data: any;
   options: any;
   
-  // Local variable to hold data for the HTML Legend
+  
   currentSectors: Sector[] = [];
 
   ngOnInit() {
-    // 1. Subscribe to the Service
+    
     this.allocationService.getAllocationData().subscribe((sectors: Sector[]) => {
       
       this.currentSectors = sectors;
 
-      // 2. Format data for the Chart
+      
       this.data = {
         labels: sectors.map(s => s.name),
         datasets: [
@@ -40,11 +40,11 @@ export class SectorAllocationComponent implements OnInit {
       };
     });
 
-    // 3. Chart Options (Visuals)
+    
     this.options = {
       plugins: {
         legend: {
-          display: false // We use our own HTML legend
+          display: false 
         },
         tooltip: {
           enabled: true

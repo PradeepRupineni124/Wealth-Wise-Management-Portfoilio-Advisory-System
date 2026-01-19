@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, switchMap } from 'rxjs'; // Import switchMap
+import { forkJoin, switchMap } from 'rxjs'; 
 
 import { OverviewService } from '../../services/overview.service';
 import { StatMetric, Asset, Activity, Notification } from '../../models/overview.model';
 
-// ... (Keep your Component imports same as before: Chart, Stats, etc.) ...
+
 import { StatCardComponent } from '../../shareable-components/stat-card-k.component';
 import { PortfolioChartComponent } from '../../shareable-components/portfolio-chart.component';
 import { AssetAllocationComponent } from '../../shareable-components/asset-allocation.component';
@@ -75,15 +75,15 @@ export class OverviewComponent implements OnInit {
   constructor(private overviewService: OverviewService) {}
 
   ngOnInit() {
-    // Subscribe to Client Changes
+  
     this.overviewService.selectedClient$.pipe(
-      // When client changes, trigger this switchMap to fetch new data
+      
       switchMap(client => {
         this.loading = true;
         this.currentClientName = client.name;
         this.currentClientId = client.id;
 
-        // Fetch all data for this specific Client ID
+        
         return forkJoin({
           stats: this.overviewService.getStats(client.id),
           assets: this.overviewService.getAssets(client.id),
@@ -109,7 +109,7 @@ export class OverviewComponent implements OnInit {
   }
 
   onRangeChange(range: string) {
-    // Pass both range and current Client ID
+    
     this.overviewService.getChartData(range, this.currentClientId).subscribe(data => {
         this.chartData = data;
     });

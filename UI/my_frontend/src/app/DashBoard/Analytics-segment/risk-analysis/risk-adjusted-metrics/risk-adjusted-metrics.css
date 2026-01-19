@@ -1,10 +1,10 @@
-/* --- Main Container --- */
+
 .risk-container {
     background: #ffffff;
     border-radius: 20px;
     margin-top: 20px;
     margin-bottom: 20px;
-    padding: 50px; /* Parent usually handles padding, or add padding: 1.5rem here */
+    padding: 50px; 
     width: 100%;
     font-family: 'Inter', sans-serif;
 }
@@ -17,37 +17,37 @@
     margin-bottom: 1.5rem;
 }
 
-/* --- The Grid Layout (2x2) --- */
+
 .metrics-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Force 2 equal columns */
-    gap: 1.5rem; /* Space between cards */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1.5rem; 
 }
 
-/* --- Individual Card Styling --- */
+
 .metric-card {
-    background-color: #f8fafc; /* The light blue-grey background */
+    background-color: #f8fafc; 
     border-radius: 8px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    min-height: 140px; /* Ensures consistent height */
+    min-height: 140px; 
 }
 
-/* --- Typography --- */
+
 .metric-name {
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem; 
     font-weight: 500;
-    color: #64748b;      /* Slate-500 */
+    color: #64748b;      
     display: block;
     margin-bottom: 1.5rem;
 }
 
 .values-row {
     display: flex;
-    align-items: flex-end; /* Align bottoms of numbers */
-    gap: 3rem;             /* Space between Portfolio and Benchmark columns */
+    align-items: flex-end;
+    gap: 3rem;             
 }
 
 .value-col {
@@ -57,8 +57,8 @@
 }
 
 .label {
-    font-size: 0.75rem; /* 12px */
-    color: #94a3b8;     /* Lighter grey */
+    font-size: 0.75rem;
+    color: #94a3b8;   
     font-weight: 400;
 }
 
@@ -67,29 +67,29 @@
     line-height: 1;
 }
 
-/* Portfolio Value (Large, Bold) */
+
 .main-value {
-    font-size: 1.75rem; /* 28px */
+    font-size: 1.75rem; 
     font-weight: 700;
-    color: #0f172a;     /* Dark Slate */
+    color: #0f172a;     
     letter-spacing: -0.03em;
 }
 
-/* Benchmark Value (Smaller, Muted) */
+
 .sub-value {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem; 
     font-weight: 500;
-    color: #64748b;      /* Slate-500 */
-    padding-bottom: 0.15rem; /* Optical alignment with the larger number */
+    color: #64748b;      
+    padding-bottom: 0.15rem; 
 }
 
-/* --- Mobile Responsiveness --- */
+
 @media (max-width: 768px) {
     .metrics-grid {
-        grid-template-columns: 1fr; /* Stack vertically on mobile */
+        grid-template-columns: 1fr; 
     }
     
     .values-row {
-        gap: 1.5rem; /* Reduce gap on small screens */
+        gap: 1.5rem; 
     }
 }

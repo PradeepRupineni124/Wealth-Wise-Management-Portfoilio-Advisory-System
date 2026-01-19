@@ -34,7 +34,7 @@ export class Login {
   private fb = inject(FormBuilder);
   private service = inject(AuthService); 
   private messageService = inject(MessageService);
-  private router = inject(Router); // 2. Inject the Router
+  private router = inject(Router); 
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -59,8 +59,7 @@ export class Login {
           detail: 'Welcome back! Redirecting...'
         });
         
-        // 3. Navigate to Dashboard
-        // Optional: Add a slight delay if you want the user to read the toast
+        
         setTimeout(() => {
              this.router.navigate(['/admin/overview']); 
         }, 500);

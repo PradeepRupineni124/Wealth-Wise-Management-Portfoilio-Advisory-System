@@ -20,7 +20,7 @@ export class AdvisoryComponent implements OnInit, OnDestroy {
   recommendations: any[] = [];
   historyList: any[] = [];
   
-  // This object holds all the dynamic summary values
+  
   clientSummary = {
     avgPerf: '+0.0%',
     totalGain: '+$0',
@@ -65,7 +65,7 @@ export class AdvisoryComponent implements OnInit, OnDestroy {
   constructor(private messageService: MessageService, private clientState: ClientState) {}
 
   ngOnInit() {
-    // FIX: client is an object { name: string, id: number }
+    
     this.clientSub = this.clientState.currentClient$.subscribe(client => {
       if (client && client.name) {
         this.loadClientData(client.name);
@@ -78,12 +78,12 @@ export class AdvisoryComponent implements OnInit, OnDestroy {
   }
 
   loadClientData(name: string) {
-    // FIX: Using the string name to access the key in allClientData
+   
     const data = this.allClientData[name] || this.allClientData['Pradeep'];
     this.recommendations = JSON.parse(JSON.stringify(data.recs));
     this.historyList = [...data.history];
     
-    // Update the summary object with values specific to the user
+   
     this.clientSummary = data.summary;
   }
 
@@ -95,7 +95,7 @@ export class AdvisoryComponent implements OnInit, OnDestroy {
     return [
       { label: 'Pending', value: pending, icon: 'pi pi-clock', colorClass: 'text-orange-500', bgClass: 'bg-orange-50' },
       { label: 'Accepted', value: accepted, icon: 'pi pi-check-circle', colorClass: 'text-green-500', bgClass: 'bg-green-50' },
-      // Dynamically display avgPerf from clientSummary
+      
       { label: 'Avg. Perf', value: this.clientSummary.avgPerf, icon: 'pi pi-chart-line', colorClass: 'text-blue-500', bgClass: 'bg-blue-50' },
       { label: 'Total', value: total, icon: 'pi pi-lightbulb', colorClass: 'text-purple-500', bgClass: 'bg-purple-50' }
     ];

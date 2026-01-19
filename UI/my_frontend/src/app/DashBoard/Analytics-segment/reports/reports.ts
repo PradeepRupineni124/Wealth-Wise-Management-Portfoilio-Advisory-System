@@ -2,9 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { AllocationService,Report } from '../../../allocation.service';
-// Import Service & Interface
-// import { AllocationService, Report } from '../../services/allocation.service'; // Check path
-// import { AllocationService,Repor } from '../../../allocation.service'; // Adjusted path
+
 
 @Component({
   selector: 'app-reports',
@@ -27,7 +25,7 @@ export class ReportsComponent implements OnInit {
   downloadReport(report: Report) {
     console.log(`Downloading ${report.title}...`);
 
-    // 1. Generate Mock Content based on Report Type
+    
     let csvContent = '';
     
     switch (report.type) {
@@ -47,7 +45,7 @@ export class ReportsComponent implements OnInit {
         csvContent = 'Report,Date\nGeneric Report,' + report.date;
     }
 
-    // 2. Create and Download CSV Blob
+    
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');

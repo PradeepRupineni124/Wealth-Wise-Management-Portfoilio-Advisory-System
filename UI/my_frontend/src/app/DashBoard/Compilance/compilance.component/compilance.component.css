@@ -1,4 +1,4 @@
-/* ---------- Global Typography & Base ---------- */
+
 .dashboard-container {
     padding: 8px 24px 24px 24px;
     background: #f8fafc;
@@ -25,7 +25,7 @@
     font-weight: 500;
 }
 
-/* ---------- Stat Cards Area ---------- */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -38,7 +38,7 @@ app-stat-card {
     height: 100%;
 }
 
-/* ---------- Panel Shell ---------- */
+
 .panel {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -67,7 +67,7 @@ app-stat-card {
     color: #0f172a;
 }
 
-/* ---------- Buttons ---------- */
+
 .btn-emerald {
     background: #059669;
     color: #ffffff;
@@ -115,7 +115,7 @@ app-stat-card {
     color: #64748b;
 }
 
-/* ---------- Risk List ---------- */
+
 .risk-item {
     margin-bottom: 20px;
 }
@@ -181,7 +181,7 @@ app-stat-card {
     transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ---------- Regulation Pill (UPDATED: Smaller & Single Line) ---------- */
+
 .reg-pill {
     background: #f1f5f9;
     color: #475569;
@@ -196,7 +196,7 @@ app-stat-card {
     display: inline-block;
 }
 
-/* ---------- Utility Text/Spacing ---------- */
+
 .font-bold {
     font-weight: 700;
 }
@@ -231,7 +231,7 @@ app-stat-card {
     margin-top: 12px;
 }
 
-/* ---------- Footer Grid ---------- */
+
 .footer-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
@@ -259,7 +259,7 @@ app-stat-card {
     margin-top: 2px;
 }
 
-/* ---------- Status Excellent Card ---------- */
+
 .status-excellent-card {
     background: #dcfce7;
     border: 1px solid #bbf7d0;
@@ -308,7 +308,7 @@ app-stat-card {
     margin: 0 0 16px 0;
 }
 
-/* ---------- PrimeNG Table Polishing (UPDATED) ---------- */
+
 :host ::ng-deep .custom-table .p-datatable-wrapper {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
@@ -319,16 +319,16 @@ app-stat-card {
     width: 100%;
     border-collapse: collapse;
     table-layout: auto;
-    /* Allow columns to shrink to fit content */
+    
 }
 
-/* Headers */
+
 :host ::ng-deep .custom-table thead tr th {
     background: #f8fafc;
     color: #475569;
     font-weight: 600;
     font-size: 11px;
-    /* Smaller header font */
+
     text-transform: uppercase;
     letter-spacing: 0.05em;
     padding: 12px 16px;
@@ -336,42 +336,41 @@ app-stat-card {
     white-space: nowrap;
 }
 
-/* General Cells */
+
 :host ::ng-deep .custom-table tbody tr td {
     padding: 12px 16px;
-    /* Compact padding */
+
     font-size: 13px;
     color: #1e293b;
     border-bottom: 1px solid #f1f5f9;
     vertical-align: middle;
 }
 
-/* SPECIFIC COLUMN SIZING (UPDATED) */
 
-/* Column 2: Regulation (Pill) - Keep compact */
+
+
 :host ::ng-deep .custom-table tbody tr td:nth-child(2) {
     width: 1%;
-    /* Shrink to fit pill */
+    
     white-space: nowrap;
 }
 
-/* Column 5 & 6: Dates - Make Small & Single Line */
 :host ::ng-deep .custom-table tbody tr td:nth-child(5),
 :host ::ng-deep .custom-table tbody tr td:nth-child(6) {
     font-size: 12px;
-    /* Smaller font for dates */
+    
     color: #64748b;
     white-space: nowrap;
-    /* Prevent wrapping */
+    
     width: 1%;
-    /* Shrink to fit date */
+    
 }
 
 :host ::ng-deep .custom-table tbody tr:hover td {
     background: #f8fafc;
 }
 
-/* PrimeNG Tags */
+
 :host ::ng-deep .p-tag {
     border-radius: 6px !important;
     padding: 2px 8px !important;
@@ -395,7 +394,7 @@ app-stat-card {
     color: #991b1b !important;
 }
 
-/* ---------- Responsive ---------- */
+
 @media (max-width: 1200px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -423,7 +422,7 @@ app-stat-card {
         gap: 4px;
     }
 
-    /* Allow scrolling on mobile tables */
+    
     :host ::ng-deep .custom-table .p-datatable-wrapper {
         overflow-x: auto;
     }

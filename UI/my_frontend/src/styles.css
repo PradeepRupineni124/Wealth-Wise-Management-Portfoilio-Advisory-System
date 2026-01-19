@@ -1,4 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
+
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 
@@ -9,9 +9,9 @@
 }
 
 
-/* 2. Global Reset & Background */
+
 body {
-    background-color: #f8fafc !important; /* Light Grey */
+    background-color: #f8fafc !important; 
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -21,7 +21,7 @@ body {
     background-color: #f8fafc !important;
 }
 
-/* 3. Force Card Styling (White cards on grey background) */
+
 .surface-card {
     background-color: #ffffff !important;
     border-radius: 12px !important;
@@ -29,14 +29,12 @@ body {
     margin-bottom: 1rem;
 }
 
-/* 4. Text Utilities */
+
 .text-900 { color: #0f172a !important; }
 .text-500 { color: #64748b !important; }
 .font-bold { font-weight: 700 !important; }
 
-/* 5. Custom Color Overrides (Converted to standard CSS) */
 
-/* Green */
 .bg-green-100 { background-color: #d1fae5 !important; }
 .text-green-600 { color: #059669 !important; }
 .bg-green-50 { background-color: #f0fdf4 !important; }
@@ -63,12 +61,6 @@ body {
 .bg-purple-100 { background-color: #f3e8ff !important; }
 .text-purple-600 { color: #9333ea !important; }
 
-/* Red */
-/* .bg-red-50 { background-color: #fef2f2 !important; }
-.text-red-500 { color: #ef4444 !important; } */
 
-/* --- Add these Red Color Classes to the bottom of src/styles.css --- */
-
-/* Red (For Down Trends / Errors) */
 .bg-red-100 { background-color: #fee2e2 !important; }
 .text-red-600 { color: #dc2626 !important; }

@@ -1,6 +1,4 @@
-/* security-settings.component.css */
 
-/* --- LAYOUT --- */
 .security-container {
   padding: 2rem;
   max-width: 900px;
@@ -17,7 +15,7 @@
   font-weight: 600;
 }
 
-/* --- SECURE STATUS CARD --- */
+
 .secure-status-card {
   background-color: var(--p-primary-50);
   border: 1px solid var(--p-primary-100);
@@ -86,7 +84,7 @@
   line-height: 1;
 }
 
-/* --- SECTION HEADERS --- */
+
 .settings-section {
   margin-bottom: 1.5rem;
 }
@@ -109,7 +107,6 @@
   margin: 2rem 0;
 }
 
-/* --- 2FA SECTION --- */
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -131,7 +128,7 @@
   color: var(--p-primary-800);
 }
 
-/* --- FORMS & INPUTS (CRITICAL FIXES) --- */
+
 .form-grid {
   display: flex;
   flex-direction: column;
@@ -153,7 +150,7 @@
   color: var(--p-surface-900);
 }
 
-/* FORCE FULL WIDTH FOR PRIME PASSWORD COMPONENTS */
+
 :host ::ng-deep .p-password {
     width: 100%;
 }
@@ -162,7 +159,7 @@
     width: 100%;
 }
 
-/* Error Messages */
+
 .p-error {
   color: #ef4444; 
   font-size: 0.85rem;
@@ -174,7 +171,7 @@
   border-color: #ef4444;
 }
 
-/* --- BUTTONS --- */
+
 .form-actions {
   margin-top: 1rem;
 }
@@ -196,16 +193,15 @@
   border-color: var(--p-primary-700) !important;
 }
 
-/* DISABLED STATE FIX */
 .update-btn:disabled {
-  /* Keep the dark green base but make it semi-transparent */
+  
   background-color: var(--p-primary-600) !important; 
   border-color: var(--p-primary-600) !important;
   opacity: 0.5; 
   cursor: not-allowed;
 }
 
-/* --- LOGIN HISTORY --- */
+
 .login-list {
   background: var(--p-surface-50);
   border-radius: 6px;

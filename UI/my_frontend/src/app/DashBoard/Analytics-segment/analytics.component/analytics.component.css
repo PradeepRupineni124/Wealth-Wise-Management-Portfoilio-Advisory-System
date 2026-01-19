@@ -1,4 +1,4 @@
-/* --- 1. Typography & Global Settings --- */
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 .analytics-container {
@@ -8,7 +8,7 @@
     color: #0f172a;
 }
 
-/* --- 2. Header Section --- */
+
 .header-section {
     display: flex;
     justify-content: space-between;
@@ -41,7 +41,7 @@
     gap: 0.75rem;
 }
 
-/* Button Styling Override */
+
 :host ::ng-deep .export-btn .p-button {
     background-color: #10b981 !important;
     border-color: #10b981 !important;
@@ -49,7 +49,7 @@
     font-weight: 500;
 }
 
-/* --- 3. Stats Grid --- */
+
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr); 
@@ -70,7 +70,7 @@ app-stat-card {
     display: block;
 }
 
-/* --- 4. Card Typography Overrides --- */
+
 :host ::ng-deep app-stat-card .card-title,
 :host ::ng-deep app-stat-card .label {
     font-family: 'Inter', sans-serif;
@@ -99,7 +99,7 @@ app-stat-card {
     color: #64748b;
 }
 
-/* --- 5. Asset Allocation --- */
+
 .allocation-grid {
     display: flex;
     flex-direction: row;
@@ -117,26 +117,24 @@ app-stat-card {
     background: #fff; 
 }
 
-/* --- 6. Risk Analysis Split Layout (FIXED) --- */
+
 .risk-split-grid {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
     width: 100%;
-    /* Ensures both columns stretch to the height of the tallest one */
+   
     align-items: stretch; 
 }
 
 .split-col {
-    flex: 1;        /* 50% width */
+    flex: 1;        
     min-width: 0;   
     display: flex;
     flex-direction: column;
 }
 
-/* --- FIX: Style the Components to Match Perfectly --- */
 
-/* 1. Make components blocks so they respect height */
 app-value-at-risk,
 app-risk-assessment {
     display: block;
@@ -144,23 +142,22 @@ app-risk-assessment {
     width: 100%;
 }
 
-/* 2. Style ValueAtRisk to look like a Card (White) */
-/* This replaces the 'surface-card p-4' we removed from HTML */
+
 app-value-at-risk {
     background-color: #ffffff;
     border-radius: 12px;
-    padding: 1.5rem; /* Matches padding of Risk Assessment */
-    border: 1px solid #e2e8f0; /* Matches border style */
+    padding: 1.5rem; 
+    border: 1px solid #e2e8f0; 
     box-sizing: border-box;
 }
 
-/* 3. Ensure Risk Assessment (Green) fills height */
+
 app-risk-assessment {
     height: 100%;
     box-sizing: border-box;
 }
 
-/* --- 7. Responsive Breakpoints --- */
+
 @media screen and (max-width: 1200px) {
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -169,7 +166,7 @@ app-risk-assessment {
 
 @media screen and (max-width: 992px) {
     .risk-split-grid {
-        flex-direction: column; /* Stack vertically on tablet */
+        flex-direction: column; 
     }
 }
 

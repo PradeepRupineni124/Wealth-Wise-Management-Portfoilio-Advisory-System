@@ -6,7 +6,7 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { MessageService } from 'primeng/api';
 import { definePreset } from '@primeuix/themes';
-// import Aura from '@primeuix/themes/aura';
+
 
 const WealthWisePreset = definePreset(Aura, {
     semantic: {
@@ -116,15 +116,13 @@ const WealthWisePreset = definePreset(Aura, {
             600: '#dc2626',
         },
         
-        // 6. GENERAL CONSTANTS (Black/White)
-        // Note: PrimeVue usually handles this via surface.0/950, 
-        // but defining them here ensures consistency if referenced directly.
+       
         general: {
             black: '#000000',
             white: '#ffffff'
         },
 
-        // 7. SHAPES
+        
         formField: {
             borderRadius: '6px',
             paddingX: '1rem',
@@ -139,7 +137,7 @@ const WealthWisePreset = definePreset(Aura, {
 });
 
 export default WealthWisePreset;
-// import { provideAnimations } from '@angular/platform-browser/animations';
+
 export const appConfig: ApplicationConfig = {
 
   providers: [

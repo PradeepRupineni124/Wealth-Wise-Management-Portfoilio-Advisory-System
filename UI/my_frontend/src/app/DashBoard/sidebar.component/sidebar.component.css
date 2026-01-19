@@ -1,6 +1,6 @@
 :host {
   display: block;
-  height: 100%; /* Changed from 100vh to 100% to fit inside body-wrapper */
+  height: 100%; 
 }
 
 .sidebar-container {
@@ -8,7 +8,7 @@
   height: 100%;
   background-color: var(--p-surface-0); 
   
-  /* Reduced top padding since logo is gone */
+
   padding: 1rem 1.5rem; 
   display: flex;
   flex-direction: column;
@@ -17,7 +17,6 @@
   box-sizing: border-box;
 }
 
-/* --- Navigation Menu --- */
 .nav-menu ul {
   list-style: none;
   padding: 0;
@@ -30,7 +29,7 @@
 .nav-menu .nav-link {
   display: flex;
   align-items: center;
-  padding: 14px 18px; /* Slightly tighter padding for a cleaner nav list */
+  padding: 14px 18px; 
   border-radius: 12px;
   text-decoration: none;
   color: var(--p-surface-600); 
@@ -45,7 +44,7 @@
   font-size: 1.25rem;
 }
 
-/* --- Hover State --- */
+
 .nav-menu .nav-link:hover:not(.active-link) {
   background-color: var(--p-primary-50);
   color: var(--p-primary-600);
@@ -55,7 +54,7 @@
   color: var(--p-primary-600);
 }
 
-/* --- Active State --- */
+
 .nav-menu .active-link {
   background-color: var(--p-primary-600);
   color: var(--p-surface-0) !important;

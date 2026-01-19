@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
-// PrimeNG Imports
 import { MenubarModule } from 'primeng/menubar';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
 
-// Your Components (Check paths!)
+
 import { SidebarComponent } from '../DashBoard/sidebar.component/sidebar.component';
 import { ClientRegistrationComponent } from '../client-registration.component/client-registration.component';
 import { ClientState } from '../client-state';
@@ -33,7 +32,7 @@ export class LayoutComponent implements OnInit {
 
   @ViewChild(ClientRegistrationComponent) registrationModal!: ClientRegistrationComponent;
 
-  // New Names List
+  
   private allocationService= inject(AllocationService);
   clients = [
     { name: 'Ganesh', id: 1 },
@@ -49,7 +48,7 @@ export class LayoutComponent implements OnInit {
   constructor(private router: Router, private clientState: ClientState,private clientService:ClientDataService, private overviewService: OverviewService) {}
 
   ngOnInit() {
-    // Initialize with Pradeep
+    
     this.selectedClient = this.clients[0];
     this.clientState.updateClient(this.selectedClient);
     this.clientService.updateClient(this.selectedClient.id);
@@ -59,7 +58,7 @@ export class LayoutComponent implements OnInit {
   }
 
   onClientChange(event: any) {
-    // When dropdown changes, update the service
+    
     console.log("User changed to:", event.value);
     this.clientState.updateClient(event.value);
     this.clientService.updateClient(event.value.id);
@@ -77,18 +76,18 @@ export class LayoutComponent implements OnInit {
 
     const newClient = { 
         name: newClientData.fullName, 
-        id: Math.floor(Math.random() * 100000) // Ensure ID is unique/large enough not to clash
+        id: Math.floor(Math.random() * 100000) 
     };
     this.clients = [...this.clients, newClient];
 
-    // 3. Select the new client
+   
     this.selectedClient = newClient;
 
-    // 4. Update Legacy Services
+    
     this.clientState.updateClient(newClient);
     this.clientService.updateClient(newClient.id);
 
-    // 5. IMPORTANT: Call 'addClient' on AllocationService so it generates data
+    
     this.allocationService.addClient(newClient.id, newClient.name);
     this.overviewService.changeClient(newClient);
   }

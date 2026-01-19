@@ -20,7 +20,7 @@ export class PortfolioTableComponent {
   activeTab = 'All';
   isBrowser: boolean;
 
-  defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, flex: 1 };
+  defaultColDef: ColDef = { sortable: true, filter: true, resizable: true, flex: 1,editable:true };
 
   colDefs: ColDef[] = [
     { field: 'symbol', headerName: 'Symbol', cellStyle: { fontWeight: '700' } },

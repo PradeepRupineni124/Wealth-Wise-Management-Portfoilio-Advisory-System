@@ -14,12 +14,12 @@ export class StatCardComponent {
   @Input() subtext: string = '';
   @Input() icon: string = '';
 
-  // UPDATED: Added 'red' to allowed colors
+
   @Input() colorClass: 'green' | 'orange' | 'blue' | 'red' = 'green';
 
   @Input() showProgress: boolean = false;
   @Input() progressValue: number = 0;
 
-  // UPDATED: Input for dynamic text color
+
   @Input() textColor: string = '#0f172a';
 }

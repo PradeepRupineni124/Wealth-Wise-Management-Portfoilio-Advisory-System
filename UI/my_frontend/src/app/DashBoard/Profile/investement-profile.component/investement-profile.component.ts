@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 
-// Simple shapes for our data
+
 export interface InvestmentProfile {
   riskProfile: string;
   goal: string;
@@ -19,21 +19,17 @@ export interface InvestmentProfile {
   styleUrl: './investement-profile.component.css',
 })
 export class InvestementProfileComponent {
-  // 1. TOOLS
-  // Use FormBuilder to create the form easily
+ 
   private fb = inject(FormBuilder);
 
-  // 2. INPUTS (Signals)
-  // Data coming from the Parent (Dashboard). 
-  // 'input' signals automatically notify us when they change.
+
   isEditMode = input(false);
   profileData = input<InvestmentProfile | null>(null);
   
-  // This is just for display (the text at the bottom or top of the card)
+  
   summary = input({ allocation: 'Pending...', score: '-', return: '-' });
 
-  // 3. THE FORM
-  // We create the 4 empty fields here.
+  
   investForm = this.fb.group({
     riskProfile: [''],
     goal:        [''],
@@ -41,8 +37,7 @@ export class InvestementProfileComponent {
     liquidity:   ['']
   });
 
-  // 4. DROPDOWN OPTIONS
-  // These are the lists the user sees in the dropdowns.
+  
   riskOptions = [
     { label: 'Conservative', value: 'Conservative' },
     { label: 'Moderate',     value: 'Moderate' },
@@ -68,30 +63,27 @@ export class InvestementProfileComponent {
   ];
 
   constructor() {
-    // 5. WATCHER: Handle Edit Mode
-    // Runs automatically when 'isEditMode' changes.
+    
     effect(() => {
       if (this.isEditMode()) {
-        this.investForm.enable(); // Unlock dropdowns
+        this.investForm.enable();
       } else {
-        this.investForm.disable(); // Lock dropdowns
+        this.investForm.disable(); 
       }
     });
 
-    // 6. WATCHER: Handle New Data
-    // Runs automatically when 'profileData' changes.
+   
     effect(() => {
       const data = this.profileData();
       
-      // If we received data, put it into the form
+     
       if (data) {
         this.investForm.patchValue(data);
       }
     });
   }
 
-  // 7. HELPER: Get Data
-  // The parent calls this when clicking "Save".
+  
   getFormData() {
     return this.investForm.valid ? this.investForm.value : null;
   }

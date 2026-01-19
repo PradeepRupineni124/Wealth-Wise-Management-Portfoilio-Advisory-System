@@ -3,7 +3,7 @@
   background-color: #f9fbfc;
 }
 
-/* Four column layout for the top row */
+
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); 
@@ -11,14 +11,14 @@
   margin-bottom: 30px;
 }
 
-/* Three column layout for the asset classes (Equities, Bonds, etc.) */
+
 .summary-box {
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   gap: 20px;
 }
 
-/* Responsive fixes */
+
 @media (max-width: 1024px) {
   .summary-grid, .summary-box {
     grid-template-columns: repeat(2, 1fr);
@@ -33,7 +33,7 @@
 
 .portfolio-header {
   display: flex;
-  justify-content: space-between; /* Pushes text to left and button to right */
+  justify-content: space-between; 
   align-items: flex-start;
   margin-bottom: 25px;
 }

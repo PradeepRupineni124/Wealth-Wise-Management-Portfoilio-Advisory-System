@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PasswordModule } from 'primeng/password';
-// import { SelectModule } from 'primeng/select';
-// import { Router } from '@angular/router';
+
 import { MessageService } from 'primeng/api';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
@@ -63,15 +62,12 @@ export class Registration {
 
   isInvalid(controlName: string): boolean {
     const control = this.registerForm.get(controlName);
-    // Returns true if the control is invalid AND has been touched/dirty
+    
     return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
   isDarkMode = false;
 
-  // toggleDarkMode() {
-  //   this.isDarkMode = !this.isDarkMode;
-  // }
 
   submit() {
     if (this.registerForm.valid) {

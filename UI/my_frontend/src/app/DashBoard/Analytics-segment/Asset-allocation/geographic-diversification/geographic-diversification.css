@@ -1,18 +1,18 @@
-/* --- The Container (Forces Horizontal Row) --- */
+
 .region-grid {
-    display: flex !important;       /* Force Flexbox */
-    flex-direction: row !important; /* Force Horizontal direction */
-    flex-wrap: nowrap !important;   /* Prevent them from dropping to next line */
+    display: flex !important;       
+    flex-direction: row !important; 
+    flex-wrap: nowrap !important;   
     justify-content: space-between;
     gap: 1.5rem;
     width: 100%;
 }
 
-/* --- Individual Card Styling --- */
+
 .region-metric-card {
-    flex: 1 1 0px;                  /* Distribute space equally */
-    width: 100%;                    /* Ensure it fills its flex slot */
-    min-width: 0;                   /* Critical fix for nested text truncation */
+    flex: 1 1 0px;                  
+    width: 100%;                    
+    min-width: 0;                  
     
     display: flex;
     flex-direction: column;
@@ -20,13 +20,12 @@
     border-radius: 12px;
 }
 
-/* --- Typography --- */
 .region-name {
     font-family: 'Inter', sans-serif;
     font-size: 0.875rem;
     color: #64748b;
     margin-bottom: 0.5rem;
-    white-space: nowrap;            /* Prevent text wrapping if space is tight */
+    white-space: nowrap;            
 }
 
 .region-value {
@@ -36,14 +35,12 @@
     color: #0f172a;
 }
 
-/* --- Colors --- */
+
 .bg-blue { background-color: #f0f9ff; }
 .bg-green { background-color: #f0fdf4; }
 .bg-yellow { background-color: #fefce8; }
 .bg-purple { background-color: #faf5ff; }
 
-/* --- Mobile Safety --- */
-/* Only stack vertically on VERY small screens (mobile phones) */
 @media (max-width: 600px) {
     .region-grid {
         flex-direction: column !important;
