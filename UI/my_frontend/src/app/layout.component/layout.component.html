@@ -10,25 +10,41 @@
 
       <ng-template pTemplate="end">
         <div class="header-actions">
-          <p-select 
-            [options]="clients" 
-            [(ngModel)]="selectedClient" 
-            [filter]="true" filterBy="name" 
-            optionLabel="name"
-            placeholder="Select a Client" 
-            class="client-selector" 
-            (onChange)="onClientChange($event)">
-          </p-select>
+          
+          <p-autoComplete 
+    [(ngModel)]="searchQuery" 
+    [suggestions]="filteredClients" 
+    (completeMethod)="filterClients($event)" 
+    (onSelect)="onClientSelect($event)"
+    
+    field="name"           
+    optionLabel="name"      dataKey="id"            [completeOnFocus]="true"
+    [forceSelection]="true"
+    placeholder="Search Client" 
+    styleClass="client-selector-auto"
+    inputStyleClass="w-full">
 
-          <div class="v-separator"></div>
 
-          <p-button 
-            label="Add Client" 
-            icon="pi pi-plus" 
-            size="small"
-            styleClass="p-button-outlined p-button-success" 
-            (onClick)="onAddClient()">
-          </p-button>
+            <ng-template let-client pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <i class="pi pi-user text-primary"></i>
+                <span>{{ client.name }}</span>
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+              <div class="border-top-1 surface-border p-2">
+                <button 
+                    pButton 
+                    label="Add New Client" 
+                    icon="pi pi-plus" 
+                    class="p-button-text p-button-plain w-full text-left"
+                    style="justify-content: start;"
+                    (click)="onAddClient()">
+                </button>
+              </div>
+            </ng-template>
+          </p-autoComplete>
 
           <div class="v-separator"></div>
 
@@ -40,7 +56,6 @@
             <p-avatar 
               image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
               shape="circle" 
-              
               styleClass="profile-avatar">
             </p-avatar>
           </div>
@@ -65,11 +80,6 @@
     </aside>
 
     <main class="shell-main-content">
-      <!-- <header class="content-context-bar" *ngIf="selectedClient">
-        <span class="context-label">Viewing Data for:</span>
-        <span class="context-value">{{selectedClient.name}}</span>
-      </header> -->
-
       <section class="router-view">
         <router-outlet></router-outlet>
       </section>

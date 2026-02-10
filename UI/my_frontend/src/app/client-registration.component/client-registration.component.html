@@ -1,106 +1,111 @@
 <p-dialog 
-    [(visible)]="displayRegistration" 
-    [modal]="true" 
-    [draggable]="false" 
-    [resizable]="false"
-    styleClass="wealthwise-modal" 
-    maskStyleClass="custom-mask">
+  [(visible)]="visible" 
+  [modal]="true" 
+  [draggable]="false" 
+  [resizable]="false"
+  [closable]="true"
+  (onHide)="onHide()"
+  styleClass="wealthwise-modal" 
+  maskStyleClass="custom-mask">
 
   <ng-template pTemplate="header">
-    <div class="modal-header-content">
-      <span class="back-link" (click)="displayRegistration = false">
-        <i class="pi pi-arrow-left"></i> Back to Dashboard
-      </span>
-      <h1 class="title">Create Account</h1>
-      <p class="subtitle">Get started with your wealth management journey</p>
+    <div class="modal-header">
+      <div class="icon-badge">
+        <i class="pi pi-user-plus"></i>
+      </div>
+      <div class="header-text">
+        <h2>New Investor Registration</h2>
+        <p>Enter client details below</p>
+      </div>
     </div>
   </ng-template>
 
-  <div class="form-container">
-    <div class="field">
-      <label>Full Name</label>
-      <input 
-        pInputText 
-        type="text" 
-        [(ngModel)]="clientData.fullName" 
-        placeholder="John Anderson" 
-        class="w-full" />
-    </div>
-
-    <div class="field">
-      <label>Email Address</label>
-      <input 
-        pInputText 
-        type="email" 
-        [(ngModel)]="clientData.email" 
-        placeholder="you@example.com" 
-        class="w-full" />
-    </div>
-
-    <div class="field">
-      <label>Phone Number</label>
-      <input 
-        pInputText 
-        type="tel" 
-        [(ngModel)]="clientData.phone" 
-        placeholder="+1 (555) 123-4567" 
-        class="w-full" />
-    </div>
-
-    <div class="form-grid">
-      <div class="field">
-        <label>Password</label>
-        <input 
-            pInputText 
-            type="password" 
-            placeholder="••••••••" 
-            class="w-full" />
+  <div class="form-body">
+    <div class="form-row">
+        <div class="field col-6">
+            <label>Investor Name <span class="req">*</span></label>
+            <input pInputText [(ngModel)]="clientData.fullName" placeholder="Ex. John Doe" class="compact-input" />
         </div>
-      <div class="field">
-        <label>Confirm Password</label>
-        <input 
-            pInputText 
-            type="password" 
-            placeholder="••••••••" 
-            class="w-full" />
-      </div>
+        <div class="field col-6">
+            <label>Email Address <span class="req">*</span></label>
+            <input pInputText type="email" [(ngModel)]="clientData.email" placeholder="Ex. john@company.com" class="compact-input" />
+        </div>
     </div>
 
-    <div class="field">
-      <label>Risk Profile</label>
-      <p-select 
-        [options]="riskProfiles" 
-        [(ngModel)]="clientData.riskProfile"
-        optionLabel="label" 
-        placeholder="Select your risk tolerance"
-        styleClass="w-full custom-select">
-      </p-select>
+    <div class="form-row">
+        <div class="field col-6">
+            <label>Contact Number</label>
+            <input pInputText type="tel" [(ngModel)]="clientData.phone" placeholder="Ex. +1 (555) 000-0000" class="compact-input" />
+        </div>
+        <div class="field col-6">
+            <label>Address</label>
+            <input pInputText [(ngModel)]="clientData.address" placeholder="Ex. 123 Wall St, NY" class="compact-input" />
+        </div>
     </div>
 
-    <div class="field">
-      <label>Primary Investment Goal</label>
-      <p-select 
-        [options]="goals" 
-        [(ngModel)]="clientData.goal"
-        optionLabel="label" 
-        placeholder="Select your investment goal"
-        styleClass="w-full custom-select">
-      </p-select>
+    <div class="form-row">
+        <div class="field col-6">
+            <label>Occupation</label>
+            <input pInputText [(ngModel)]="clientData.occupation" placeholder="Ex. Software Engineer" class="compact-input" />
+        </div>
+        <div class="field col-6">
+            <label>Employer</label>
+            <input pInputText [(ngModel)]="clientData.employer" placeholder="Ex. Tech Corp Inc." class="compact-input" />
+        </div>
     </div>
 
-    <div class="terms-text">
-      <p>By creating an account, you agree to the <span class="green-link">Terms of Service</span> and <span
-          class="green-link">Privacy Policy</span>.</p>
+    <div class="section-divider"></div>
+
+    <div class="form-row">
+        <div class="field col-6">
+            <label>Investment Goal</label>
+            <p-select [options]="goals" [(ngModel)]="clientData.goal" optionLabel="label" optionValue="value" placeholder="Select Goal" styleClass="compact-select"></p-select>
+        </div>
+        <div class="field col-6">
+            <label>Risk Profile</label>
+            <p-select [options]="riskProfiles" [(ngModel)]="clientData.riskProfile" optionLabel="label" optionValue="value" placeholder="Select Risk" styleClass="compact-select"></p-select>
+        </div>
     </div>
 
-    <p-button 
-        label="Create Account" 
-        (onClick)="onSubmit()" 
-        styleClass="w-full submit-btn">
-    </p-button>
+    <div class="form-row">
+        <div class="field col-6">
+            <label>Horizon</label>
+            <p-select [options]="horizons" [(ngModel)]="clientData.investmentHorizon" optionLabel="label" optionValue="value" placeholder="Select Horizon" styleClass="compact-select"></p-select>
+        </div>
+        <div class="field col-6">
+            <label>Liquidity</label>
+            <p-select [options]="liquidityOptions" [(ngModel)]="clientData.liquidityNeeds" optionLabel="label" optionValue="value" placeholder="Select Needs" styleClass="compact-select"></p-select>
+        </div>
+    </div>
 
-    <p class="footer-login">
-      Already have an account? <span class="login-link">Sign in</span>
-    </p>
+    <div class="compact-upload">
+        <div class="upload-info">
+            <i class="pi pi-file-pdf"></i>
+            <div class="info-text">
+                <span class="label">KYC Document (Optional)</span>
+                <span *ngIf="!clientData.kycDocument" class="sub">Max 5MB (PDF/IMG)</span>
+                <span *ngIf="clientData.kycDocument" class="sub success">{{ clientData.kycDocument.name }}</span>
+            </div>
+        </div>
+        <p-fileUpload 
+            mode="basic" 
+            chooseLabel="Browse" 
+            chooseIcon="pi pi-upload"
+            name="kycDocs"
+            accept="image/*,application/pdf" 
+            maxFileSize="5000000" 
+            (onSelect)="onFileSelect($event)"
+            [auto]="true"
+            styleClass="compact-upload-btn">
+        </p-fileUpload>
+    </div>
   </div>
+
+  <ng-template pTemplate="footer">
+    <div class="actions">
+        <button pButton label="Cancel" class="p-button-text plain-btn" (click)="onHide()"></button>
+        <button pButton label="Create Account" icon="pi pi-check" class="primary-btn" (click)="onSubmit()"></button>
+    </div>
+  </ng-template>
+
 </p-dialog>

@@ -1,14 +1,13 @@
-import { Component, OnInit, ViewChild,inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 
 import { MenubarModule } from 'primeng/menubar';
-import { SelectModule } from 'primeng/select';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { TooltipModule } from 'primeng/tooltip';
-
 
 import { SidebarComponent } from '../DashBoard/sidebar.component/sidebar.component';
 import { ClientRegistrationComponent } from '../client-registration.component/client-registration.component';
@@ -22,7 +21,7 @@ import { OverviewService } from '../services/overview.service';
   standalone: true,
   imports: [
     CommonModule, FormsModule, RouterModule,
-    MenubarModule, SelectModule, ButtonModule, AvatarModule, TooltipModule,
+    MenubarModule, AutoCompleteModule, ButtonModule, AvatarModule, TooltipModule,
     SidebarComponent, ClientRegistrationComponent
   ],
   templateUrl: './layout.component.html',
@@ -32,9 +31,9 @@ export class LayoutComponent implements OnInit {
 
   @ViewChild(ClientRegistrationComponent) registrationModal!: ClientRegistrationComponent;
 
+  private allocationService = inject(AllocationService);
   
-  private allocationService= inject(AllocationService);
-  clients = [
+  clients: any[] = [
     { name: 'Ganesh', id: 1 },
     { name: 'Harshith', id: 2 },
     { name: 'Kiran', id: 3 },
@@ -43,27 +42,63 @@ export class LayoutComponent implements OnInit {
     { name: 'Venu', id: 6 }
   ];
 
+  // Logic Variable: Object
   selectedClient: any;
+  // Display Variable: Should be Object (since field="name" is used in HTML)
+  searchQuery: any; 
+  
+  filteredClients: any[] = []; 
+  clientName = signal<string>('');
 
-  constructor(private router: Router, private clientState: ClientState,private clientService:ClientDataService, private overviewService: OverviewService) {}
+  constructor(
+    private router: Router, 
+    private clientState: ClientState, 
+    private clientService: ClientDataService, 
+    private overviewService: OverviewService
+  ) {}
 
   ngOnInit() {
+    this.filteredClients = [...this.clients];
     
-    this.selectedClient = this.clients[0];
-    this.clientState.updateClient(this.selectedClient);
-    this.clientService.updateClient(this.selectedClient.id);
-    this.allocationService.updateClient(this.selectedClient.id);
-    this.overviewService.changeClient(this.selectedClient);
+    // Initialize first client
+    const initialClient = this.clients[0];
+    this.selectedClient = initialClient;
 
+    // FIX: Set searchQuery to the full Object. 
+    // The 'field="name"' in HTML will automatically extract the name for display.
+    this.searchQuery = initialClient; 
+    
+    this.clientName.set(initialClient.name);
+
+    this.updateClientServices(initialClient);
   }
 
-  onClientChange(event: any) {
+  filterClients(event: any) {
+    let query = event.query;
+
+    // Safety: Handle Object case during selection
+    if (typeof query === 'object' && query !== null) {
+        query = query.name;
+    }
+
+    this.filteredClients = this.clients.filter(client => 
+      client.name.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  onClientSelect(event: any) {
+    const client = event.value;
     
-    console.log("User changed to:", event.value);
-    this.clientState.updateClient(event.value);
-    this.clientService.updateClient(event.value.id);
-    this.allocationService.updateClient(event.value.id);
-    this.overviewService.changeClient(event.value);
+    this.selectedClient = client;
+
+    this.updateClientServices(client);
+  }
+
+  updateClientServices(client: any) {
+    this.clientState.updateClient(client);
+    this.clientService.updateClient(client.id);
+    this.allocationService.updateClient(client.id);
+    this.overviewService.changeClient(client);
   }
 
   onAddClient() {
@@ -71,26 +106,37 @@ export class LayoutComponent implements OnInit {
   }
 
   handleNewClient(newClientData: any) {
-
-    console.log('Received from modal:', newClientData);
-
     const newClient = { 
-        name: newClientData.fullName, 
-        id: Math.floor(Math.random() * 100000) 
+        id: Math.floor(Math.random() * 100000) + 10, 
+        name: newClientData.fullName,
+        email: newClientData.email,
+        kycDoc: newClientData.kycDocument,
+        investInfo: {
+            riskProfile: newClientData.riskProfile,
+            goal: newClientData.goal,
+            horizon: newClientData.investmentHorizon,
+            liquidity: newClientData.liquidityNeeds
+        },
+        personalInfo: {
+            phone: newClientData.phone,
+            address: newClientData.address,
+            occupation: newClientData.occupation,
+            employer: newClientData.employer
+        }
     };
+    
     this.clients = [...this.clients, newClient];
-
-   
     this.selectedClient = newClient;
-
     
-    this.clientState.updateClient(newClient);
-    this.clientService.updateClient(newClient.id);
-
+    // FIX: Update with the full Object
+    this.searchQuery = newClient; 
     
-    this.allocationService.addClient(newClient.id, newClient.name);
-    this.overviewService.changeClient(newClient);
+    this.clientName.set(newClient.name);
+    
+    this.filteredClients = [...this.clients];
+    this.updateClientServices(newClient);
   }
+
   logout() {
     localStorage.removeItem('token');
     sessionStorage.clear();
@@ -98,7 +144,6 @@ export class LayoutComponent implements OnInit {
   }
   
   triggerInvestmentPopup() {
-  this.clientService.triggerAddInvestment();
+    this.clientService.triggerAddInvestment();
+  }
 }
-}
- 

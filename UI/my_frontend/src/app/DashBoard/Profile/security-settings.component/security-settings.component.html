@@ -1,119 +1,176 @@
 <p-toast></p-toast>
 
-<div class="security-container">
+<div class="kyc-container">
+  
+  <div class="header-section">
+    <div>
+      <h2 class="page-title">KYC Verification</h2>
+      <p class="subtitle">Manage identity documents and verification status.</p>
+    </div>
     
-  <h2 class="page-title">Security Settings</h2>
-  <div class="settings-section">
-    <div class="section-header">
-      <div>
-        <h3>Two-Factor Authentication</h3>
-        <p class="subtitle">Add an extra layer of security to your account</p>
-      </div>
-      <div class="status-badge" [class.enabled]="twoFactorEnabled">
-        {{ twoFactorEnabled ? 'Enabled' : 'Disabled' }}
-      </div>
-    </div>
-    <div class="action-row">
-      <button pButton label="Configure 2FA" class="p-button-outlined p-button-secondary"></button>
-    </div>
+    @if (!loading) {
+      <p-tag 
+        [value]="displayStatus" 
+        [severity]="severity" 
+        [rounded]="true"
+        styleClass="text-sm px-3 py-1 uppercase">
+      </p-tag>
+    }
   </div>
 
   <hr class="divider">
 
-  <div class="settings-section">
-    <h3>Change Password</h3>
-    
-    <form [formGroup]="passwordForm" (ngSubmit)="onUpdatePassword()" class="p-fluid form-grid">
-      
-      <div class="field">
-        <label for="current">Current Password</label>
-        <p-password 
-          id="current"
-          formControlName="currentPassword" 
-          [toggleMask]="true" 
-          [feedback]="false"
-          placeholder="Enter current password"
-          [class.ng-invalid]="passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched"
-          [class.ng-dirty]="passwordForm.get('currentPassword')?.touched">
-        </p-password>
-        
-        @if (passwordForm.get('currentPassword')?.invalid && passwordForm.get('currentPassword')?.touched) {
-          <small class="p-error">Current password is required.</small>
-        }
+  @if (loading) {
+    <div class="skeleton-wrapper">
+      <p-skeleton width="100%" height="150px" borderRadius="12px"></p-skeleton>
+      <div class="flex gap-3 mt-3">
+        <p-skeleton width="100px" height="40px"></p-skeleton>
       </div>
+    </div>
+  }
 
-      <div class="field">
-        <label for="new">New Password</label>
-        <p-password 
-          id="new"
-          formControlName="newPassword" 
-          [toggleMask]="true" 
-          [feedback]="true" 
-          placeholder="Enter new password">
-        </p-password>
-        
-        @if (passwordForm.get('newPassword')?.invalid && passwordForm.get('newPassword')?.touched) {
-          <small class="p-error">Password must be at least 6 characters.</small>
-        }
-      </div>
-
-      <div class="field">
-        <label for="confirm">Confirm New Password</label>
-        <p-password 
-          id="confirm"
-          formControlName="confirmPassword" 
-          [toggleMask]="true" 
-          [feedback]="false"
-          placeholder="Confirm new password"
-          [styleClass]="passwordForm.hasError('mismatch') && passwordForm.get('confirmPassword')?.touched ? 'ng-invalid ng-dirty' : ''">
-        </p-password>
-        
-        @if (passwordForm.get('confirmPassword')?.hasError('mismatch') && passwordForm.get('confirmPassword')?.touched) {
-          <small class="p-error">Passwords do not match.</small>
-        }
-      </div>
-
-      <div class="form-actions">
-          <button pButton type="submit" label="Update Password" class="update-btn" [disabled]="passwordForm.invalid"></button>
-      </div>
-
-    </form>
-  </div>
-
-  <hr class="divider">
-
-  <div class="settings-section">
-    <h3>Login History</h3>
-    <div class="login-list">
-      
-      @for (record of loginHistory; track record.date) {
-        <div class="login-item">
-          <div class="login-info">
-            <span class="device-name">{{ record.device }}</span>
-            <span class="location">{{ record.location }}</span>
-          </div>
-          <div class="login-date">{{ record.date }}</div>
+  @if (!loading && !kycData && isEditMode) {
+    <div class="upload-section">
+      <div class="info-box">
+        <i class="pi pi-id-card"></i>
+        <div>
+          <h3>Upload Identity Proof</h3>
+          <p>Please upload a clear photo of ID, Passport, or License.</p>
         </div>
-      }
-
-    </div>
-  </div>
-
-  <div class="secure-status-card">
-    <div class="card-content">
-      <div class="icon-wrapper">
-        <i class="pi pi-shield"></i>
       </div>
-      <div class="text-content">
-        <h3>Your Account is Secure</h3>
-        <p>Your account is protected with industry-standard security measures including encryption, two-factor authentication, and continuous monitoring.</p>
-        <ul>
-          <li>256-bit SSL encryption for all data transfers</li>
-          <li>Regular security audits and compliance checks</li>
-          <li>24/7 fraud monitoring and detection</li>
-        </ul>
+
+      <p-fileUpload 
+        mode="advanced" 
+        name="kycDocs" 
+        [customUpload]="true"
+        (uploadHandler)="onFileSelect($event)"
+        [auto]="true"
+        chooseLabel="Select Document"
+        accept="image/*,application/pdf" 
+        [maxFileSize]="5000000"
+        styleClass="w-full">
+          <ng-template pTemplate="content">
+             <div class="empty-upload-state">
+               <i class="pi pi-cloud-upload text-4xl text-gray-400 mb-3"></i>
+               <p class="m-0">Drag and drop files here to upload.</p>
+             </div>
+          </ng-template>
+      </p-fileUpload>
+    </div>
+  }
+
+  @if (!loading && !kycData && !isEditMode) {
+    <div class="empty-state-action">
+      <div class="icon-circle">
+        <i class="pi pi-exclamation-triangle"></i>
+      </div>
+      <h3>KYC Pending</h3>
+      <p>This client has not submitted identity verification documents yet.</p>
+      
+      <button 
+        pButton 
+        label="Add Document" 
+        icon="pi pi-plus" 
+        class="p-button-primary mt-3"
+        (click)="onAddDocument()">
+      </button>
+    </div>
+  }
+
+  @if (!loading && (kycData || pendingFile)) {
+    <div class="document-card" [class.pending-border]="pendingFile">
+      <div class="doc-icon">
+        <i class="pi" [ngClass]="(kycData?.fileType?.includes('pdf') || pendingFile?.type?.includes('pdf')) ? 'pi-file-pdf' : 'pi-image'"></i>
+      </div>
+      
+      <div class="doc-details">
+        <div class="doc-name">{{ pendingFile ? pendingFile.name : kycData.fileName }}</div>
+        <div class="doc-meta">
+          <span>{{ pendingFile ? 'Ready to Save' : 'Uploaded: ' + kycData.uploadDate }}</span>
+          <span class="dot">•</span>
+          <span>{{ pendingFile ? pendingFile.type : kycData.fileType }}</span>
+        </div>
+      </div>
+
+      <div class="doc-actions">
+        <button 
+          pButton 
+          icon="pi pi-eye" 
+          class="p-button-text p-button-rounded p-button-secondary" 
+          pTooltip="Preview"
+          tooltipPosition="top"
+          (click)="onViewDocument()">
+        </button>
+        
+        <button *ngIf="pendingFile && isEditMode"
+            pButton
+            icon="pi pi-times"
+            class="p-button-text p-button-rounded p-button-danger"
+            pTooltip="Remove Selection"
+            (click)="onRemovePending()">
+        </button>
       </div>
     </div>
-  </div>
+
+    @if (isEditMode && kycData && !pendingFile) {
+      <div class="action-footer">
+        <div class="verification-note" [ngClass]="kycData.status.toLowerCase()">
+            <i class="pi" [ngClass]="kycData.status === 'VERIFIED' ? 'pi-check-circle' : 'pi-info-circle'"></i>
+            <span>{{ kycData.status === 'VERIFIED' ? 'Completed & Verified' : kycData.status }}</span>
+        </div>
+        <button 
+          pButton 
+          label="Change Document" 
+          icon="pi pi-refresh" 
+          class="p-button-outlined"
+          (click)="onChangeDocument()">
+        </button>
+      </div>
+    }
+  }
 
 </div>
+
+<p-dialog 
+  header="Document Preview" 
+  [(visible)]="displayViewer" 
+  [modal]="true" 
+  [style]="{width: '60vw', height: '80vh'}" 
+  [draggable]="false" 
+  [resizable]="false"
+  [dismissableMask]="true">
+    
+    <div class="preview-content h-full">
+      
+      <div *ngIf="viewerUrl" class="w-full h-full text-center">
+         
+         <ng-container *ngIf="isPdf">
+           <iframe 
+             [src]="viewerUrl" 
+             width="100%" 
+             height="600px" 
+             style="border: none; border-radius: 8px;">
+           </iframe>
+         </ng-container>
+
+         <ng-container *ngIf="!isPdf">
+            <img 
+              [src]="viewerUrl" 
+              alt="Document" 
+              style="max-width: 100%; max-height: 600px; border-radius: 8px; object-fit: contain;">
+         </ng-container>
+
+         <p class="mt-2 text-gray-500 font-semibold">
+           {{ pendingFile ? pendingFile.name : kycData.fileName }}
+         </p>
+      </div>
+
+      <div *ngIf="!viewerUrl" class="mock-viewer h-full flex flex-column justify-content-center">
+         <i class="pi pi-file text-5xl mb-3 text-gray-400"></i>
+         <p>Preview not available for mock data.</p>
+         <small *ngIf="kycData">{{ kycData.fileName }}</small>
+         <small class="block mt-2 text-gray-400">(Upload a real file to see preview)</small>
+      </div>
+
+    </div>
+</p-dialog>

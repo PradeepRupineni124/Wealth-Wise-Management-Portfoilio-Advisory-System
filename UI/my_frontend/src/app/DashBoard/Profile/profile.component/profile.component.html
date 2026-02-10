@@ -3,7 +3,7 @@
   <header class="profile-header">
     <div class="header-text">
       <h1>Client Profile</h1>
-      <p>Manage your personal information and investment preferences</p>
+      <p>Manage your personal information, investment preferences, and documents</p>
     </div>
 
     <div class="header-actions">
@@ -67,8 +67,11 @@
       </app-investement-profile>
     </div>
 
-    <div [style.display]="activeTab() === 'Security & Privacy' ? 'block' : 'none'">
-      <app-security-settings></app-security-settings>
+    <div [style.display]="activeTab() === 'KYC Verification' ? 'block' : 'none'">
+      <app-security-settings
+        [client]="selectedClient()"
+        [isEditMode]="isEditing()">
+      </app-security-settings>
     </div>
 
   </div>

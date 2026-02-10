@@ -32,8 +32,8 @@
   </div>
 
   <div class="button-row" *ngIf="data.status !== 'Accepted'">
-    <button pButton label="Accept Recommendation" icon="pi pi-check" class="p-button-success p-button-sm" (click)="onAccept.emit(data.id)"></button>
-    <button pButton icon="pi pi-times" class="p-button-outlined p-button-secondary p-button-sm" label="Reject" (click)="onReject.emit(data.id)"></button>
+    <button  label="Accept Recommendation" icon="pi pi-check" class="btn-emerald" (click)="onAccept.emit(data.id)">Accept Recommendation</button>
+    <button  icon="pi pi-times" class="btn-outline-sm" label="Reject" (click)="onReject.emit(data.id)">Reject</button>
     <a href="#" class="consultation-link">Schedule Consultation</a>
   </div>
 </div>

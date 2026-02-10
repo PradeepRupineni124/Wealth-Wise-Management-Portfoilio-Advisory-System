@@ -24,7 +24,7 @@ import { NotificationsComponent } from '../../shareable-components/notifications
     NotificationsComponent
   ],
   template: `
-    <div class="fadein animation-duration-500">
+    <div class="">
       
       <div class="mb-4">
          <h1 class="text-900 font-bold m-0 text-2xl">Welcome back, <span class="text-primary">{{ currentClientName }}</span></h1>
