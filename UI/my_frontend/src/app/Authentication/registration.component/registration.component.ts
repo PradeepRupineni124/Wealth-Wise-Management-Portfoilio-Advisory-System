@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component , inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { PasswordModule } from 'primeng/password';
@@ -36,6 +37,8 @@ DividerModule],
 })
 export class Registration {
 
+
+  private router = inject(Router);
 
   registerForm: any;
 
@@ -79,6 +82,9 @@ export class Registration {
         detail: 'User registered successfully'
       });
       this.registerForm.reset();
+      setTimeout(() => {
+             this.router.navigate(['/admin/dashboard']); 
+        }, 500);
     } else {
       this.registerForm.markAllAsTouched();
     }

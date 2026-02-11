@@ -1,0 +1,123 @@
+/* Global Font Setup */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:host {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Modal Styling */
+:host ::ng-deep .wealthwise-modal {
+    width: 600px !important; /* Adjusted to match screenshot width */
+    border-radius: 16px !important;
+    overflow: hidden;
+}
+
+:host ::ng-deep .p-dialog-header {
+    padding: 2rem 2rem 0.5rem 2rem !important;
+    display: block !important; /* Allows vertical stacking of title/subtitle */
+}
+
+/* Header Content */
+.back-link {
+    color: #64748b;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.title {
+    color: #0f172a;
+    font-size: 1.85rem;
+    font-weight: 700;
+    margin: 0;
+    padding: 0;
+}
+
+.subtitle {
+    color: #64748b;
+    font-size: 1rem;
+    margin: 4px 0 1rem 0;
+}
+
+/* Form Container Padding */
+.form-container {
+    padding: 0 2rem 2rem 2rem;
+}
+
+/* Input & Select Styling */
+.field {
+    margin-bottom: 1rem;
+}
+
+.field label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    color: #0f172a;
+}
+
+/* Grey Background Inputs */
+:host ::ng-deep .p-inputtext, 
+:host ::ng-deep .custom-select {
+    background-color: #f1f5f9 !important; /* Soft grey from image */
+    border: 1px solid transparent !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    width: 100%;
+    transition: all 0.2s;
+}
+
+/* Focus State: Matching the teal/green border */
+:host ::ng-deep .p-inputtext:focus,
+:host ::ng-deep .custom-select.p-focus {
+    background-color: #ffffff !important;
+    border-color: #00c288 !important;
+    box-shadow: 0 0 0 1px #00c288 !important;
+}
+
+/* Password Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+/* Submit Button */
+:host ::ng-deep .submit-btn .p-button {
+    background: #00c288 !important;
+    border: none !important;
+    padding: 12px !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+    margin-top: 1.5rem;
+}
+
+/* Footer Text & Links */
+.terms-text {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.footer-login {
+    text-align: left;
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    color: #475569;
+}
+
+.green-link, .login-link {
+    color: #00c288;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.login-link:hover, .green-link:hover {
+    text-decoration: underline;
+}

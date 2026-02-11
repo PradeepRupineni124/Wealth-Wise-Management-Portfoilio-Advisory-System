@@ -1,0 +1,81 @@
+<div class="shell-container">
+  <header class="shell-header">
+    <p-menubar styleClass="dashboard-menubar">
+      <ng-template pTemplate="start">
+        <div class="brand-container">
+          <img src="Wealth.png" alt="WealthWise Logo" class="brand-logo">
+          <span class="brand-text">WealthWise</span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="end">
+        <div class="header-actions">
+          <p-select 
+            [options]="clients" 
+            [(ngModel)]="selectedClient" 
+            optionLabel="name"
+            placeholder="Select a Client" 
+            class="client-selector" 
+            (onChange)="onClientChange($event)">
+          </p-select>
+
+          <div class="v-separator"></div>
+
+          <p-button 
+            label="Add Client" 
+            icon="pi pi-plus" 
+            size="small"
+            styleClass="p-button-outlined p-button-success" 
+            (onClick)="onAddClient()">
+          </p-button>
+
+          <div class="v-separator"></div>
+
+          <div class="profile-section">
+            <div class="profile-details">
+              <span class="profile-name">John Anderson</span>
+              <span class="profile-role">Advisor</span>
+            </div>
+            <p-avatar 
+              image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+              shape="circle" 
+              styleClass="profile-avatar">
+            </p-avatar>
+          </div>
+
+          <p-button 
+            icon="pi pi-sign-out" 
+            [rounded]="true" 
+            [text]="true" 
+            severity="secondary"
+            pTooltip="Logout" 
+            tooltipPosition="bottom" 
+            (onClick)="logout()">
+          </p-button>
+        </div>
+      </ng-template>
+    </p-menubar>
+  </header>
+
+  <div class="shell-body">
+    <aside class="shell-sidebar">
+      <app-sidebar></app-sidebar>
+    </aside>
+
+    <main class="shell-main-content">
+      <!-- <header class="content-context-bar" *ngIf="selectedClient">
+        <span class="context-label">Viewing Data for:</span>
+        <span class="context-value">{{selectedClient.name}}</span>
+      </header> -->
+
+      <section class="router-view">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  </div>
+</div>
+
+<app-client-registration 
+  #registrationModal 
+  (onClientAdded)="handleNewClient($event)">
+</app-client-registration>
