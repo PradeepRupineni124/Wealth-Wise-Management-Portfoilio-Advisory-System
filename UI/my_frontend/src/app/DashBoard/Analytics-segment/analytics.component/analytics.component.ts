@@ -20,7 +20,7 @@ import { RiskAssessmentComponent } from '../risk-analysis/risk-assesment/risk-as
 import { ValueAtRiskComponent } from '../risk-analysis/value-at-risk.component/value-at-risk.component';
 
 // --- Service ---
-import { AllocationService, KeyMetric } from '../../../allocation.service'; 
+import { AllocationService, KeyMetric } from '../../../services/allocation.service'; 
 
 @Component({
   selector: 'app-analytics',

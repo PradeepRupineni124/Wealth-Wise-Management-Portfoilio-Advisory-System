@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AllocationService,RiskAssessment } from '../../../../allocation.service'; 
+import { AllocationService,RiskAssessment } from '../../../../services/allocation.service'; 
 
 @Component({
   selector: 'app-risk-assessment',

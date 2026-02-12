@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 
-import { AllocationService,AssetMetric } from '../../../../allocation.service';
+import { AllocationService,AssetMetric } from '../../../../services/allocation.service';
 
 @Component({
   selector: 'app-graph2',

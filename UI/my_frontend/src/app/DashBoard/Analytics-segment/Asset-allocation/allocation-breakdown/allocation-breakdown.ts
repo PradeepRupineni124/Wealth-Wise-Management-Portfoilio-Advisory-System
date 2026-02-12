@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
-import { AllocationService ,Sector} from '../../../../allocation.service';
+import { AllocationService ,Sector} from '../../../../services/allocation.service';
 
 @Component({
   selector: 'app-allocation-breakdown',

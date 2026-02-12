@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AllocationService,VaRMetric } from '../../../../allocation.service'; 
+import { AllocationService,VaRMetric } from '../../../../services/allocation.service'; 
 @Component({
   selector: 'app-value-at-risk',
   standalone: true,

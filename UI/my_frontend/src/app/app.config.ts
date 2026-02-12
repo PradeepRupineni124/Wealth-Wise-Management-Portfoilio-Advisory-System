@@ -6,6 +6,8 @@ import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { MessageService } from 'primeng/api';
 import { definePreset } from '@primeuix/themes';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './Authentication/auth-interceptor'; // Import your file
 
 
 const WealthWisePreset = definePreset(Aura, {
@@ -142,7 +144,9 @@ export const appConfig: ApplicationConfig = {
 
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes), provideClientHydration(withEventReplay(),),
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([authInterceptor])), 
+    provideClientHydration(withEventReplay(),),
     // provideAnimations(),
     providePrimeNG({
             theme: {

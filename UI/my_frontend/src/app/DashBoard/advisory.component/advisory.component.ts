@@ -4,7 +4,7 @@ import { TabsModule } from 'primeng/tabs';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { ClientState } from '../../client-state';
+import { ClientState } from '../../services/client-state';
 import { RecommendationCardComponent } from './recommendation-card.component/recommendation-card.component';
 
 @Component({

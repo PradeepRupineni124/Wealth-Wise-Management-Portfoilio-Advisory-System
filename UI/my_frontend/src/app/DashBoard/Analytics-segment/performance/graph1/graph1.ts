@@ -4,7 +4,7 @@ import { ChartModule } from 'primeng/chart';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
 
-import { AllocationService,PerformanceData } from '../../../../allocation.service'; // <--- CHECK PATH
+import { AllocationService,PerformanceData } from '../../../../services/allocation.service'; // <--- CHECK PATH
 
 @Component({
   selector: 'app-graph1',

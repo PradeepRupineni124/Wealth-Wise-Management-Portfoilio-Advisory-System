@@ -13,7 +13,7 @@ import { DialogModule } from 'primeng/dialog';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MessageService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
-import { MockDataService } from '../../../mock-data.service';
+import { MockDataService } from '../../../services/mock-data.service';
 
 @Component({
   selector: 'app-security-settings',

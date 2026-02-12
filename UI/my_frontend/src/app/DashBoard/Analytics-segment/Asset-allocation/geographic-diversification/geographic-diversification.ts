@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 
-import { AllocationService,Region } from '../../../../allocation.service';
+import { AllocationService,Region } from '../../../../services/allocation.service';
 
 @Component({
   selector: 'app-geographic-diversification',

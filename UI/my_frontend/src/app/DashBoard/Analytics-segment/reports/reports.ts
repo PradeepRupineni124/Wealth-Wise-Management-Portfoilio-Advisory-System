@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
-import { AllocationService,Report } from '../../../allocation.service';
+import { AllocationService,Report } from '../../../services/allocation.service';
 
 
 @Component({

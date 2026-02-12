@@ -5,7 +5,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
 import { StatCardComponent } from '../stat-card-v/stat-card-v.component';
-import { ClientState } from '../../../client-state';
+import { ClientState } from '../../../services/client-state';
 
 @Component({
   selector: 'app-compilance',

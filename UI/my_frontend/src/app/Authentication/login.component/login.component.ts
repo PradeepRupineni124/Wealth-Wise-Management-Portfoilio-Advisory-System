@@ -49,28 +49,35 @@ export class Login {
   onSubmit() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      
-      const success = this.service.validateData(email, password);
 
-      if (success) {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Login Successful',
-          detail: 'Welcome back! Redirecting...'
-        });
+      // Call the real backend login API
+      this.service.login(email, password).subscribe({
         
-        
-        setTimeout(() => {
+        // --- SUCCESS CASE (Backend returns 200 OK) ---
+        next: (response) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Login Successful',
+            detail: 'Welcome back! Redirecting...'
+          });
+
+          setTimeout(() => {
              this.router.navigate(['/admin/overview']); 
-        }, 500);
+          }, 500);
+        },
 
-      } else {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Login Failed',
-          detail: 'The email or password you entered is incorrect.'
-        });
-      }
+        // --- ERROR CASE (Backend returns 401 or 400) ---
+        error: (err) => {
+          console.error('Login failed', err); // Optional debugging
+          
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Login Failed',
+            detail: 'The email or password you entered is incorrect.'
+          });
+        }
+      });
+
     } else {
       this.loginForm.markAllAsTouched();
     }

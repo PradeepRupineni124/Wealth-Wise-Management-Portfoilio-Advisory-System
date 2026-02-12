@@ -11,9 +11,9 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { SidebarComponent } from '../DashBoard/sidebar.component/sidebar.component';
 import { ClientRegistrationComponent } from '../client-registration.component/client-registration.component';
-import { ClientState } from '../client-state';
+import { ClientState } from '../services/client-state';
 import { ClientDataService } from '../DashBoard/Portfolio/client-data.service';
-import { AllocationService } from '../allocation.service';
+import { AllocationService } from '../services/allocation.service';
 import { OverviewService } from '../services/overview.service';
 
 @Component({

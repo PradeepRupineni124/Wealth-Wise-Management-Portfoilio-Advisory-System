@@ -5,8 +5,8 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
-import { ClientState } from '../../../client-state';       
-import { MockDataService } from '../../../mock-data.service'; 
+import { ClientState } from '../../../services/client-state';       
+import { MockDataService } from '../../../services/mock-data.service'; 
 
 import { TabFilterComponent } from '../../../shareable-components/tab-filter.component/tab-filter.component';
 import { PersonalDetailsComponent } from '../personal-details.component/personal-details.component';

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AllocationService,RiskMetric } from '../../../../allocation.service';
+import { AllocationService,RiskMetric } from '../../../../services/allocation.service';
 
 @Component({
   selector: 'app-risk-adjusted-metrics',
