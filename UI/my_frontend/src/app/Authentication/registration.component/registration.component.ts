@@ -104,11 +104,25 @@ export class Registration {
         // --- ERROR CASE (Backend rejected it) ---
         error: (err) => {
           console.error('Registration failed', err);
+
+          let displayMessage = 'Something went wrong.';
+          try {
+            if (err.error) {
+              const parsedError = JSON.parse(err.error);
+              
+              // Now we can access .message
+              if (parsedError.message) {
+                displayMessage = parsedError.message;
+              }
+            }
+          } catch (e) {
+            displayMessage = err.error || err.statusText;
+          }
           
           this.messageService.add({
             severity: 'error',
             summary: 'Registration Failed',
-            detail: err.error || 'Something went wrong during registration.'
+            detail: displayMessage
           });
         }
       });

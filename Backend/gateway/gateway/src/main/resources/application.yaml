@@ -1,0 +1,31 @@
+#server:
+#  port: 9090
+#
+#spring:
+#  application:
+#    name: gateway
+#
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#    fetch-registry: true
+#    register-with-eureka: true
+
+
+#spring:
+#  cloud:
+#    gateway:
+#      globalcors:
+#        cors-configurations:
+#          '[/**]':
+#            allowedOrigins: "http://localhost:4200" # Your Frontend URL
+#            allowedMethods:
+#              - GET
+#              - POST
+#              - PUT
+#              - DELETE
+#              - OPTIONS
+#            allowedHeaders: "*"
+#            allowCredentials: true
+

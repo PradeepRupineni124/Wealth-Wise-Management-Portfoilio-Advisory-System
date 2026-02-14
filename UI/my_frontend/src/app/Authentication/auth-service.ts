@@ -1,12 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
+import { PayloadService } from '../services/PayLoadService';
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private http = inject(HttpClient);
+  private payloadservice = inject(PayloadService)
   
   // FIX: Matches your AuthController @RequestMapping("/auth")
   private baseUrl = 'http://ltin656932.cts.com:9090/auth'; 
@@ -15,13 +18,17 @@ export class AuthService {
   register(userData: any): Observable<string> {
     // FIX: Your backend returns a String ("User registered successfully"), not JSON.
     // We must use { responseType: 'text' } or Angular will throw a parsing error.
-    return this.http.post(`${this.baseUrl}/register`, userData, { responseType: 'text' });
+    const payload = this.payloadservice.RegisterPayload(userData);
+
+    return this.http.post(`${this.baseUrl}/register`, payload, { responseType: 'text' });
   }
 
   // --- LOGIN ---
   login(email: string, password: string): Observable<any> {
     // FIX: Your LoginRequest.java expects 'email', not 'username'.
-    return this.http.post<any>(`${this.baseUrl}/login`, { email, password })
+    const payload = this.payloadservice.LoginPayload(email, password);
+
+    return this.http.post<any>(`${this.baseUrl}/login`, payload)
       .pipe(
         tap(response => {
           // Logic kept same: Automatically save token on success
