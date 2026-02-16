@@ -15,6 +15,7 @@ import { ClientState } from '../services/client-state';
 import { ClientDataService } from '../DashBoard/Portfolio/client-data.service';
 import { AllocationService } from '../services/allocation.service';
 import { OverviewService } from '../services/overview.service';
+import { AuthService } from '../Authentication/auth-service';// <-- Added Import
 
 @Component({
   selector: 'app-layout',
@@ -32,6 +33,7 @@ export class LayoutComponent implements OnInit {
   @ViewChild(ClientRegistrationComponent) registrationModal!: ClientRegistrationComponent;
 
   private allocationService = inject(AllocationService);
+  private authService = inject(AuthService); // <-- Injected Service
   
   clients: any[] = [
     { name: 'Ganesh', id: 1 },
@@ -42,11 +44,8 @@ export class LayoutComponent implements OnInit {
     { name: 'Venu', id: 6 }
   ];
 
-  // Logic Variable: Object
   selectedClient: any;
-  // Display Variable: Should be Object (since field="name" is used in HTML)
   searchQuery: any; 
-  
   filteredClients: any[] = []; 
   clientName = signal<string>('');
 
@@ -59,28 +58,18 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit() {
     this.filteredClients = [...this.clients];
-    
-    // Initialize first client
     const initialClient = this.clients[0];
     this.selectedClient = initialClient;
-
-    // FIX: Set searchQuery to the full Object. 
-    // The 'field="name"' in HTML will automatically extract the name for display.
     this.searchQuery = initialClient; 
-    
     this.clientName.set(initialClient.name);
-
     this.updateClientServices(initialClient);
   }
 
   filterClients(event: any) {
     let query = event.query;
-
-    // Safety: Handle Object case during selection
     if (typeof query === 'object' && query !== null) {
         query = query.name;
     }
-
     this.filteredClients = this.clients.filter(client => 
       client.name.toLowerCase().includes(query.toLowerCase())
     );
@@ -88,9 +77,7 @@ export class LayoutComponent implements OnInit {
 
   onClientSelect(event: any) {
     const client = event.value;
-    
     this.selectedClient = client;
-
     this.updateClientServices(client);
   }
 
@@ -127,20 +114,18 @@ export class LayoutComponent implements OnInit {
     
     this.clients = [...this.clients, newClient];
     this.selectedClient = newClient;
-    
-    // FIX: Update with the full Object
     this.searchQuery = newClient; 
-    
     this.clientName.set(newClient.name);
-    
     this.filteredClients = [...this.clients];
     this.updateClientServices(newClient);
   }
 
   logout() {
-    localStorage.removeItem('token');
-    sessionStorage.clear();
-    this.router.navigate(['/login']);
+    // Clear everything
+    this.authService.logout();
+    
+    // Hard reload forces memory wipe and cancels network requests
+    window.location.href = '/login'; 
   }
   
   triggerInvestmentPopup() {

@@ -14,25 +14,28 @@ import { EmailVerificationComponent } from './Authentication/forgot-password.com
 import { ResetPasswordComponent } from './Authentication/forgot-password.component/reset-password.component/reset-password.component';
 import { Registration } from './Authentication/registration.component/registration.component';
 import { OverviewComponent } from './DashBoard/overview.component/overview.component';
+import { authGuard } from './auth-guard'; // Ensure the path matches where you saved the guard
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: "login", component: Login },
-    {path:"register",component:Registration},
+    { path: "register", component: Registration },
     { path: "forgot-password", component: ForgotPasswordComponent },
     { path: "email-verification", component: EmailVerificationComponent },
     { path: "reset-password", component: ResetPasswordComponent },
     {
-        path: "admin", component: LayoutComponent,
-        children:
-            [{path:"overview",component:OverviewComponent},
+        path: "admin", 
+        component: LayoutComponent,
+        canActivate: [authGuard], // <-- The guard is applied here
+        children: [
+            { path: "overview", component: OverviewComponent },
             { path: "profile", component: ProfileComponent },
             { path: "portfolio", component: PortfolioComponent },
             { path: "sideBar", component: SidebarComponent },
             { path: 'analytics', component: AnalyticsComponent },
             { path: 'advisory', component: AdvisoryComponent },
             { path: 'compliance', component: ComplianceComponent }
-            ]
+        ]
     },
     { path: '**', redirectTo: '/login' }
 ];

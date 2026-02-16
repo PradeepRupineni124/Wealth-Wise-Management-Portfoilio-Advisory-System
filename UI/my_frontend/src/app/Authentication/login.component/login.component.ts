@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule, Router } from '@angular/router'; 
+import { RouterModule, Router } from '@angular/router';
 import { ReactiveFormsModule, Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { AuthService } from '../auth-service'; 
+import { AuthService } from '../auth-service';
 import { MessageService } from 'primeng/api';
 //Prime ng themes
 import { InputTextModule } from 'primeng/inputtext';
@@ -11,7 +11,8 @@ import { PasswordModule } from 'primeng/password';
 import { MessageModule } from 'primeng/message';
 import { ToastModule } from 'primeng/toast';
 import { CheckboxModule } from 'primeng/checkbox';
-import { CardModule } from 'primeng/card'; 
+import { CardModule } from 'primeng/card';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -32,9 +33,9 @@ import { CardModule } from 'primeng/card';
 })
 export class Login {
   private fb = inject(FormBuilder);
-  private service = inject(AuthService); 
+  private service = inject(AuthService);
   private messageService = inject(MessageService);
-  private router = inject(Router); 
+  private router = inject(Router);
 
   loginForm: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
@@ -52,24 +53,23 @@ export class Login {
 
       // Call the real backend login API
       this.service.login(email, password).subscribe({
-        
+
         // --- SUCCESS CASE (Backend returns 200 OK) ---
         next: (response) => {
           this.messageService.add({
             severity: 'success',
             summary: 'Login Successful',
-            detail: 'Welcome back! Redirecting...'
+            detail: 'Welcome back!' 
           });
 
-          setTimeout(() => {
-             this.router.navigate(['/admin/overview']); 
-          }, 500);
+          // Navigate immediately
+          this.router.navigate(['/admin/overview']);
         },
 
         // --- ERROR CASE (Backend returns 401 or 400) ---
         error: (err) => {
           console.error('Login failed', err); // Optional debugging
-          
+
           this.messageService.add({
             severity: 'error',
             summary: 'Login Failed',
@@ -81,5 +81,10 @@ export class Login {
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  handleBack() {
+    this.service.logout(); // Triggers the data removal
+    this.router.navigate(['/']); // Then moves the user
   }
 }
