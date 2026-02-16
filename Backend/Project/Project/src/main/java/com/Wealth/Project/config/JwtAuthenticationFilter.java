@@ -1,18 +1,16 @@
 package com.Wealth.Project.config;
 
 import com.Wealth.Project.service.JwtService;
-import com.Wealth.Project.repository.AdvisoryRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j; // Import
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -21,11 +19,12 @@ import java.util.ArrayList;
 
 @Configuration
 @RequiredArgsConstructor
-@Slf4j // Enables 'log'
+@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
-    private final AdvisoryRepository advisoryRepository;
+
+    // Notice: We removed the AdvisoryRepository entirely!
 
     @Override
     protected void doFilterInternal(
@@ -39,7 +38,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String userEmail;
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            // log.debug("No Bearer token found in request: {}", request.getRequestURI());
             filterChain.doFilter(request, response);
             return;
         }
@@ -50,16 +48,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                var advisor = advisoryRepository.findByEmail(userEmail)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                if (jwtService.isTokenValid(jwt, userEmail)) {
 
-                UserDetails userDetails = new org.springframework.security.core.userdetails.User(
-                        advisor.getEmail(),
-                        advisor.getPassword(),
-                        new ArrayList<>()
-                );
+                    // FIX: Create UserDetails directly from the token!
+                    // No database query needed, making your API lighting fast.
+                    UserDetails userDetails = new org.springframework.security.core.userdetails.User(
+                            userEmail,
+                            "", // Password isn't needed for JWT context
+                            new ArrayList<>()
+                    );
 
-                if (jwtService.isTokenValid(jwt, userDetails.getUsername())) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -67,7 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     );
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
-                    log.debug("User authenticated via JWT: {}", userEmail);
+                    log.debug("User authenticated via JWT without DB hit: {}", userEmail);
                 } else {
                     log.warn("Invalid JWT token for user: {}", userEmail);
                 }

@@ -132,6 +132,15 @@ public class AuthService {
             throw new BadRequestException("You must verify the OTP first before resetting password.");
         }
 
+        // FIX: The missing expiration check!
+        if (advisor.getResetOtpExpiry() != null && advisor.getResetOtpExpiry().isBefore(LocalDateTime.now())) {
+            log.warn("Password reset blocked. OTP window expired for: {}", request.getEmail());
+            // Reset the verification flag so they have to start over
+            advisor.setOtpVerified(false);
+            repository.save(advisor);
+            throw new BadRequestException("Your password reset window has expired. Please request a new OTP.");
+        }
+
         advisor.setPassword(passwordEncoder.encode(request.getNewPassword()));
         advisor.setResetOtp(null);
         advisor.setResetOtpExpiry(null);

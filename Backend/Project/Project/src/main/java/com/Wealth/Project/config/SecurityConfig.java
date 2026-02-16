@@ -11,28 +11,30 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@RequiredArgsConstructor // Added this to inject the filter
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthFilter; // Inject the filter
+    private final JwtAuthenticationFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        // FIX: Explicitly allow ONLY the public endpoints
+                        .requestMatchers("/auth/register", "/auth/login", "/auth/forgot-password", "/auth/verify-otp", "/auth/reset-password").permitAll()
+                        // FIX: Explicitly protect the /me endpoint
+                        .requestMatchers("/auth/me").authenticated()
                         .anyRequest().authenticated()
                 )
-                // NEW: Set session management to stateless (Important for JWT)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // NEW: Add the JWT filter before the standard login filter
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+        // Change to 'new BCryptPasswordEncoder(4)' temporarily for local testing speed if desired!
         return new BCryptPasswordEncoder();
     }
 }
