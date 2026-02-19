@@ -58,7 +58,14 @@ public class AuthService {
             throw new BadCredentialsException("Invalid Email or Password");
         }
 
-        String token = jwtService.generateToken(advisor.getEmail());
+        // --- THE FIX: Add the Advisor ID to the token claims ---
+        java.util.Map<String, Object> extraClaims = new java.util.HashMap<>();
+        extraClaims.put("advisorId", advisor.getAdvisorId());
+
+        // Generate the token using the method that accepts the extraClaims map
+        String token = jwtService.generateToken(extraClaims, advisor.getEmail());
+        // -------------------------------------------------------
+
         log.info("Login successful for: {}", request.getEmail());
 
         return new AuthResponse("Login Successful", token);

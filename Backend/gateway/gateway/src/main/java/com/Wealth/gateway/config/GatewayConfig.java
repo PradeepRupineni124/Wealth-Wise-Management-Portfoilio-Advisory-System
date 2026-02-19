@@ -12,15 +12,13 @@ import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import reactor.core.publisher.Mono;
 
-import java.util.Arrays;
-import java.util.Collections;
-
 @Configuration
-@Slf4j // 1. Enables 'log' variable
+@Slf4j // Enables 'log' variable
 public class GatewayConfig {
 
     private final JwtAuthenticationFilter authFilter;
 
+    // Inject your custom JWT filter
     public GatewayConfig(JwtAuthenticationFilter authFilter) {
         this.authFilter = authFilter;
     }
@@ -28,16 +26,28 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+                // 1. AUTH SERVICE ROUTE (No token required to log in or register)
                 .route("auth_route", r -> r.path("/auth/**")
                         .filters(f -> f
-                                // Log specifically for this route (Optional, but helpful)
                                 .filter((exchange, chain) -> {
                                     log.info("Routing request to Auth Service: {}", exchange.getRequest().getURI());
                                     return chain.filter(exchange);
                                 })
-//                                .rewritePath("/auth/(?<segment>.*)", "/${segment}")
                         )
-                        .uri("lb://wealth-auth-service")) // Note: Use "lb://AUTH-SERVICE" if using Eureka
+                        .uri("lb://wealth-auth-service"))
+
+                // 2. CLIENT SERVICE ROUTE (Token REQUIRED)
+                .route("client_service_route", r -> r.path("/api/clients/**")
+                        .filters(f -> f
+                                // Apply your JWT filter to ensure the Bearer token is present
+                                .filter(authFilter.apply(new JwtAuthenticationFilter.Config()))
+                                .filter((exchange, chain) -> {
+                                    log.info("Routing request to Client Service: {}", exchange.getRequest().getURI());
+                                    return chain.filter(exchange);
+                                })
+                        )
+                        // Make sure "client-service" matches the spring.application.name in your Client Service properties
+                        .uri("lb://client-service"))
                 .build();
     }
 
@@ -60,6 +70,7 @@ public class GatewayConfig {
         };
     }
 
+    // 3. CORS CONFIGURATION
     @Bean
     public CorsWebFilter corsWebFilter() {
         log.info("Initializing CORS Configuration...");
