@@ -33,32 +33,32 @@ export class InvestementProfileComponent {
     liquidity:   ['']
   });
 
-  // --- UPDATED DROPDOWN OPTIONS ---
+  // --- UPDATED DROPDOWN OPTIONS (Values match Spring Boot Enums) ---
 
   riskOptions = [
-    { label: 'Conservative - Preserve Capital', value: 'Conservative - Preserve Capital' },
-    { label: 'Moderate - Balanced Growth', value: 'Moderate - Balanced Growth' },
-    { label: 'Aggressive - Maximum Growth', value: 'Aggressive - Maximum Growth' }
+    { label: 'Conservative - Preserve Capital', value: 'CONSERVATIVE' },
+    { label: 'Moderate - Balanced Growth', value: 'MODERATE' },
+    { label: 'Aggressive - Maximum Growth', value: 'AGGRESSIVE' }
   ];
 
   goalOptions = [
-    { label: 'Retirement Planning', value: 'Retirement Planning' },
-    { label: 'Wealth Accumulation', value: 'Wealth Accumulation' },
-    { label: 'Income Generation', value: 'Income Generation' },
-    { label: 'Capital Preservation', value: 'Capital Preservation' }
+    { label: 'Retirement Planning', value: 'RETIREMENT_PLANNING' },
+    { label: 'Wealth Accumulation', value: 'WEALTH_ACCUMULATION' },
+    { label: 'Income Generation', value: 'INCOME_GENERATION' },
+    { label: 'Capital Preservation', value: 'CAPITAL_PRESERVATION' }
   ];
 
   horizonOptions = [
-    { label: 'Short-term (0-3 years)', value: 'Short-term (0-3 years)' },
-    { label: 'Medium-term (3-7 years)', value: 'Medium-term (3-7 years)' },
-    { label: 'Long-term (7-10 years)', value: 'Long-term (7-10 years)' },
-    { label: 'Very Long-term (10-15 years)', value: 'Very Long-term (10-15 years)' }
+    { label: 'Short-term (0-3 years)', value: 'SHORT_TERM' },
+    { label: 'Medium-term (3-7 years)', value: 'MEDIUM_TERM' },
+    { label: 'Long-term (7-10 years)', value: 'LONG_TERM' },
+    { label: 'Very Long-term (10-15 years)', value: 'VERY_LONG_TERM' }
   ];
 
   liquidityOptions = [
-    { label: 'Low - Rarely need access', value: 'Low - Rarely need access' },
-    { label: 'Medium - Occasional access', value: 'Medium - Occasional access' },
-    { label: 'High - Frequent access needed', value: 'High - Frequent access needed' }
+    { label: 'Low - Rarely need access', value: 'LOW' },
+    { label: 'Medium - Occasional access', value: 'MEDIUM' },
+    { label: 'High - Frequent access needed', value: 'HIGH' }
   ];
 
   // --------------------------------
@@ -78,6 +78,7 @@ export class InvestementProfileComponent {
       const data = this.profileData();
       
       if (data) {
+        // Now the backend Enums will successfully match the dropdown values!
         this.investForm.patchValue(data);
       }
     });

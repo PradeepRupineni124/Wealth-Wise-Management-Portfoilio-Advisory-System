@@ -69,8 +69,7 @@
 
     <div [style.display]="activeTab() === 'KYC Verification' ? 'block' : 'none'">
       <app-security-settings
-        [client]="selectedClient()"
-        [isEditMode]="isEditing()">
+        [client]="selectedClient()">
       </app-security-settings>
     </div>
 

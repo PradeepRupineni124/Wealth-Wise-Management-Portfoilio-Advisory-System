@@ -1,21 +1,187 @@
-2026-02-19T08:59:32.725+05:30  WARN 31264 --- [client-service] [HikariPool-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14h42m39s147ms376µs100ns).
-2026-02-19T09:02:22.969+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:07:22.977+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:12:22.998+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:17:23.005+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:22:23.012+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:27:23.021+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:32:23.051+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:37:23.062+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:42:23.064+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:47:23.070+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:52:24.604+05:30  INFO 31264 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:53:14.892+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application CLIENT-SERVICE with eureka with status DOWN
-2026-02-19T09:53:14.893+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771474994893, current=DOWN, previous=UP]
-2026-02-19T09:53:14.894+05:30  INFO 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
-2026-02-19T09:53:14.965+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
-2026-02-19T09:53:15.000+05:30  INFO 31264 --- [client-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
-2026-02-19T09:53:15.022+05:30  INFO 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://localhost:8761/eureka/} exception=I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
+2026-02-23T10:29:41.995+05:30  INFO 29360 --- [client-service] [main] c.w.client.ClientServiceApplication      : Starting ClientServiceApplication using Java 25 with PID 29360 (C:\Users\2463681\Downloads\client-service\client-service\target\classes started by 2463681 in C:\Users\2463681\Downloads\client-service\client-service)
+2026-02-23T10:29:42.010+05:30  INFO 29360 --- [client-service] [main] c.w.client.ClientServiceApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-02-23T10:29:43.178+05:30  INFO 29360 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-23T10:29:43.358+05:30  INFO 29360 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 167 ms. Found 1 JPA repository interface.
+2026-02-23T10:29:43.566+05:30  INFO 29360 --- [client-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ec5c0d43-0339-3e3a-a9ea-0dfc89d70fb0
+2026-02-23T10:29:44.059+05:30  INFO 29360 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-02-23T10:29:44.075+05:30  INFO 29360 --- [client-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-23T10:29:44.076+05:30  INFO 29360 --- [client-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-02-23T10:29:44.178+05:30  INFO 29360 --- [client-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2104 ms
+2026-02-23T10:29:44.388+05:30  INFO 29360 --- [client-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-02-23T10:29:44.454+05:30  INFO 29360 --- [client-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.1.Final
+2026-02-23T10:29:45.042+05:30  INFO 29360 --- [client-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-23T10:29:45.074+05:30  INFO 29360 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-23T10:29:45.361+05:30  INFO 29360 --- [client-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4c1b4e07
+2026-02-23T10:29:45.364+05:30  INFO 29360 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-23T10:29:45.452+05:30  INFO 29360 --- [client-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/finance_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: finance_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-23T10:29:46.336+05:30  INFO 29360 --- [client-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-23T10:29:46.405+05:30  INFO 29360 --- [client-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T10:29:46.505+05:30  INFO 29360 --- [client-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-23T10:29:46.759+05:30  WARN 29360 --- [client-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-23T10:29:47.339+05:30  INFO 29360 --- [client-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-02-23T10:29:47.389+05:30  WARN 29360 --- [client-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-02-23T10:29:47.415+05:30  INFO 29360 --- [client-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-02-23T10:29:47.441+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-02-23T10:29:47.444+05:30  INFO 29360 --- [client-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T10:29:47.451+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-02-23T10:29:47.451+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-02-23T10:29:47.452+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-02-23T10:29:47.452+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-02-23T10:29:47.452+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-02-23T10:29:47.452+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-02-23T10:29:47.452+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-02-23T10:29:47.782+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-02-23T10:29:47.783+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-02-23T10:29:47.785+05:30  INFO 29360 --- [client-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-02-23T10:29:47.788+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1771822787786 with initial instances count: 0
+2026-02-23T10:29:47.792+05:30  INFO 29360 --- [client-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CLIENT-SERVICE with eureka with status UP
+2026-02-23T10:29:47.793+05:30  INFO 29360 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771822787793, current=UP, previous=STARTING]
+2026-02-23T10:29:47.795+05:30  INFO 29360 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
+2026-02-23T10:29:47.817+05:30  INFO 29360 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-02-23T10:29:47.818+05:30  INFO 29360 --- [client-service] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8081
+2026-02-23T10:29:47.832+05:30  INFO 29360 --- [client-service] [main] c.w.client.ClientServiceApplication      : Started ClientServiceApplication in 6.642 seconds (process running for 7.802)
+2026-02-23T10:29:47.848+05:30  INFO 29360 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration status: 204
+2026-02-23T10:30:17.785+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-02-23T10:30:17.786+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-02-23T10:30:17.786+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-02-23T10:30:17.786+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-02-23T10:30:17.786+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-02-23T10:30:17.786+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Application version is -1: false
+2026-02-23T10:30:17.786+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-02-23T10:30:17.809+05:30  INFO 29360 --- [client-service] [DiscoveryClient-CacheRefreshExecutor-%d] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-02-23T10:33:54.481+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-23T10:33:54.482+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-23T10:33:54.484+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-02-23T10:33:54.664+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-1] c.w.client.controller.ClientController   : API Request: GET /api/clients from Advisor ID: 1
+2026-02-23T10:33:55.254+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-1] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.advisor_id=?
+2026-02-23T10:34:47.455+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T10:34:54.788+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-2] c.w.client.controller.ClientController   : API Request: PUT /api/clients/5/kyc-status
+2026-02-23T10:34:54.789+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-2] c.wealth.client.service.ClientService    : Updating KYC status for Client ID: 5 to VERIFIED
+2026-02-23T10:34:54.813+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-2] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.client_id=? and c1_0.advisor_id=?
+2026-02-23T10:34:54.897+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-2] org.hibernate.SQL                        : update client set address=?,advisor_id=?,date_of_birth=?,email_address=?,employer=?,full_name=?,investment_amount=?,investment_goal=?,investment_horizon=?,kyc_document_ref=?,kyc_status=?,liquidity_needs=?,occupation=?,phone_number=?,risk_profile=? where client_id=?
+2026-02-23T10:36:24.436+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-4] c.w.client.controller.ClientController   : API Request: GET /api/clients from Advisor ID: 1
+2026-02-23T10:36:24.440+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-4] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.advisor_id=?
+2026-02-23T10:37:46.190+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-6] c.w.client.controller.ClientController   : API Request: GET /api/clients from Advisor ID: 1
+2026-02-23T10:37:46.192+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-6] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.advisor_id=?
+2026-02-23T10:38:35.556+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-7] c.w.client.controller.ClientController   : API Request: GET /api/clients/1/kyc-document from Advisor ID: 1
+2026-02-23T10:38:35.560+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-7] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.client_id=? and c1_0.advisor_id=?
+2026-02-23T10:38:43.232+05:30  INFO 29360 --- [client-service] [http-nio-8081-exec-9] c.w.client.controller.ClientController   : API Request: GET /api/clients/1/kyc-document from Advisor ID: 1
+2026-02-23T10:38:43.232+05:30 DEBUG 29360 --- [client-service] [http-nio-8081-exec-9] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.client_id=? and c1_0.advisor_id=?
+2026-02-23T10:39:47.459+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T10:44:47.469+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T10:49:47.482+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T10:54:47.484+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T10:59:47.497+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:04:47.513+05:30  INFO 29360 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:06:29.858+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application CLIENT-SERVICE with eureka with status DOWN
+2026-02-23T11:06:29.863+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771824989863, current=DOWN, previous=UP]
+2026-02-23T11:06:29.866+05:30  INFO 29360 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
+2026-02-23T11:06:29.961+05:30  INFO 29360 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration status: 204
+2026-02-23T11:06:30.050+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-23T11:06:30.090+05:30  INFO 29360 --- [client-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-02-23T11:06:30.120+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T11:06:30.157+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-23T11:06:30.174+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-23T11:06:30.178+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2026-02-23T11:06:33.181+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2026-02-23T11:06:33.196+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - deregister  status: 200
+2026-02-23T11:06:33.197+05:30  INFO 29360 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2026-02-23T11:06:36.949+05:30  INFO 25192 --- [client-service] [main] c.w.client.ClientServiceApplication      : Starting ClientServiceApplication using Java 25 with PID 25192 (C:\Users\2463681\Downloads\client-service\client-service\target\classes started by 2463681 in C:\Users\2463681\Downloads\client-service\client-service)
+2026-02-23T11:06:36.953+05:30  INFO 25192 --- [client-service] [main] c.w.client.ClientServiceApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-02-23T11:06:38.129+05:30  INFO 25192 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-23T11:06:38.313+05:30  INFO 25192 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 169 ms. Found 1 JPA repository interface.
+2026-02-23T11:06:38.581+05:30  INFO 25192 --- [client-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ec5c0d43-0339-3e3a-a9ea-0dfc89d70fb0
+2026-02-23T11:06:39.264+05:30  INFO 25192 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-02-23T11:06:39.279+05:30  INFO 25192 --- [client-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-23T11:06:39.279+05:30  INFO 25192 --- [client-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-02-23T11:06:39.377+05:30  INFO 25192 --- [client-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2361 ms
+2026-02-23T11:06:39.647+05:30  INFO 25192 --- [client-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-02-23T11:06:39.738+05:30  INFO 25192 --- [client-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.1.Final
+2026-02-23T11:06:40.463+05:30  INFO 25192 --- [client-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-23T11:06:40.505+05:30  INFO 25192 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-23T11:06:40.941+05:30  INFO 25192 --- [client-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@74d53d63
+2026-02-23T11:06:40.943+05:30  INFO 25192 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-23T11:06:41.076+05:30  INFO 25192 --- [client-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/finance_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: finance_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-02-23T11:06:42.191+05:30  INFO 25192 --- [client-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-23T11:06:42.290+05:30  INFO 25192 --- [client-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T11:06:42.390+05:30  INFO 25192 --- [client-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-23T11:06:42.657+05:30  WARN 25192 --- [client-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-23T11:06:43.353+05:30  INFO 25192 --- [client-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-02-23T11:06:43.408+05:30  WARN 25192 --- [client-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-02-23T11:06:43.436+05:30  INFO 25192 --- [client-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-02-23T11:06:43.469+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-02-23T11:06:43.473+05:30  INFO 25192 --- [client-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:06:43.482+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-02-23T11:06:43.483+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-02-23T11:06:43.483+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-02-23T11:06:43.483+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-02-23T11:06:43.483+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-02-23T11:06:43.483+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-02-23T11:06:43.483+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-02-23T11:06:43.852+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-02-23T11:06:43.856+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-02-23T11:06:43.858+05:30  INFO 25192 --- [client-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-02-23T11:06:43.861+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1771825003859 with initial instances count: 3
+2026-02-23T11:06:43.865+05:30  INFO 25192 --- [client-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CLIENT-SERVICE with eureka with status UP
+2026-02-23T11:06:43.865+05:30  INFO 25192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771825003865, current=UP, previous=STARTING]
+2026-02-23T11:06:43.867+05:30  INFO 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
+2026-02-23T11:06:43.892+05:30  INFO 25192 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-02-23T11:06:43.893+05:30  INFO 25192 --- [client-service] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8081
+2026-02-23T11:06:43.907+05:30  INFO 25192 --- [client-service] [main] c.w.client.ClientServiceApplication      : Started ClientServiceApplication in 7.67 seconds (process running for 8.847)
+2026-02-23T11:06:43.919+05:30  INFO 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration status: 204
+2026-02-23T11:08:26.530+05:30  INFO 25192 --- [client-service] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-23T11:08:26.531+05:30  INFO 25192 --- [client-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-23T11:08:26.533+05:30  INFO 25192 --- [client-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-02-23T11:08:26.694+05:30  INFO 25192 --- [client-service] [http-nio-8081-exec-1] c.w.client.controller.ClientController   : API Request: GET /api/clients from Advisor ID: 1
+2026-02-23T11:08:27.453+05:30 DEBUG 25192 --- [client-service] [http-nio-8081-exec-1] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.advisor_id=?
+2026-02-23T11:11:43.499+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:16:43.508+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:21:43.511+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:26:43.527+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:31:43.529+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:36:43.540+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:41:43.550+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:46:43.560+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:51:43.572+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T11:56:43.581+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:01:43.585+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:06:43.590+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:11:43.594+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:16:43.605+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:21:43.620+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:26:43.628+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:31:43.640+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:36:43.648+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:41:43.657+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:46:43.666+05:30  INFO 25192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:49:41.314+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] o.s.c.n.e.s.EurekaServiceRegistry        : Unregistering application CLIENT-SERVICE with eureka with status DOWN
+2026-02-23T12:49:41.316+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771831181316, current=DOWN, previous=UP]
+2026-02-23T12:49:41.317+05:30  INFO 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
+2026-02-23T12:49:41.373+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-02-23T12:49:41.392+05:30  INFO 25192 --- [client-service] [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-02-23T12:49:41.398+05:30  INFO 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://localhost:8761/eureka/} exception=I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.createResourceAccessException(DefaultRestClient.java:763)
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchangeInternal(DefaultRestClient.java:615)
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchange(DefaultRestClient.java:567)
@@ -79,9 +245,8 @@ Caused by: org.apache.hc.client5.http.HttpHostConnectException: Connect to http:
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchangeInternal(DefaultRestClient.java:609)
 	... 23 more
 
-2026-02-19T09:53:15.024+05:30  WARN 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
-2026-02-19T09:53:15.039+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2026-02-19T09:53:15.052+05:30  INFO 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://localhost:8761/eureka/}, exception=I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
+2026-02-23T12:49:41.398+05:30  WARN 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
+2026-02-23T12:49:41.408+05:30  INFO 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://localhost:8761/eureka/}, exception=I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.createResourceAccessException(DefaultRestClient.java:763)
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchangeInternal(DefaultRestClient.java:615)
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchange(DefaultRestClient.java:567)
@@ -146,8 +311,9 @@ Caused by: org.apache.hc.client5.http.HttpHostConnectException: Connect to http:
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchangeInternal(DefaultRestClient.java:609)
 	... 24 more
 
-2026-02-19T09:53:15.077+05:30  WARN 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
-2026-02-19T09:53:15.079+05:30  WARN 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration failed Cannot execute request on any known server
+2026-02-23T12:49:41.409+05:30  WARN 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on POST request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE": Connect to http://localhost:8761 failed: Connection refused: getsockopt
+2026-02-23T12:49:41.411+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T12:49:41.410+05:30  WARN 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration failed Cannot execute request on any known server
 
 com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
 	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-2.0.5.jar:2.0.5]
@@ -165,7 +331,7 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
 
-2026-02-19T09:53:15.084+05:30  WARN 31264 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.discovery.InstanceInfoReplicator     : There was a problem with the instance info replicator
+2026-02-23T12:49:41.425+05:30  WARN 25192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] c.n.discovery.InstanceInfoReplicator     : There was a problem with the instance info replicator
 
 com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
 	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-2.0.5.jar:2.0.5]
@@ -183,11 +349,11 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614) ~[na:na]
 	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
 
-2026-02-19T09:53:15.103+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
-2026-02-19T09:53:15.114+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
-2026-02-19T09:53:15.116+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
-2026-02-19T09:53:18.118+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
-2026-02-19T09:53:18.148+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://localhost:8761/eureka/}, exception=I/O error on DELETE request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081": Connect to http://localhost:8761 failed: Connection refused: getsockopt stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on DELETE request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081": Connect to http://localhost:8761 failed: Connection refused: getsockopt
+2026-02-23T12:49:41.427+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-23T12:49:41.434+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-02-23T12:49:41.435+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Shutting down DiscoveryClient ...
+2026-02-23T12:49:44.438+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Unregistering ...
+2026-02-23T12:49:44.458+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] c.n.d.s.t.d.RedirectingEurekaHttpClient  : Request execution error. endpoint=DefaultEndpoint{ serviceUrl='http://localhost:8761/eureka/}, exception=I/O error on DELETE request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081": Connect to http://localhost:8761 failed: Connection refused: getsockopt stacktrace=org.springframework.web.client.ResourceAccessException: I/O error on DELETE request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081": Connect to http://localhost:8761 failed: Connection refused: getsockopt
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.createResourceAccessException(DefaultRestClient.java:763)
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchangeInternal(DefaultRestClient.java:615)
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchange(DefaultRestClient.java:567)
@@ -268,8 +434,8 @@ Caused by: org.apache.hc.client5.http.HttpHostConnectException: Connect to http:
 	at org.springframework.web.client.DefaultRestClient$DefaultRequestBodyUriSpec.exchangeInternal(DefaultRestClient.java:609)
 	... 40 more
 
-2026-02-19T09:53:18.149+05:30  WARN 31264 --- [client-service] [SpringApplicationShutdownHook] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on DELETE request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081": Connect to http://localhost:8761 failed: Connection refused: getsockopt
-2026-02-19T09:53:18.149+05:30 ERROR 31264 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - de-registration failedCannot execute request on any known server
+2026-02-23T12:49:44.459+05:30  WARN 25192 --- [client-service] [SpringApplicationShutdownHook] c.n.d.s.t.d.RetryableEurekaHttpClient    : Request execution failed with message: I/O error on DELETE request for "http://localhost:8761/eureka/apps/CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081": Connect to http://localhost:8761 failed: Connection refused: getsockopt
+2026-02-23T12:49:44.459+05:30 ERROR 25192 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - de-registration failedCannot execute request on any known server
 
 com.netflix.discovery.shared.transport.TransportException: Cannot execute request on any known server
 	at com.netflix.discovery.shared.transport.decorator.RetryableEurekaHttpClient.execute(RetryableEurekaHttpClient.java:112) ~[eureka-client-2.0.5.jar:2.0.5]
@@ -303,23 +469,23 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:116) ~[spring-boot-4.0.2.jar:4.0.2]
 	at java.base/java.lang.Thread.run(Thread.java:1474) ~[na:na]
 
-2026-02-19T09:53:18.152+05:30  INFO 31264 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
-2026-02-19T09:55:42.002+05:30  INFO 28312 --- [client-service] [main] c.w.client.ClientServiceApplication      : Starting ClientServiceApplication using Java 25 with PID 28312 (C:\Users\2463681\Downloads\client-service\client-service\target\classes started by 2463681 in C:\Users\2463681\Downloads\client-service\client-service)
-2026-02-19T09:55:42.007+05:30  INFO 28312 --- [client-service] [main] c.w.client.ClientServiceApplication      : No active profile set, falling back to 1 default profile: "default"
-2026-02-19T09:55:43.006+05:30  INFO 28312 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2026-02-19T09:55:43.191+05:30  INFO 28312 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 173 ms. Found 1 JPA repository interface.
-2026-02-19T09:55:43.456+05:30  INFO 28312 --- [client-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ec5c0d43-0339-3e3a-a9ea-0dfc89d70fb0
-2026-02-19T09:55:43.916+05:30  INFO 28312 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
-2026-02-19T09:55:43.931+05:30  INFO 28312 --- [client-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2026-02-19T09:55:43.931+05:30  INFO 28312 --- [client-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
-2026-02-19T09:55:44.039+05:30  INFO 28312 --- [client-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1963 ms
-2026-02-19T09:55:44.258+05:30  INFO 28312 --- [client-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
-2026-02-19T09:55:44.318+05:30  INFO 28312 --- [client-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.1.Final
-2026-02-19T09:55:44.885+05:30  INFO 28312 --- [client-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
-2026-02-19T09:55:44.917+05:30  INFO 28312 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2026-02-19T09:55:45.248+05:30  INFO 28312 --- [client-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1983a4e4
-2026-02-19T09:55:45.250+05:30  INFO 28312 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
-2026-02-19T09:55:45.340+05:30  INFO 28312 --- [client-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+2026-02-23T12:49:44.463+05:30  INFO 25192 --- [client-service] [SpringApplicationShutdownHook] com.netflix.discovery.DiscoveryClient    : Completed shut down of DiscoveryClient
+2026-02-23T12:53:56.990+05:30  INFO 29192 --- [client-service] [main] c.w.client.ClientServiceApplication      : Starting ClientServiceApplication using Java 25 with PID 29192 (C:\Users\2463681\Downloads\client-service\client-service\target\classes started by 2463681 in C:\Users\2463681\Downloads\client-service\client-service)
+2026-02-23T12:53:56.993+05:30  INFO 29192 --- [client-service] [main] c.w.client.ClientServiceApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-02-23T12:53:57.918+05:30  INFO 29192 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-23T12:53:58.073+05:30  INFO 29192 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 143 ms. Found 1 JPA repository interface.
+2026-02-23T12:53:58.288+05:30  INFO 29192 --- [client-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ec5c0d43-0339-3e3a-a9ea-0dfc89d70fb0
+2026-02-23T12:53:58.705+05:30  INFO 29192 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-02-23T12:53:58.721+05:30  INFO 29192 --- [client-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-23T12:53:58.721+05:30  INFO 29192 --- [client-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-02-23T12:53:58.817+05:30  INFO 29192 --- [client-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1782 ms
+2026-02-23T12:53:59.026+05:30  INFO 29192 --- [client-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-02-23T12:53:59.083+05:30  INFO 29192 --- [client-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.1.Final
+2026-02-23T12:53:59.602+05:30  INFO 29192 --- [client-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-23T12:53:59.630+05:30  INFO 29192 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-23T12:53:59.902+05:30  INFO 29192 --- [client-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@74d53d63
+2026-02-23T12:53:59.904+05:30  INFO 29192 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-23T12:53:59.989+05:30  INFO 29192 --- [client-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
 	Database JDBC URL [jdbc:mysql://localhost:3306/finance_db]
 	Database driver: MySQL Connector/J
 	Database dialect: MySQLDialect
@@ -331,62 +497,37 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	Pool: DataSourceConnectionProvider
 	Minimum pool size: undefined/unknown
 	Maximum pool size: undefined/unknown
-2026-02-19T09:55:46.339+05:30  INFO 28312 --- [client-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2026-02-19T09:55:46.442+05:30  INFO 28312 --- [client-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2026-02-19T09:55:46.537+05:30  INFO 28312 --- [client-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
-2026-02-19T09:55:46.782+05:30  WARN 28312 --- [client-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-02-19T09:55:47.384+05:30  INFO 28312 --- [client-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
-2026-02-19T09:55:47.439+05:30  WARN 28312 --- [client-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
-2026-02-19T09:55:47.470+05:30  INFO 28312 --- [client-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
-2026-02-19T09:55:47.503+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
-2026-02-19T09:55:47.506+05:30  INFO 28312 --- [client-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
-2026-02-19T09:55:47.516+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
-2026-02-19T09:55:47.855+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
-2026-02-19T09:55:47.857+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
-2026-02-19T09:55:47.859+05:30  INFO 28312 --- [client-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
-2026-02-19T09:55:47.861+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1771475147861 with initial instances count: 2
-2026-02-19T09:55:47.865+05:30  INFO 28312 --- [client-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CLIENT-SERVICE with eureka with status UP
-2026-02-19T09:55:47.866+05:30  INFO 28312 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771475147866, current=UP, previous=STARTING]
-2026-02-19T09:55:47.868+05:30  INFO 28312 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
-2026-02-19T09:55:47.889+05:30  INFO 28312 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
-2026-02-19T09:55:47.890+05:30  INFO 28312 --- [client-service] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8081
-2026-02-19T09:55:47.903+05:30  INFO 28312 --- [client-service] [main] c.w.client.ClientServiceApplication      : Started ClientServiceApplication in 6.636 seconds (process running for 7.932)
-2026-02-19T09:55:47.913+05:30  INFO 28312 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration status: 204
-2026-02-19T10:00:47.527+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:05:47.531+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:10:47.533+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:15:47.535+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:20:47.539+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:25:47.545+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:30:47.559+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:35:47.571+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:40:47.575+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:45:47.580+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:50:47.587+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T10:55:47.588+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:00:47.590+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:05:47.591+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:10:47.618+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:15:47.619+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:20:47.624+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:25:47.626+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:30:47.629+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:35:47.655+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:40:47.658+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:45:47.659+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:50:47.660+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T11:55:47.661+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:00:47.664+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:05:47.667+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:10:47.669+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:15:47.671+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:20:47.685+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:25:47.697+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:30:47.713+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
-2026-02-19T12:35:47.727+05:30  INFO 28312 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:54:00.887+05:30  INFO 29192 --- [client-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-23T12:54:00.949+05:30  INFO 29192 --- [client-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-23T12:54:01.051+05:30  INFO 29192 --- [client-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-23T12:54:01.292+05:30  WARN 29192 --- [client-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-23T12:54:01.896+05:30  INFO 29192 --- [client-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-02-23T12:54:01.945+05:30  WARN 29192 --- [client-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-02-23T12:54:01.972+05:30  INFO 29192 --- [client-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-02-23T12:54:01.998+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-02-23T12:54:02.001+05:30  INFO 29192 --- [client-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-02-23T12:54:02.009+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-02-23T12:54:02.321+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-02-23T12:54:02.323+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-02-23T12:54:02.325+05:30  INFO 29192 --- [client-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-02-23T12:54:02.327+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1771831442326 with initial instances count: 1
+2026-02-23T12:54:02.331+05:30  INFO 29192 --- [client-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CLIENT-SERVICE with eureka with status UP
+2026-02-23T12:54:02.332+05:30  INFO 29192 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1771831442332, current=UP, previous=STARTING]
+2026-02-23T12:54:02.334+05:30  INFO 29192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081: registering service...
+2026-02-23T12:54:02.355+05:30  INFO 29192 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-02-23T12:54:02.356+05:30  INFO 29192 --- [client-service] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8081
+2026-02-23T12:54:02.368+05:30  INFO 29192 --- [client-service] [main] c.w.client.ClientServiceApplication      : Started ClientServiceApplication in 5.888 seconds (process running for 6.81)
+2026-02-23T12:54:02.381+05:30  INFO 29192 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656690.cts.com:client-service:8081 - registration status: 204
+2026-02-23T12:55:54.572+05:30  INFO 29192 --- [client-service] [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-23T12:55:54.574+05:30  INFO 29192 --- [client-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-23T12:55:54.578+05:30  INFO 29192 --- [client-service] [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2026-02-23T12:55:54.727+05:30  INFO 29192 --- [client-service] [http-nio-8081-exec-1] c.w.client.controller.ClientController   : API Request: GET /api/clients from Advisor ID: 1
+2026-02-23T12:55:55.525+05:30 DEBUG 29192 --- [client-service] [http-nio-8081-exec-1] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.advisor_id=?
+2026-02-23T12:59:02.012+05:30  INFO 29192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-02-23T13:04:02.018+05:30  INFO 29192 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration

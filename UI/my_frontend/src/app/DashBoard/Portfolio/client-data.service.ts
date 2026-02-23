@@ -132,17 +132,34 @@ export class ClientDataService {
   }
 
   getCurrentData(id: number) {
+    // If the database generates an ID that isn't in our mock dictionary,
+    // fallback to a default template (or Client 1's data) so the page doesn't crash.
+    if (!this.allData[id]) {
+      return this.allData[1]; 
+      
+      // Alternatively, you can return a completely blank slate for new clients:
+      // return { stats: [], assetClasses: [], portfolio: [] };
+    }
     return this.allData[id];
   }
 
   // UPDATED: Logic to add an investment to the central store
   addInvestment(clientId: number, investment: any) {
-    if (this.allData[clientId]) {
-      this.allData[clientId].portfolio = [...this.allData[clientId].portfolio, investment];
-      // Trigger a refresh for anyone listening to the selected client stream
-      this.updateClient(clientId);
+    // If this is a brand new client, initialize their portfolio structure first
+    if (!this.allData[clientId]) {
+      this.allData[clientId] = {
+        stats: [],
+        assetClasses: [],
+        portfolio: []
+      };
     }
+    
+    this.allData[clientId].portfolio = [...this.allData[clientId].portfolio, investment];
+    
+    // Trigger a refresh for anyone listening to the selected client stream
+    this.updateClient(clientId);
   }
+  
 
   private openAddInvestmentSource = new Subject<void>();
   openAddInvestment$ = this.openAddInvestmentSource.asObservable();

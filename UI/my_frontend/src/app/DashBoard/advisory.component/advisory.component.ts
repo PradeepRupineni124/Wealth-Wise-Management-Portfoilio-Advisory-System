@@ -67,8 +67,8 @@ export class AdvisoryComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     this.clientSub = this.clientState.currentClient$.subscribe(client => {
-      if (client && client.name) {
-        this.loadClientData(client.name);
+      if (client && client.fullName) {
+        this.loadClientData(client.fullName);
       }
     });
   }

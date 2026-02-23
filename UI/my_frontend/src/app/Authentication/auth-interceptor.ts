@@ -5,11 +5,11 @@ import { catchError, throwError } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const token = localStorage.getItem('token'); // Matching the key used in authservice 
+  const token = sessionStorage.getItem('token'); // Matching the key used in authservice 
   
 
   // We check if the request is going to your Spring Boot app
-  const isBackendUrl = req.url.includes('ltin656932.cts.com:9090');
+  const isBackendUrl = req.url.includes('ltin656690.cts.com:9090');
 
   console.log('Interceptor triggered for URL:', req.url);
 
@@ -42,7 +42,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
 // Helper function (Kept exactly as you requested)
 const handleAuthError = (router: Router) => {
-  localStorage.clear(); // Clear all auth-related items
+  sessionStorage.clear(); // Clear all auth-related items
   router.navigate(['/login'], {
     queryParams: { returnUrl: router.url } 
   });

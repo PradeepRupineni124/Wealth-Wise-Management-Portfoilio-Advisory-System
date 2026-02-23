@@ -12,23 +12,21 @@
         <div class="header-actions">
           
           <p-autoComplete 
-    [(ngModel)]="searchQuery" 
-    [suggestions]="filteredClients" 
-    (completeMethod)="filterClients($event)" 
-    (onSelect)="onClientSelect($event)"
-    
-    field="name"           
-    optionLabel="name"      dataKey="id"            [completeOnFocus]="true"
-    [forceSelection]="true"
-    placeholder="Search Client" 
-    styleClass="client-selector-auto"
-    inputStyleClass="w-full">
-
-
+            [(ngModel)]="searchQuery" 
+            [suggestions]="filteredClients" 
+            (completeMethod)="filterClients($event)" 
+            (onSelect)="onClientSelect($event)"
+            optionLabel="fullName"     dataKey="clientId"         
+            [completeOnFocus]="true"
+            [forceSelection]="true"
+            placeholder="Search Client" 
+            styleClass="client-selector-auto"
+            inputStyleClass="w-full">
+            
             <ng-template let-client pTemplate="item">
               <div class="flex align-items-center gap-2">
                 <i class="pi pi-user text-primary"></i>
-                <span>{{ client.name }}</span>
+                <span>{{ client.fullName }}</span> 
               </div>
             </ng-template>
 
@@ -50,7 +48,7 @@
 
           <div class="profile-section">
             <div class="profile-details">
-              <span class="profile-name">John Anderson</span>
+              <span class="profile-name">{{ advisorName }}</span>
               <span class="profile-role">Advisor</span>
             </div>
             <p-avatar 

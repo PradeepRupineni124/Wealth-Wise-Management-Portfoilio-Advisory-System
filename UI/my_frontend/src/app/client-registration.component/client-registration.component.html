@@ -54,6 +54,22 @@
         </div>
     </div>
 
+    <div class="form-row">
+        <div class="field col-12">
+            <label>Initial Investment Amount <span class="req">*</span></label>
+            <p-inputNumber 
+                [(ngModel)]="clientData.investmentAmount" 
+                mode="currency" 
+                currency="USD" 
+                locale="en-US" 
+                placeholder="Ex. $50,000"
+                [min]="0"
+                styleClass="w-full"
+                inputStyleClass="compact-input w-full">
+            </p-inputNumber>
+        </div>
+    </div>
+
     <div class="section-divider"></div>
 
     <div class="form-row">

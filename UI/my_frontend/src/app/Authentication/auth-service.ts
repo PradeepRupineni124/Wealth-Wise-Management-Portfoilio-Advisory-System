@@ -35,6 +35,12 @@ export class AuthService {
       );
   }
 
+   // Add this inside your AuthService class
+  getCurrentAdvisor(): Observable<any> {
+    // Make sure the URL matches your backend configuration
+    return this.http.get<any>('http://ltin656690.cts.com:9090/auth/me');
+  }
+
   // --- FORGOT PASSWORD FLOW ---
   forgotPassword(email: string): Observable<string> {
     return this.http.post(`${this.baseUrl}/forgot-password`, { email }, { responseType: 'text' });

@@ -5,9 +5,12 @@ import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 
+// Services
 import { ClientState } from '../../../services/client-state';       
-import { MockDataService } from '../../../services/mock-data.service'; 
+import { ProfileFormatterService } from '../../../profile-formatter.service'; 
+import { ClientApi } from '../../../client-api'; 
 
+// Child Components
 import { TabFilterComponent } from '../../../shareable-components/tab-filter.component/tab-filter.component';
 import { PersonalDetailsComponent } from '../personal-details.component/personal-details.component';
 import { ClientCardComponent } from "../client-card.component/client-card.component";
@@ -18,109 +21,110 @@ import { SecuritySettingsComponent } from '../security-settings.component/securi
   selector: 'app-profile',
   standalone: true,
   imports: [
-    CommonModule, 
-    ButtonModule, 
-    ToastModule, 
-    ClientCardComponent, 
-    TabFilterComponent, 
-    PersonalDetailsComponent, 
-    InvestementProfileComponent, 
-    SecuritySettingsComponent // 2. Add to Imports
+    CommonModule, ButtonModule, ToastModule, ClientCardComponent, 
+    TabFilterComponent, PersonalDetailsComponent, InvestementProfileComponent, SecuritySettingsComponent
   ],
   providers: [MessageService], 
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrl: './profile.component.css'
 })
 export class ProfileComponent {
   
-  private clientState = inject(ClientState);
-  private dataService = inject(MockDataService);
+  // 1. INJECTIONS (Tools we need to use)
+  private clientState = inject(ClientState);   // "The Brain" (holds current client)
+  private clientApi = inject(ClientApi);       // "The Postman" (talks to Spring Boot)
+  private formatter = inject(ProfileFormatterService); // "The Translator" (formats data for UI)
   private messageService = inject(MessageService); 
 
-  selectedClient = toSignal(this.clientState.currentClient$);
-
+  // 2. STATE VARIABLES (Data for the UI)
+  selectedClient = toSignal(this.clientState.currentClient$); // Auto-updates when user searches a new client!
+  
   clientCard = signal<any>({});
   personalData = signal<any>(null);
   investProfile = signal<any>(null);
   investSummary = signal<any>(null);
 
-  // 3. ViewChildren references
+  // Grab references to the child forms so we can read their data later
   personalComp = viewChild(PersonalDetailsComponent);
   investComp = viewChild(InvestementProfileComponent);
-  kycComp = viewChild(SecuritySettingsComponent); // Reference to KYC
 
   activeTab = signal('Personal Information');
   isEditing = signal(false);
-  
-  // 4. Update Tab Names
   profileTabs = ['Personal Information', 'Investment Profile', 'KYC Verification'];
 
   constructor() {
+    // 3. LISTEN FOR DATA CHANGES
+    // This 'effect' watches the Brain. If a new client is selected, it reformats the data and updates the UI instantly.
     effect(() => {
       const client = this.selectedClient();
       if (client) {
-        this.dataService.getProfileData(client).subscribe(data => {
-          this.clientCard.set(data.cardInfo);
-          this.personalData.set(data.personalInfo);
-          this.investProfile.set(data.investInfo);
-          this.investSummary.set(data.summaryInfo);
-        });
+        const formattedData = this.formatter.formatProfileData(client);
+        if (formattedData) {
+          this.clientCard.set(formattedData.cardInfo);
+          this.personalData.set(formattedData.personalInfo);
+          this.investProfile.set(formattedData.investInfo);
+          this.investSummary.set(formattedData.summaryInfo);
+        }
       }
     });
   }
 
+  // 4. UI INTERACTIONS
   onTabChange(t: string) { this.activeTab.set(t); }
-  
   onEdit() { this.isEditing.set(true); }
   
   onCancel() { 
     this.isEditing.set(false);
-    // Reset forms
+    // Reset forms back to original database data
     this.personalComp()?.profileForm.patchValue(this.personalData());
     this.investComp()?.investForm.patchValue(this.investProfile());
-    // KYC component handles its own pending file reset via OnChanges
   }
 
+  // 5. SAVING TO DATABASE
   onSave() {
     const pComp = this.personalComp();
     const iComp = this.investComp();
-    const kComp = this.kycComp();
 
-    // 1. Validate Forms
+    // Prevent saving if forms have errors (like missing emails)
     if (pComp?.profileForm.invalid || iComp?.investForm.invalid) {
-      this.messageService.add({ 
-        severity: 'error', 
-        summary: 'Validation Error', 
-        detail: 'Please fix the errors highlighted in the form.' 
-      });
+      this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: 'Please fix form errors.' });
       return;
     }
 
-    // 2. Commit Data to signals
-    if (pComp) this.personalData.set(pComp.getFormData());
-    if (iComp) this.investProfile.set(iComp.getFormData());
+    const currentClient = this.selectedClient();
+    if (!currentClient || !currentClient.clientId) return;
 
-    // 3. Handle KYC Upload (The actual "Save" for documents)
-    if (kComp) {
-      kComp.commitSave().subscribe(success => {
-         if (success) {
-           // Only show success toast if doc upload worked (or if there was nothing to upload)
-           this.finalizeSave();
-         } else {
-           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to upload document' });
-         }
-      });
-    } else {
-      this.finalizeSave();
-    }
-  }
+    // STEP A: Extract and merge data from both child components safely
+    const pData = pComp?.getFormData() || {};
+    const iData = iComp?.getFormData() || {};
 
-  finalizeSave() {
-    this.isEditing.set(false);
-    this.messageService.add({ 
-      severity: 'success', 
-      summary: 'Success', 
-      detail: 'Profile and Documents updated successfully!' 
+    const updatedPayload = {
+      ...pData,
+      ...iData,
+      emailAddress: pData.email, 
+      phoneNumber: pData.phone,  
+      dateOfBirth: pData.dob,
+      investmentGoal: iData.goal, 
+      investmentHorizon: iData.horizon,
+      liquidityNeeds: iData.liquidity
+    };
+
+    // STEP B: Tell the Postman to send the data to Spring Boot!
+    this.clientApi.updateClientProfile(currentClient.clientId, updatedPayload).subscribe({
+      next: (savedClientFromDB) => {
+        
+        // STEP C: Success! Update our local memory with the fresh Database object
+        this.personalData.set(pData); 
+        this.investProfile.set(iData); 
+        this.clientState.updateClient(savedClientFromDB); // Updates the Brain!
+        
+        this.isEditing.set(false);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Profile saved to Database!' });
+      },
+      error: (err) => {
+        console.error('Save failed:', err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not save to Database.' });
+      }
     });
   }
 }

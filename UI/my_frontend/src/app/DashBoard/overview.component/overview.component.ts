@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // <-- Added ChangeDetectorRef
 import { CommonModule } from '@angular/common';
-import { forkJoin, switchMap } from 'rxjs'; 
+import { forkJoin, of, switchMap } from 'rxjs'; // <-- Removed delay
 
 import { OverviewService } from '../../services/overview.service';
 import { StatMetric, Asset, Activity, Notification } from '../../models/overview.model';
-
 
 import { StatCardComponent } from '../../shareable-components/stat-card-k.component';
 import { PortfolioChartComponent } from '../../shareable-components/portfolio-chart.component';
@@ -25,7 +24,6 @@ import { NotificationsComponent } from '../../shareable-components/notifications
   ],
   template: `
     <div class="">
-      
       <div class="mb-4">
          <h1 class="text-900 font-bold m-0 text-2xl">Welcome back, <span class="text-primary">{{ currentClientName }}</span></h1>
          <p class="text-500 mt-1">Here's an overview of your wealth management portfolio</p>
@@ -63,7 +61,7 @@ import { NotificationsComponent } from '../../shareable-components/notifications
 })
 export class OverviewComponent implements OnInit {
   loading = true;
-  currentClientName = '';
+  currentClientName = 'Client'; // Initialize with a safe default instead of empty string
   currentClientId = 1;
   
   stats: StatMetric[] = [];
@@ -72,46 +70,66 @@ export class OverviewComponent implements OnInit {
   notifications: Notification[] = [];
   chartData: any;
 
-  constructor(private overviewService: OverviewService) {}
+  constructor(
+    private overviewService: OverviewService,
+    private cdr: ChangeDetectorRef // <-- Injected ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-  
     this.overviewService.selectedClient$.pipe(
-      
       switchMap(client => {
-        this.loading = true;
-        this.currentClientName = client.name;
-        this.currentClientId = client.id;
+        // 1. Safely grab the ID and Name
+        const safeId = client?.clientId || client?.id;
+        const safeName = client?.fullName || client?.name || 'Client';
 
-        
+        // 2. Shield: If no ID exists, return null to avoid crashing the stream
+        if (!safeId) {
+          return of(null);
+        }
+
+        // 3. Ensure loading is true while we fetch
+        this.loading = true;
+
         return forkJoin({
-          stats: this.overviewService.getStats(client.id),
-          assets: this.overviewService.getAssets(client.id),
-          activity: this.overviewService.getActivities(client.id),
-          notifs: this.overviewService.getNotifications(client.id),
-          chart: this.overviewService.getChartData('6M', client.id)
+          nameInfo: of(safeName),
+          idInfo: of(safeId),
+          stats: this.overviewService.getStats(safeId),
+          assets: this.overviewService.getAssets(safeId),
+          activity: this.overviewService.getActivities(safeId),
+          notifs: this.overviewService.getNotifications(safeId),
+          chart: this.overviewService.getChartData('6M', safeId)
         });
       })
     ).subscribe({
       next: (data) => {
-        this.stats = data.stats;
-        this.assets = data.assets;
-        this.activities = data.activity;
-        this.notifications = data.notifs;
-        this.chartData = data.chart;
-        this.loading = false;
+        if (data) {
+          this.currentClientName = data.nameInfo;
+          this.currentClientId = data.idInfo;
+          this.stats = data.stats;
+          this.assets = data.assets;
+          this.activities = data.activity;
+          this.notifications = data.notifs;
+          this.chartData = data.chart;
+        }
+        
+        // 4. Turn off loading spinner
+        this.loading = false; 
+
+        // 5. THE MAGIC BULLET: Force Angular to detect all these changes immediately
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Data Error:', err);
-        this.loading = false;
+        this.loading = false; 
+        this.cdr.detectChanges(); // Also detect changes on error
       }
     });
   }
 
   onRangeChange(range: string) {
-    
     this.overviewService.getChartData(range, this.currentClientId).subscribe(data => {
         this.chartData = data;
+        this.cdr.detectChanges(); // Ensure chart updates are caught too
     });
   }
 }

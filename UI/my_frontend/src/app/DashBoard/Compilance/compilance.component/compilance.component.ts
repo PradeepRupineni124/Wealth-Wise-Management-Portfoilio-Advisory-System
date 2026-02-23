@@ -147,12 +147,12 @@ export class ComplianceComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.clientSubscription = this.clientState.currentClient$.subscribe(client => {
       if (client) {
-        this.currentClientName = client.name;
-        this.loadClientData(client.id);
+        // Use the new Spring Boot properties
+        this.currentClientName = client.fullName; 
+        this.loadClientData(client.clientId);     
       }
     });
   }
-
   loadClientData(id: number) {
     const data = this.allData[id] || this.allData[1];
 

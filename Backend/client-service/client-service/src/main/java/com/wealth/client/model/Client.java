@@ -2,6 +2,8 @@ package com.wealth.client.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -27,6 +29,9 @@ public class Client {
 
     @Column(nullable = false)
     private String phoneNumber;
+
+    @Column(nullable = false)
+    private BigDecimal investmentAmount;
 
     private LocalDate dateOfBirth; // Added for the UI
 
