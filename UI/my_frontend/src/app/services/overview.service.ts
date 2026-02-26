@@ -10,7 +10,7 @@ export class OverviewService {
   // Connects to Gateway (9090), which routes to OVERVIEW-SERVICE
   private baseUrl = 'http://ltin656932.cts.com:9090/overview'; 
 
-  private selectedClientSource = new BehaviorSubject<any>({ name: 'Kiran', id: 1 });
+  private selectedClientSource = new BehaviorSubject<any>({ name: 'Loading...', id: null });
   selectedClient$ = this.selectedClientSource.asObservable();
 
   changeClient(client: any) {
@@ -34,7 +34,9 @@ export class OverviewService {
     
     const isUp = dto.totalValueChange >= 0;
     const isBeatingMarket = dto.annualReturnPercentage > 5;
-    const isHighRisk = dto.riskScore > 5;
+    
+    const risk = Number(dto.riskScore) || 0; 
+    const isHighRisk = risk > 5;
 
     return [
       {

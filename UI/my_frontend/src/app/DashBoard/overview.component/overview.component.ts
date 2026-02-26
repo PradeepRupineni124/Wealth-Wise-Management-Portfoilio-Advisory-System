@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { forkJoin, of, switchMap } from 'rxjs'; 
+import { forkJoin, of, switchMap , catchError} from 'rxjs'; 
 
 import { OverviewService } from '../../services/overview.service';
 import { StatMetric, Asset, Activity, Notification } from '../../models/overview.model';
@@ -98,8 +98,18 @@ export class OverviewComponent implements OnInit {
 
         // 4. EFFICIENT BFF CALLS: Fetch Main Data + Chart Data in parallel (2 Calls only)
         return forkJoin({
-          overview: this.overviewService.getClientOverview(safeId),
-          chart: this.overviewService.getChartData('6M', safeId) 
+          overview: this.overviewService.getClientOverview(safeId).pipe(
+              catchError(err => {
+                  console.error('Failed to load overview data', err);
+                  return of(null); // Return empty data safely
+              })
+          ),
+          chart: this.overviewService.getChartData('6M', safeId).pipe(
+              catchError(err => {
+                  console.error('Failed to load chart data', err);
+                  return of(null); // Return empty data safely
+              })
+          )
         });
       })
     ).subscribe({
@@ -121,6 +131,8 @@ export class OverviewComponent implements OnInit {
                   entityName: act.title, 
                   symbol: act.symbol,
                   amount: act.amount,
+                  value: act.amount,
+                  price: act.amount,
                   date: act.date,
                   status: act.status,
                   icon: this.getIconForActivity(act.type, act.title),

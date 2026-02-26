@@ -19,10 +19,10 @@ public class OverviewContoller {
         return ResponseEntity.ok(overviewService.getClientDashboard(clientId));
     }
 
-//    @GetMapping("/chart/{clientId}")
-//    public ResponseEntity<ChartDataDto> getPortfolioChart(
-//            @PathVariable Long clientId,
-//            @RequestParam(defaultValue = "6M") String range) {
-//        return ResponseEntity.ok(overviewService.getChartData(clientId, range));
-//    }
+    @GetMapping("/chart/{clientId}")
+    public ResponseEntity<ChartDataDto> getPortfolioChart(
+            @PathVariable Long clientId,
+            @RequestParam(defaultValue = "6M") String range) {
+        return ResponseEntity.ok(overviewService.getChartData(clientId, range));
+    }
 }
