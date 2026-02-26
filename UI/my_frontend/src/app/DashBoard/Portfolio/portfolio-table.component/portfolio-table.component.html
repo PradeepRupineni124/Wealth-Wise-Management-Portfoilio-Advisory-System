@@ -1,15 +1,15 @@
-<div class="table-container">
-  <div class="header-controls">
-    <div class="search-box">
+<div class="portfolio-table-container">
+  <div class="portfolio-table-header">
+    <div class="search-wrapper">
       <i class="pi pi-search"></i>
-      <input type="text" [(ngModel)]="searchText" (input)="onSearch()" 
+      <input type="text" class="search-input" [(ngModel)]="searchText" (input)="onSearch()" 
              placeholder="Search by symbol or name...">
     </div>
 
-    <div class="filter-group">
-      <button *ngFor="let t of ['All', 'Equities', 'Bonds', 'Mutual Funds']"
-              [class.active]="activeTab === t" (click)="setFilter(t)">
-        {{ t }}
+    <div class="filter-tabs">
+      <button *ngFor="let tab of ['All', 'Equities', 'Bonds', 'Mutual Funds']"
+              [class.active]="activeTab === tab" (click)="setFilter(tab)">
+        {{ tab }}
       </button>
     </div>
   </div>
@@ -17,9 +17,19 @@
   <div class="grid-wrapper">
     @if (isBrowser) {
       <ag-grid-angular
-        style="width: 100%;" class="ag-theme-alpine custom-grid"
-        [rowData]="rowData" [columnDefs]="colDefs" [defaultColDef]="defaultColDef"
-        [domLayout]="'autoHeight'" [animateRows]="true" (gridReady)="onGridReady($event)">
+        style="width: 100%;" 
+        class="ag-theme-alpine portfolio-grid"
+        [rowData]="rowData" 
+        [columnDefs]="colDefs" 
+        [defaultColDef]="defaultColDef"
+        [domLayout]="'autoHeight'" 
+        [animateRows]="true" 
+        
+        [pagination]="true"
+        [paginationPageSize]="5"
+        [paginationPageSizeSelector]="[5, 10, 20]"
+        
+        (gridReady)="onGridReady($event)">
       </ag-grid-angular>
     } @else {
       <div class="loading-state">

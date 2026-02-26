@@ -4,30 +4,30 @@
 }
 
 
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 20px;
-  margin-bottom: 30px;
-}
-
-
 .summary-box {
   display: grid;
   grid-template-columns: repeat(3, 1fr); 
   gap: 20px;
 }
 
+.summary-grid {
+  display: grid;
+  /* Forces 5 columns to share the space equally */
+  grid-template-columns: repeat(5, minmax(0, 1fr)); 
+  gap: 12px; /* Reduced gap slightly so the 5 cards fit easily */
+  margin-bottom: 24px;
+}
 
-@media (max-width: 1024px) {
-  .summary-grid, .summary-box {
-    grid-template-columns: repeat(2, 1fr);
+/* Push the breakpoint down! It will only wrap on screens smaller than 1200px */
+@media (max-width: 1200px) {
+  .summary-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 600px) {
-  .summary-grid, .summary-box {
-    grid-template-columns: 1fr;
+@media (max-width: 800px) {
+  .summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -69,4 +69,39 @@
 
 .trigger-add-btn:hover {
   background-color: #008f6c;
+}
+/* --- EMPTY STATE STYLING --- */
+.empty-state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 65vh; /* Takes up most of the screen vertically */
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1; /* Professional dashed border */
+  margin-top: 24px;
+}
+
+.empty-icon {
+  font-size: 3.5rem;
+  color: #94a3b8;
+  margin-bottom: 16px;
+}
+
+.empty-state-container h3 {
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+  font-size: 1.5rem;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+}
+
+.empty-state-container p {
+  font-family: 'Inter', sans-serif;
+  color: #64748b;
+  max-width: 450px;
+  line-height: 1.5;
+  font-size: 0.95rem;
 }

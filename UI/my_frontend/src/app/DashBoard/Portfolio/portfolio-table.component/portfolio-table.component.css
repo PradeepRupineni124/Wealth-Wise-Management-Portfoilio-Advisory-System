@@ -1,4 +1,4 @@
-.table-container {
+.portfolio-table-container {
   background: white;
   border-radius: 20px;
   padding: 24px;
@@ -6,7 +6,7 @@
   margin: 20px 0;
 }
 
-.header-controls {
+.portfolio-table-header {
   background: #f8fafc;
   border: 1px solid #edf2f7;
   border-radius: 18px;
@@ -17,8 +17,7 @@
   margin-bottom: 24px;
 }
 
-
-.search-box {
+.search-wrapper {
   display: flex;
   align-items: center;
   background: #fff;
@@ -28,9 +27,17 @@
   width: 320px;
   transition: border-color 0.2s;
 }
-.search-box:focus-within { border-color: #059669; }
-.search-box i { color: #94a3b8; font-size: 0.95rem; }
-.search-box input {
+
+.search-wrapper:focus-within { 
+  border-color: #059669; 
+}
+
+.search-wrapper i { 
+  color: #94a3b8; 
+  font-size: 0.95rem; 
+}
+
+.search-input {
   border: none;
   outline: none;
   background: transparent;
@@ -39,9 +46,13 @@
   font: 0.9rem 'Inter', sans-serif;
   color: #1e293b;
 }
-.search-box input::placeholder { color: #94a3b8; opacity: 1; }
 
-.filter-group button {
+.search-input::placeholder { 
+  color: #94a3b8; 
+  opacity: 1; 
+}
+
+.filter-tabs button {
   padding: 8px 20px;
   border-radius: 10px;
   border: 1px solid #e2e8f0;
@@ -50,27 +61,68 @@
   font-weight: 600;
   cursor: pointer;
   margin-left: 5px;
+  transition: all 0.2s ease;
 }
 
-.filter-group button.active {
+.filter-tabs button.active {
   background: #059669;
   color: white;
   border-color: #059669;
 }
 
-.custom-grid { border: none !important; }
-
-::ng-deep .type-pill {
-  padding: 4px 12px;
-  border-radius: 8px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  height: auto !important;
+.portfolio-grid { 
+  border: none !important; 
+  width: 100%;
 }
-::ng-deep .equity { background: #eefdf3; color: #10b981; border-color: #10b981; }
-::ng-deep .bond { background: #eff6ff; color: #3b82f6; border-color:#3b82f6; }
-::ng-deep .mutual-fund { background: #fffbeb; color: #f59e0b; border-color:#f59e0b }
 
+/* AG Grid Header & Row Overrides */
+::ng-deep .ag-theme-alpine .ag-header {
+    background-color: transparent;
+    border-bottom: 1px solid #e2e8f0;
+}
+::ng-deep .ag-theme-alpine .ag-row {
+    border-bottom-color: #f1f5f9;
+}
+
+/* Ensures the cell contents (like pills) stay perfectly centered vertically */
+::ng-deep .ag-theme-alpine .ag-cell {
+    display: flex;
+    align-items: center; 
+}
+
+/* Base Asset Badge Style (Fixed the chopped bottom!) */
+::ng-deep .asset-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  height: 26px; /* Strict height prevents AG grid from flattening the bottom */
+  border-radius: 50px; /* Forces a perfect oval shape */
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+/* Badge Modifiers for Colors */
+::ng-deep .asset-badge--equity { 
+    background-color: #eefdf3; 
+    color: #059669; 
+    border-color: #a7f3d0; 
+}
+
+::ng-deep .asset-badge--bond { 
+    background-color: #eff6ff; 
+    color: #2563eb; 
+    border-color: #bfdbfe; 
+}
+
+::ng-deep .asset-badge--mutual-fund { 
+    background-color: #fffbeb; 
+    color: #d97706; 
+    border-color: #fde68a; 
+}
 
 .loading-state {
   padding: 40px;

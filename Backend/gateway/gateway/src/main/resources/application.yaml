@@ -21,6 +21,7 @@ management:
       enabled: true
 
 
+
 logging:
    level:
      root: INFO

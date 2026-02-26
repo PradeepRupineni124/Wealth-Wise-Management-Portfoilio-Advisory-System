@@ -1,77 +1,63 @@
-<div class="page-wrapper">
-  <p-toast></p-toast>
-  <header class="profile-header">
-    <div class="header-text">
-      <h1>Client Profile</h1>
-      <p>Manage your personal information, investment preferences, and documents</p>
-    </div>
+<p-toast></p-toast>
 
-    <div class="header-actions">
-      @if (!isEditing()) {
-        <p-button 
-          label="Edit Profile" 
-          icon="pi pi-pencil" 
-          styleClass="custom-edit-btn"
-          (onClick)="onEdit()">
-        </p-button>
-      } @else {
-        <div class="flex gap-3">
-          <p-button 
-            label="Cancel" 
-            [outlined]="true" 
-            severity="secondary" 
-            (onClick)="onCancel()">
-          </p-button>
-          <p-button 
-            label="Save Changes" 
-            (onClick)="onSave()">
-          </p-button>
-        </div>
-      }
-    </div>
-  </header>
-
-  <div class="content-container">
+@if (selectedClient()) {
+  <div class="profile-wrapper">
+    
     <app-client-card 
       [name]="clientCard().name" 
-      [clientId]="clientCard().id" 
-      [riskProfile]="clientCard().risk" 
+      [clientId]="clientCard().clientId"
+      [riskProfile]="clientCard().riskProfile"
       [goal]="clientCard().goal"
-      [isVerified]="clientCard().verified">
+      [isVerified]="clientCard().isVerified">
     </app-client-card>
-  </div>
 
-  <div class="tabs-container">
     <app-tab-filter 
       [tabs]="profileTabs" 
-      (tabChanged)="onTabChange($event)">
+      (tabChanged)="onTabChange($any($event))">
     </app-tab-filter>
+
+    <div class="tab-content mt-4">
+      @if (activeTab() === 'Personal Information') {
+        <app-personal-details 
+          [personalData]="personalData()" 
+          [isEditMode]="isEditing()">
+        </app-personal-details>
+      }
+
+      @if (activeTab() === 'Investment Profile') {
+        <app-investement-profile 
+          [profileData]="investProfile()" 
+          [summary]="investSummary()"
+          [isEditMode]="isEditing()">
+        </app-investement-profile>
+      }
+
+      @if (activeTab() === 'KYC Verification') {
+        <app-security-settings 
+          [client]="selectedClient()">
+        </app-security-settings>
+      }
+    </div>
+
+    @if (activeTab() !== 'KYC Verification') {
+      <div class="action-footer mt-4 flex justify-content-end gap-3">
+        @if (!isEditing()) {
+          <p-button label="Edit Profile" icon="pi pi-pencil" (onClick)="onEdit()"></p-button>
+        } @else {
+          <p-button label="Cancel" severity="secondary" [outlined]="true" (onClick)="onCancel()"></p-button>
+          <p-button label="Save Changes" icon="pi pi-check" (onClick)="onSave()"></p-button>
+        }
+      </div>
+    }
+
   </div>
-
-  <div class="tab-content-area">
-    
-    <div [style.display]="activeTab() === 'Personal Information' ? 'block' : 'none'">
-      <app-personal-details 
-        ngSkipHydration
-        [personalData]="personalData()"
-        [isEditMode]="isEditing()"> 
-      </app-personal-details>
+} 
+@else {
+  <div class="empty-profile-state">
+    <div class="empty-icon-wrapper">
+      <i class="pi pi-users"></i>
     </div>
-
-    <div [style.display]="activeTab() === 'Investment Profile' ? 'block' : 'none'">
-      <app-investement-profile 
-        ngSkipHydration 
-        [profileData]="investProfile()" 
-        [summary]="investSummary()"
-        [isEditMode]="isEditing()"> 
-      </app-investement-profile>
-    </div>
-
-    <div [style.display]="activeTab() === 'KYC Verification' ? 'block' : 'none'">
-      <app-security-settings
-        [client]="selectedClient()">
-      </app-security-settings>
-    </div>
-
+    <h2>No Client Selected</h2>
+    <p>Please search for a client in the top navigation bar, or click "Add Client" to create a new profile.</p>
   </div>
-</div>
+}

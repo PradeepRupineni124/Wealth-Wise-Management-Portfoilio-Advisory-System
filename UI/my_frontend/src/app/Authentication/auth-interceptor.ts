@@ -1,48 +1,46 @@
 import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
+import { catchError, throwError, EMPTY } from 'rxjs'; // Added EMPTY
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const token = sessionStorage.getItem('token'); // Matching the key used in authservice 
-  
+  const platformId = inject(PLATFORM_ID);
+  const isBrowser = isPlatformBrowser(platformId);
 
-  // We check if the request is going to your Spring Boot app
   const isBackendUrl = req.url.includes('ltin656690.cts.com:9090');
 
-  console.log('Interceptor triggered for URL:', req.url);
+  // --- NEW CHANGE START ---
+  // If we are on the server and calling the backend, stop the request immediately.
+  if (!isBrowser && isBackendUrl) {
+    return EMPTY; 
+  }
+  // --- NEW CHANGE END ---
+
+  const token = isBrowser ? sessionStorage.getItem('token') : null;
 
   let authReq = req;
-
-  // Only attach the token if it exists AND it's going to your Backend
   if (token && isBackendUrl) {
-    console.log('Token found, attaching to request...');
     authReq = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
       }
     });
-  } else {
-    console.warn('No token found or external URL! Sending request without auth.');
   }
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-      // 401: Token expired or invalid
-      // 403: User lacks permissions
-      if ([401, 403].includes(error.status)) {
+      if (isBrowser && [401, 403].includes(error.status)) {
         handleAuthError(router);
       }
-      
       return throwError(() => error);
     })
   );
 };
 
-// Helper function (Kept exactly as you requested)
 const handleAuthError = (router: Router) => {
-  sessionStorage.clear(); // Clear all auth-related items
+  sessionStorage.clear(); 
   router.navigate(['/login'], {
     queryParams: { returnUrl: router.url } 
   });

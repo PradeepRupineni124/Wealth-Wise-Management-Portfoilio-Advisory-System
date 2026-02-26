@@ -48,6 +48,19 @@ public class GatewayConfig {
                         )
                         // Make sure "client-service" matches the spring.application.name in your Client Service properties
                         .uri("lb://client-service"))
+
+                // 3. PORTFOLIO SERVICE ROUTE (Token REQUIRED)
+                .route("portfolio_service_route", r -> r.path("/api/portfolio/**", "/api/holdings/**", "/api/assets/**")
+                        .filters(f -> f
+                                // Apply your JWT filter to ensure the Bearer token is present
+                                .filter(authFilter.apply(new JwtAuthenticationFilter.Config()))
+                                .filter((exchange, chain) -> {
+                                    log.info("Routing request to Portfolio Service: {}", exchange.getRequest().getURI());
+                                    return chain.filter(exchange);
+                                })
+                        )
+                        // Make sure this exactly matches how Eureka registers your portfolio service
+                        .uri("lb://portfolio-service"))
                 .build();
     }
 

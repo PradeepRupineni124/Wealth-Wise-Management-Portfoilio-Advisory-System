@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+
 @Injectable({
   providedIn: 'root',
 })
 export class ClientState {
-   // Default to Pradeep (ID: 1)
-  private defaultClient = { name: 'Pradeep', id: 1 };
-
-  private clientSource = new BehaviorSubject<any>(this.defaultClient);
+  
+  // 🚨 FIX: Start with 'null' so the app knows NO client is selected yet!
+  private clientSource = new BehaviorSubject<any>(null);
+  
   currentClient$ = this.clientSource.asObservable();
 
   constructor() {}
