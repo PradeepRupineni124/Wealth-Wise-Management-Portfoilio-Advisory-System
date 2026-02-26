@@ -1,8 +1,8 @@
 export interface StatMetric {
   title: string;
   value: string;
-  subValue?: string;
-  subTextColor?: string;
+  subValue: string;
+  subTextColor: string;
   trend: 'up' | 'down' | 'neutral';
   trendValue?: string;
   icon: string;
@@ -21,13 +21,13 @@ export interface Asset {
 
 export interface Activity {
   id: string;
-  entityName: string;
+  entityName: string; 
   symbol: string;
-  amount: number;
+  amount: number | string;
   date: string;
-  status: 'completed' | 'received' | 'pending';
-  icon: string;
-  colorTheme: 'green' | 'red' | 'blue' | 'yellow'; 
+  status: string;
+  icon?: string;
+  colorTheme?: string;
 }
 
 export interface Notification {
@@ -35,5 +35,5 @@ export interface Notification {
   title: string;
   message: string;
   time: string;
-  type: 'success' | 'info' | 'warning';
+  type: 'success' | 'info' | 'warning' | 'error';
 }

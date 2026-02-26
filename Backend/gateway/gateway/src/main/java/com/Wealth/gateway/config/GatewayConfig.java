@@ -61,6 +61,16 @@ public class GatewayConfig {
                         )
                         // Make sure this exactly matches how Eureka registers your portfolio service
                         .uri("lb://portfolio-service"))
+                .route("overview_route", r -> r.path("/overview/**")
+                        .filters(f -> f
+                                .filter((exchange, chain) -> {
+                                    log.info("Routing request to Overview Service: {}", exchange.getRequest().getURI());
+                                    return chain.filter(exchange);
+                                })
+                        )
+                        // Make sure OVERVIEW-SERVICE exactly matches the
+                        // spring.application.name in your overview-service's application.yml
+                        .uri("lb://overview-service"))
                 .build();
     }
 

@@ -24,10 +24,10 @@ import { Activity } from '../models/overview.model';
                         <span class="text-500 font-normal">({{item.symbol}})</span>
                     </div>
                     
-                    <div class="text-700 text-sm" *ngIf="item.amount > 0">
-                        {{ item.amount | currency:'USD':'symbol':'1.0-0' }}
+                    <div class="text-700 text-sm" *ngIf="hasAmount(item.amount)">
+                        {{ item.amount }}
                     </div>
-                    <div class="text-700 text-sm" *ngIf="item.amount === 0">-</div>
+                    <div class="text-700 text-sm" *ngIf="!hasAmount(item.amount)">-</div>
 
                     <div class="text-500 text-xs">{{ item.date }}</div>
                 </div>
@@ -44,8 +44,18 @@ import { Activity } from '../models/overview.model';
 export class RecentActivitiesComponent {
   @Input() activities: Activity[] = [];
 
+  // FIX 1: Helper method to safely check if an amount is valid (handles both strings and numbers)
+  hasAmount(amount: number | string | undefined | null): boolean {
+    // Return false if it's empty, 0, the string "0", or the string "$0"
+    if (!amount || amount === 0 || amount === '0' || amount === '$0') {
+        return false;
+    }
+    return true;
+  }
+
   getSeverity(status: string): "success" | "info" | "warn" | "danger" | undefined {
-    switch (status) {
+    // Added optional chaining (?.) and toLowerCase() to prevent errors if status is unexpectedly capitalized
+    switch (status?.toLowerCase()) {
       case 'completed': return 'success';
       case 'received': return 'info';
       case 'pending': return 'warn';

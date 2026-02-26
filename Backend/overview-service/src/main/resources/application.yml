@@ -1,0 +1,20 @@
+server:
+  port: 8088 # Running on 8081 so it doesn't conflict with Auth (8080) or Gateway (9090)
+
+spring:
+  application:
+    name: overview-service # This is how Gateway and Eureka will identify this service
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Ensure this points to your Eureka Server
+
+# Logging to help debug Feign clients later
+logging:
+  level:
+    com.Wealth.dashboard: DEBUG
