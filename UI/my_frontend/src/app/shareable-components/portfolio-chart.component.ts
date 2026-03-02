@@ -33,7 +33,7 @@ import { RippleModule } from 'primeng/ripple';
         </div>
 
         <div class="flex-grow-1 relative">
-            <p-chart type="line" [data]="data" [options]="options" height="260px"></p-chart>
+            <p-chart type="line" [data]="data" [options]="options" height="350px"></p-chart>
         </div>
     </div>
   `,
@@ -127,7 +127,21 @@ export class PortfolioChartComponent implements OnInit, OnChanges {
           beginAtZero: false, 
           ticks: {
             color: '#64748b',
-            callback: (val: any) => '$' + (val / 1000000).toFixed(1) + 'M',
+            
+            // ---> THE FIX: Dynamic Formatting <---
+            callback: (val: any) => {
+              if (val >= 1000000) {
+                return '$' + (val / 1000000).toFixed(1) + 'M'; // Millions
+              } else if (val >= 1000) {
+                return '$' + (val / 1000).toFixed(1) + 'K';   // Thousands
+              } else if (val === 0) {
+                return '$0';
+              } else {
+                return '$' + val;                             // Hundreds
+              }
+            },
+            // ------------------------------------
+            
             maxTicksLimit: 5
           },
           grid: { color: '#e2e8f0', borderDash: [4, 4], drawBorder: false }

@@ -33,7 +33,18 @@ export class OverviewService {
     if (!dto) return [];
     
     const isUp = dto.totalValueChange >= 0;
-    const isBeatingMarket = dto.annualReturnPercentage > 5;
+
+
+    const totalVal = dto.totalPortfolioValue || 0;
+    const returnPct = dto.annualReturnPercentage || 0;
+
+    const calculatedValueChange = (totalVal * returnPct) / 100;
+
+    const marketBenchmark = 5.0; // Assuming 5% is the market baseline
+    const isBeatingMarket = returnPct > marketBenchmark;
+
+    // Calculate the absolute difference, formatted to 1 decimal place
+    const diffPct = Math.abs(returnPct - marketBenchmark).toFixed(1);
     
     const risk = Number(dto.riskScore) || 0; 
     const isHighRisk = risk > 5;
@@ -41,21 +52,21 @@ export class OverviewService {
     return [
       {
         title: 'Total Portfolio Value',
-        value: '$' + new Intl.NumberFormat().format(dto.totalPortfolioValue),
+        value: '$' + new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(totalVal),
         subValue: 'this year',
         subTextColor: isUp ? 'text-green-600' : 'text-red-600',
         trend: isUp ? 'up' : 'down',
-        trendValue: (isUp ? '+' : '') + '$' + new Intl.NumberFormat().format(dto.totalValueChange),
+        trendValue: (isUp ? '+' : '') + '$' + new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(calculatedValueChange),
         icon: 'pi pi-dollar',
         iconBg: isUp ? 'bg-green-100' : 'bg-red-100',
         iconColor: isUp ? 'text-green-600' : 'text-red-600',
-        badgeLabel: (isUp ? '+' : '') + ((dto.totalValueChange / dto.totalPortfolioValue) * 100).toFixed(1) + '%',
+        badgeLabel: (returnPct > 0 ? '+' : '') + returnPct.toFixed(1) + '%',
         badgeColor: isUp ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'
       },
       {
         title: 'Annual Return',
-        value: (dto.annualReturnPercentage > 0 ? '+' : '') + dto.annualReturnPercentage + '%',
-        subValue: isBeatingMarket ? 'Beating market' : 'Underperforming',
+        value: (returnPct > 0 ? '+' : '') + returnPct.toFixed(1) + '%',
+        subValue: isBeatingMarket ? `Beating market by ${diffPct}%` : `Underperforming by ${diffPct}%`,
         subTextColor: isBeatingMarket ? 'text-blue-600' : 'text-orange-600',
         trend: 'neutral',
         icon: 'pi pi-chart-line',

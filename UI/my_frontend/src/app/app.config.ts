@@ -7,6 +7,7 @@ import Aura from '@primeuix/themes/aura';
 import { MessageService } from 'primeng/api';
 import { definePreset } from '@primeuix/themes';
 import { provideHttpClient, withInterceptors,withFetch } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { authInterceptor } from './Authentication/auth-interceptor'; // Import your file
 
 
@@ -144,6 +145,7 @@ export const appConfig: ApplicationConfig = {
 
   providers: [
     provideBrowserGlobalErrorListeners(),
+    provideAnimationsAsync(),
     provideRouter(routes),
     provideHttpClient(withFetch(),withInterceptors([authInterceptor])), 
     provideClientHydration(withEventReplay(),),

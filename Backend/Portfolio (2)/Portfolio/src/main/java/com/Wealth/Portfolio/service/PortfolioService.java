@@ -70,12 +70,23 @@ public class PortfolioService {
         BigDecimal bondValue = BigDecimal.ZERO;
         BigDecimal mfValue = BigDecimal.ZERO;
 
+        // --- 1. NEW: Variables for Annual (YTD) Return ---
+        int currentYear = java.time.LocalDateTime.now().getYear();
+        BigDecimal ytdBuyValue = BigDecimal.ZERO;
+        BigDecimal ytdMarketValue = BigDecimal.ZERO;
+
         for (Holding holding : holdings) {
             BigDecimal marketValue = holding.getQuantity().multiply(holding.getAsset().getCurrentPrice());
             BigDecimal buyValue = holding.getQuantity().multiply(holding.getBuyPrice());
 
             totalMarketValue = totalMarketValue.add(marketValue);
             totalBuyValue = totalBuyValue.add(buyValue);
+
+            // --- 2. NEW: Calculate values ONLY for assets bought this year ---
+            if (holding.getAddedDate() != null && holding.getAddedDate().getYear() == currentYear) {
+                ytdMarketValue = ytdMarketValue.add(marketValue);
+                ytdBuyValue = ytdBuyValue.add(buyValue);
+            }
 
             // Group by Asset Type for the bottom cards
             String type = holding.getAsset().getAssetType();
@@ -98,6 +109,14 @@ public class PortfolioService {
                     .multiply(new BigDecimal("100"));
         }
 
+        // --- 3. NEW: Apply the Annual Return Math Formula ---
+        BigDecimal annualReturnPct = BigDecimal.ZERO;
+        if (ytdBuyValue.compareTo(BigDecimal.ZERO) > 0) {
+            annualReturnPct = ytdMarketValue.subtract(ytdBuyValue)
+                    .divide(ytdBuyValue, 4, RoundingMode.HALF_UP)
+                    .multiply(new BigDecimal("100"));
+        }
+
         // Calculate Allocations for the Badges
         String eqBadge = totalPortfolioValue.compareTo(BigDecimal.ZERO) > 0 ? eqValue.divide(totalPortfolioValue, 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).intValue() + "%" : "0%";
         String bondBadge = totalPortfolioValue.compareTo(BigDecimal.ZERO) > 0 ? bondValue.divide(totalPortfolioValue, 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).intValue() + "%" : "0%";
@@ -112,7 +131,7 @@ public class PortfolioService {
         List<StatCardDTO> stats = List.of(
                 StatCardDTO.builder().title("Total Portfolio Value").value("$" + fmt.format(totalPortfolioValue)).color("#0f172a").build(),
                 StatCardDTO.builder().title("Available Cash").value("$" + fmt.format(portfolio.getCashBalance())).color("#0f172a").build(), // The new Cash card!
-                StatCardDTO.builder().title("Total Return").value(totalReturnPct.setScale(2, RoundingMode.HALF_UP) + "%").color(totalReturnPct.compareTo(BigDecimal.ZERO) >= 0 ? "#10b981" : "#ef4444").build(),
+                StatCardDTO.builder().title("Total Return").value(annualReturnPct.setScale(2, RoundingMode.HALF_UP) + "%").color(annualReturnPct.compareTo(BigDecimal.ZERO) >= 0 ? "#10b981" : "#ef4444").build(),
                 StatCardDTO.builder().title("Total Positions").value(String.valueOf(holdings.size())).color("#0f172a").build(),
                 StatCardDTO.builder().title("Asset Classes").value("3").color("#0f172a").build() // Kept the Asset Classes card!
         );

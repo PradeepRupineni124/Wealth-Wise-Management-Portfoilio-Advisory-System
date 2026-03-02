@@ -1,7 +1,7 @@
 package com.wealth.overview_service.service;
 
-import com.wealth.overview_service.clients.ClientServiceClient;
-import com.wealth.overview_service.clients.PortfolioClient;
+//import com.wealth.overview_service.clients.ClientServiceClient;
+//import com.wealth.overview_service.clients.PortfolioClient;
 import com.wealth.overview_service.dto.ChartDataDto;
 import com.wealth.overview_service.dto.ClientDTO;
 import com.wealth.overview_service.dto.OverviewDto;
@@ -27,15 +27,17 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OverviewService {
 
-    private final PortfolioClient portfolioClient;
-    private final ClientServiceClient clientServiceClient; // <-- Inject Client Client
+//    private final PortfolioClient portfolioClient;
+//    private final ClientServiceClient clientServiceClient; // <-- Inject Client Client
+
+    private final RemoteIntegrationService integrationService;
 
     public OverviewDto getClientDashboard(Long clientId) {
         OverviewDto overview = new OverviewDto();
 
         // --- 1. FETCH REAL CLIENT DETAILS (New Code) ---
         try {
-            ClientDTO clientProfile = clientServiceClient.getClientProfile(clientId);
+            ClientDTO clientProfile = integrationService.getClientProfileSafely(clientId);
 
             // Set the real name from the database!
             overview.setClientName(clientProfile.getFullName());
@@ -53,7 +55,7 @@ public class OverviewService {
 
         // --- 2. FETCH PORTFOLIO DATA (Existing Code) ---
         try {
-            PortfolioSummaryResponse summary = portfolioClient.getPortfolioSummary(clientId);
+            PortfolioSummaryResponse summary = integrationService.getPortfolioSummarySafely(clientId);
 
             if (summary != null) {
                 // --- A. Grab the Top Cards ---
@@ -74,33 +76,38 @@ public class OverviewService {
                 double totalCalculatedValue = 0.0;
                 double equityPercentage = 0.0;
 
+                // 1. Calculate the absolute total value first
                 if (summary.getAssetClasses() != null) {
                     for (AssetClassDTO ac : summary.getAssetClasses()) {
-                        Double val = cleanStringToNumber(ac.getValue());
-                        Double pct = cleanStringToNumber(ac.getBadgeText());
-                        totalCalculatedValue += val;
+                        totalCalculatedValue += cleanStringToNumber(ac.getValue());
+                    }
+                }
+                Double cashVal = summary.getCashBalance() != null ? summary.getCashBalance().doubleValue() : 0.0;
+                Double totalVal = totalCalculatedValue + cashVal;
 
-                        if (val > 0) {
-                            allocations.add(new AssetAllocationDTO(ac.getTitle(), val, pct));
-                            if ("Equities".equalsIgnoreCase(ac.getTitle())) {
-                                equityPercentage = pct;
+                // 2. Recalculate ALL percentages dynamically to exactly 1 decimal place
+                if (totalVal > 0) {
+                    if (summary.getAssetClasses() != null) {
+                        for (AssetClassDTO ac : summary.getAssetClasses()) {
+                            Double val = cleanStringToNumber(ac.getValue());
+
+                            if (val > 0) {
+                                // Math trick: multiply by 1000, round, divide by 10 to get 1 decimal (e.g., 1.4)
+                                Double roundedPct = Math.round((val / totalVal) * 1000.0) / 10.0;
+                                allocations.add(new AssetAllocationDTO(ac.getTitle(), val, roundedPct));
+
+                                if ("Equities".equalsIgnoreCase(ac.getTitle())) {
+                                    equityPercentage = roundedPct;
+                                }
                             }
                         }
                     }
-                }
 
-                // ADD CASH TO THE CHART
-                if (summary.getCashBalance() != null && summary.getCashBalance().doubleValue() > 0) {
-                    Double cashVal = summary.getCashBalance().doubleValue();
-                    Double totalVal = overview.getTotalPortfolioValue() != null && overview.getTotalPortfolioValue() > 0
-                            ? overview.getTotalPortfolioValue()
-                            : (totalCalculatedValue + cashVal);
-
-                    Double cashPct = totalVal > 0 ? (cashVal / totalVal) * 100 : 0.0;
-                    // Round to 1 decimal place
-                    cashPct = Math.round(cashPct * 10.0) / 10.0;
-
-                    allocations.add(new AssetAllocationDTO("Cash", cashVal, cashPct));
+                    // 3. Calculate Cash percentage perfectly
+                    if (cashVal > 0) {
+                        Double roundedCashPct = Math.round((cashVal / totalVal) * 1000.0) / 10.0;
+                        allocations.add(new AssetAllocationDTO("Cash", cashVal, roundedCashPct));
+                    }
                 }
                 overview.setAssetAllocation(allocations);
 
@@ -111,7 +118,7 @@ public class OverviewService {
 
                 // --- D. Grab Recent Activities ---
                 if (summary.getPortfolioId() != null) {
-                    List<HoldingDTO> holdings = portfolioClient.getPortfolioHoldings(summary.getPortfolioId());
+                    List<HoldingDTO> holdings = integrationService.getPortfolioHoldingsSafely(summary.getPortfolioId());
                     if (holdings != null) {
                         overview.setRecentActivities(mapHoldingsToActivities(holdings));
                     }
@@ -121,7 +128,7 @@ public class OverviewService {
             log.error("Failed to fetch Portfolio Data: {}", e.getMessage());
             overview.setAssetAllocation(new ArrayList<>());
             overview.setRecentActivities(new ArrayList<>());
-            overview.setRiskScore(5.0); // Safe fallback
+            overview.setRiskScore(0.0); // Safe fallback
         }
 
         overview.setNotifications(new ArrayList<>());
@@ -146,7 +153,7 @@ public class OverviewService {
         return holdings.stream()
                 .filter(h -> h.getAddedDate() != null)
                 .sorted((h1, h2) -> h2.getAddedDate().compareTo(h1.getAddedDate()))
-                .limit(5)
+                .limit(4)
                 .map(h -> {
                     BigDecimal qty = h.getQty() != null ? h.getQty() : BigDecimal.ZERO;
                     BigDecimal avgPrice = h.getAvgPrice() != null ? h.getAvgPrice() : BigDecimal.ZERO;
@@ -180,6 +187,10 @@ public class OverviewService {
             case "1Y":
                 labels = Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
                 values = Arrays.asList(45000.0, 46000.0, 48000.0, 47500.0, 50000.0, 52000.0, 51000.0, 53000.0, 55000.0, 56000.0, 58000.0, 60000.0);
+                break;
+            case "All":
+                labels = Arrays.asList("2021","2022", "2023", "2024", "2025");
+                values = Arrays.asList(28000.0, 34000.0, 55000.0, 45000.0, 52000.0);
                 break;
             case "6M":
             default:

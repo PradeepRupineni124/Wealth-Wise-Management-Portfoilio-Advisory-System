@@ -11,6 +11,9 @@ import { AssetAllocationComponent } from '../../shareable-components/asset-alloc
 import { RecentActivitiesComponent } from '../../shareable-components/recent-activities.component';
 import { NotificationsComponent } from '../../shareable-components/notifications.component';
 
+import { MessageService } from 'primeng/api';
+import { Toast, ToastModule } from 'primeng/toast';
+
 @Component({
   selector: 'app-overview',
   standalone: true,
@@ -20,9 +23,12 @@ import { NotificationsComponent } from '../../shareable-components/notifications
     PortfolioChartComponent,
     AssetAllocationComponent,
     RecentActivitiesComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    ToastModule
   ],
+  // providers :[MessageService],
   template: `
+  <p-toast position="top-right" [style]="{zIndex: 9999}"></p-toast>
     <div class="">
       <div class="mb-4">
          <h1 class="text-900 font-bold m-0 text-2xl">Welcome back, <span class="text-primary">{{ currentClientName }}</span></h1>
@@ -74,10 +80,25 @@ export class OverviewComponent implements OnInit {
   notifications: Notification[] = [];
   chartData: any;
 
+
+  private readonly ASSET_UI_CONFIG: Record<string, { icon: string, colorTheme: string }> = {
+    'AAPL': { icon: 'pi pi-chart-line', colorTheme: 'green' }, // Apple
+    'TSLA': { icon: 'pi pi-arrow-down-right', colorTheme: 'red' }, // Tesla
+    'MSFT': { icon: 'pi pi-dollar', colorTheme: 'blue' }, // Microsoft
+    'AMZN': { icon: 'pi pi-shopping-cart', colorTheme: 'orange' }, // Amazon
+    'SWPPX': { icon: 'pi pi-globe', colorTheme: 'purple' }, // Schwab
+    'HYG': { icon: 'pi pi-building', colorTheme: 'blue' }, // iShares
+    'VEMAX': { icon: 'pi pi-compass', colorTheme: 'green' }, // Vanguard
+    'US10Y': { icon: 'pi pi-briefcase', colorTheme: 'green' }, // Treasury
+    'PORTFOLIO REBALANCING': { icon: 'pi pi-chart-pie', colorTheme: 'orange' } // Special cases without symbols
+  };
+
   constructor(
     private overviewService: OverviewService,
-    private cdr: ChangeDetectorRef // Injected for rapid UI rendering updates
+    private cdr: ChangeDetectorRef,
+    private messageService: MessageService // Injected for rapid UI rendering updates
   ) {}
+
 
   ngOnInit() {
     this.overviewService.selectedClient$.pipe(
@@ -101,12 +122,28 @@ export class OverviewComponent implements OnInit {
           overview: this.overviewService.getClientOverview(safeId).pipe(
               catchError(err => {
                   console.error('Failed to load overview data', err);
+
+                  this.messageService.add({
+                      severity: 'error',
+                      summary: 'Service Unavailable',
+                      detail: 'Unable to connect to backend services. Showing safe default data.',
+                      life: 5000
+                  });
+
                   return of(null); // Return empty data safely
               })
           ),
           chart: this.overviewService.getChartData('6M', safeId).pipe(
               catchError(err => {
                   console.error('Failed to load chart data', err);
+
+                  // this.messageService.add({
+                  //     severity: 'warn',
+                  //     summary: 'Chart Offline',
+                  //     detail: 'Historical chart data is temporarily unavailable.',
+                  //     life: 5000
+                  // });
+
                   return of(null); // Return empty data safely
               })
           )
@@ -118,6 +155,16 @@ export class OverviewComponent implements OnInit {
         if (data) {
           const { overview, chart } = data;
 
+          if (!overview) {
+              setTimeout(() => {
+                  this.messageService.add({ severity: 'error', summary: 'Data Missing', detail: 'Failed to load portfolio dashboard.', life: 5000 });
+              }, 0);
+          } else if (!overview.totalPortfolioValue || overview.totalPortfolioValue === 0) {
+              setTimeout(() => {
+                  this.messageService.add({ severity: 'error', summary: 'server error', detail: 'Portfolio system is down. Showing defaults.', life: 5000 });
+              }, 0);
+          }
+
           // 1. Map Java DTO to Frontend 'StatMetric'
           this.stats = this.overviewService.mapStats(overview);
           
@@ -126,7 +173,11 @@ export class OverviewComponent implements OnInit {
           
           // 3. Map Java DTO to Frontend 'Activity' with dynamic icons & defensive checks
           if (overview?.recentActivities) {
-             this.activities = overview.recentActivities.map((act: any) => ({
+             this.activities = overview.recentActivities.map((act: any) => {
+
+              const appearance = this.getDynamicAppearance(act.title, act.symbol);
+
+              return {
                   id: act.id,
                   entityName: act.title, 
                   symbol: act.symbol,
@@ -135,9 +186,10 @@ export class OverviewComponent implements OnInit {
                   price: act.amount,
                   date: act.date,
                   status: act.status,
-                  icon: this.getIconForActivity(act.type, act.title),
-                  colorTheme: act.status === 'completed' ? 'green' : 'blue'
-             }));
+                  icon: appearance.icon,
+                  colorTheme: appearance.colorTheme
+              };
+             });
           } else {
              this.activities = []; // Safe fallback
           }
@@ -146,7 +198,11 @@ export class OverviewComponent implements OnInit {
           this.notifications = overview?.notifications || [];
 
           // 5. Chart Data
-          this.chartData = chart;
+          if (!overview.totalPortfolioValue || overview.totalPortfolioValue === 0 || !chart) {
+              this.chartData = { labels: [], values: [] }; 
+          } else {
+              this.chartData = chart;
+          }
         }
         
         // Turn off loading spinner
@@ -157,6 +213,13 @@ export class OverviewComponent implements OnInit {
       },
       error: (err) => {
         console.error('Overview Load Error:', err);
+
+        this.messageService.add({
+            severity: 'error',
+            summary: 'System Error',
+            detail: 'A critical error occurred while loading the dashboard.'
+        });
+
         this.loading = false;
         this.cdr.detectChanges(); // Ensure the UI updates even on error
       }
@@ -175,13 +238,25 @@ export class OverviewComponent implements OnInit {
   }
 
   // Helper to dynamically assign UI icons based on the backend data type
-  private getIconForActivity(type: string, title: string): string {
-    if (type === 'buy') return 'pi pi-arrow-down-left'; 
-    if (type === 'sell') return 'pi pi-arrow-up-right'; 
-    if (type === 'dividend') return 'pi pi-dollar';
+
+  private getDynamicAppearance(title: string, symbol: string): { icon: string, colorTheme: string } {
+  
+    const lookupKey = (symbol || title || '').toUpperCase();
+
+    if (this.ASSET_UI_CONFIG[lookupKey]) {
+        return this.ASSET_UI_CONFIG[lookupKey];
+    }
+
+    const text = (title || '') + ' ' + (symbol || '');
+    const colors = ['green', 'blue', 'orange', 'purple', 'red'];
+    const icons = ['pi pi-wallet', 'pi pi-briefcase', 'pi pi-arrow-up-right', 'pi pi-check-circle'];
     
-    // Fallback based on name if type is missing
-    if (title && (title.includes('Tesla') || title.includes('Car'))) return 'pi pi-car';
-    return 'pi pi-briefcase';
+    const hash = text.length > 0 ? text.charCodeAt(0) + text.length : 0;
+
+    return {
+        icon: icons[hash % icons.length],
+        colorTheme: colors[hash % colors.length]
+    };
   }
+ 
 }
