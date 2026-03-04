@@ -17,11 +17,19 @@
                 [suggestions]="filteredAssetSymbols" 
                 (completeMethod)="searchAssets($event)"
                 (onSelect)="onAssetSelected($event)"
+                (onClear)="newInvestment.assetName = ''" 
                 placeholder="Type symbol (e.g., AAPL)"
                 styleClass="w-full"
                 inputStyleClass="w-full custom-input" 
                 [dropdown]="true">
             </p-autoComplete>
+        </div>
+
+        <div class="field">
+            <label for="assetName">Asset Name</label>
+            <input type="text" id="assetName" [(ngModel)]="newInvestment.assetName" 
+                   readonly class="w-full custom-input readonly-input" 
+                   placeholder="Auto-populates based on symbol...">
         </div>
 
         <div class="form-row">
@@ -38,7 +46,6 @@
                        placeholder="150.00" class="w-full custom-input">
             </div>
         </div>
-
 
          <div class="field">
             <label for="allocation">Allocation Percentage</label>

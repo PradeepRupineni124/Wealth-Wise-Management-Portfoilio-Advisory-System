@@ -74,3 +74,11 @@
 .add-to-portfolio-btn:hover {
     background-color: #008f6c;
 }
+
+/* Gives the user a visual cue that this field is auto-populated and cannot be typed in */
+.readonly-input {
+  background-color: #f8fafc;
+  color: #64748b;
+  cursor: not-allowed;
+  pointer-events: none;
+}

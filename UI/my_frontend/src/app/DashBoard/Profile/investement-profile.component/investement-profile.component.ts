@@ -1,6 +1,6 @@
-import { Component, effect, inject, input } from '@angular/core';
+import { Component, effect, inject, input, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 
 export interface InvestmentProfile {
@@ -20,6 +20,9 @@ export interface InvestmentProfile {
 export class InvestementProfileComponent {
  
   private fb = inject(FormBuilder);
+  
+  // 🚨 1. Inject ChangeDetectorRef to force the frozen dropdowns to wake up
+  private cdr = inject(ChangeDetectorRef); 
 
   isEditMode = input(false);
   profileData = input<InvestmentProfile | null>(null);
@@ -27,13 +30,11 @@ export class InvestementProfileComponent {
   summary = input({ allocation: 'Pending...', score: '-', return: '-' });
 
   investForm = this.fb.group({
-    riskProfile: [''],
-    goal:        [''],
-    horizon:     [''],
-    liquidity:   ['']
+    riskProfile: ['', Validators.required],
+    goal:        ['', Validators.required],
+    horizon:     ['', Validators.required],
+    liquidity:   ['', Validators.required]
   });
-
-  // --- UPDATED DROPDOWN OPTIONS (Values match Spring Boot Enums) ---
 
   riskOptions = [
     { label: 'Conservative - Preserve Capital', value: 'CONSERVATIVE' },
@@ -61,25 +62,32 @@ export class InvestementProfileComponent {
     { label: 'High - Frequent access needed', value: 'HIGH' }
   ];
 
-  // --------------------------------
-
   constructor() {
-    // Toggle Edit Mode
+    
+    // 🚨 2. Wrap the enable/disable logic in a setTimeout!
+    // This pushes the command to the next frame, giving PrimeNG time to realize it is no longer hidden.
     effect(() => {
-      if (this.isEditMode()) {
-        this.investForm.enable();
-      } else {
-        this.investForm.disable(); 
-      }
+      const isEdit = this.isEditMode();
+      
+      setTimeout(() => {
+        if (isEdit) {
+          this.investForm.enable(); 
+        } else {
+          this.investForm.disable(); 
+        }
+        // Force the screen to redraw the dropdowns
+        this.cdr.detectChanges(); 
+      }, 0);
     });
 
     // Load Data
     effect(() => {
       const data = this.profileData();
-      
       if (data) {
-        // Now the backend Enums will successfully match the dropdown values!
-        this.investForm.patchValue(data);
+        setTimeout(() => {
+          this.investForm.patchValue(data);
+          this.cdr.detectChanges();
+        }, 0);
       }
     });
   }

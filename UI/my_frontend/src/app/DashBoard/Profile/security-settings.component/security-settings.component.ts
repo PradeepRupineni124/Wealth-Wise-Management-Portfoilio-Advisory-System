@@ -56,10 +56,10 @@ export class SecuritySettingsComponent implements OnChanges, OnDestroy {
   // =========================================================================
 
   // Runs every time a new client is selected from the top search bar
+  // Runs every time a new client is selected from the top search bar
   ngOnChanges(changes: SimpleChanges) {
     if (changes['client'] && this.client) {
       
-      // Step 1: Does this client have a document in the database?
       if (this.client.kycDocumentRef || this.client.kycStatus !== 'NOT_VERIFIED') {
         this.kycData = {
           fileName: 'Uploaded_Document',
@@ -67,9 +67,13 @@ export class SecuritySettingsComponent implements OnChanges, OnDestroy {
           uploadDate: this.client.createdDate ? this.client.createdDate.split('T')[0] : 'N/A'
         };
 
-        // Step 2: If the DB says PENDING, start the 3-second auto-verifier!
+        // 🚨 THE FIX: Only run the auto-verify timer if a document ACTUALLY exists!
         if (this.kycData.status === 'PENDING') {
-          this.simulateVerification(3000); 
+          if (this.client.kycDocumentRef) {
+            this.simulateVerification(3000); 
+          } else {
+            this.clearVerificationTimer(); // Don't verify if no document is uploaded
+          }
         } else {
           this.clearVerificationTimer();
         }

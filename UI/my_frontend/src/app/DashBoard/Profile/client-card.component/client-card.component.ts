@@ -1,22 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Input } from '@angular/core';
+
 @Component({
   selector: 'app-client-card',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './client-card.component.html',
   styleUrl: './client-card.component.css',
 })
 export class ClientCardComponent {
-  // These receive data from the parent
   @Input() name: string = '';
   @Input() clientId: string = '';
   @Input() riskProfile: string = '';
   @Input() goal: string = '';
-  @Input() isVerified: boolean = false;
+  
+  // 🚨 FIX: Changed from boolean to string to support "PENDING"
+  @Input() kycStatus: string = 'NOT_VERIFIED'; 
 
-  // Helper to get initials like "JA"
   getInitials() {
-    return this.name.split(' ').map(n => n[0]).join('').toUpperCase();
+    if (!this.name) return '??';
+    return this.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+  }
+
+  formatText(value: string): string {
+    if (!value) return 'Pending...';
+    return value
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
   }
 }

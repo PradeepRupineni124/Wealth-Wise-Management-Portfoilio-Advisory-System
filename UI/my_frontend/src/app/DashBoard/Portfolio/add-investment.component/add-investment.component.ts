@@ -17,7 +17,6 @@ export class AddInvestmentComponent implements OnInit {
   display = false;
   @Output() investmentAdded = new EventEmitter<any>();
   
-  // 1. Receives the total value from the dashboard!
   @Input() totalPortfolioValue: number = 0; 
 
   assetTypes = [
@@ -26,10 +25,11 @@ export class AddInvestmentComponent implements OnInit {
     { label: 'Mutual Fund', value: 'Mutual Fund' }
   ];
 
-  newInvestment: any = { type: '', symbol: '', qty: null, purchasePrice: null, allocation: null };
+  // THE FIX: Added 'assetName' to the state object
+  newInvestment: any = { type: '', symbol: '', assetName: '', qty: null, purchasePrice: null, allocation: null };
   
   masterAssetList: any[] = [];
-  filteredAssetSymbols: string[] = []; // 2. Changed to purely store STRINGS!
+  filteredAssetSymbols: string[] = []; 
 
   constructor(private portfolioService: PortfolioService) {}
 
@@ -44,40 +44,34 @@ export class AddInvestmentComponent implements OnInit {
   searchAssets(event: any) {
     const query = event.query.toLowerCase();
     
-    // Filter the full objects based on search
     const filteredObjects = this.masterAssetList.filter(asset => {
       const matchesType = this.newInvestment.type ? asset.assetType === this.newInvestment.type : true;
       const matchesText = asset.symbol.toLowerCase().includes(query) || asset.assetName.toLowerCase().includes(query);
       return matchesType && matchesText;
     });
 
-    // Extract ONLY the symbols (strings). This makes [object Object] impossible!
     this.filteredAssetSymbols = filteredObjects.map(asset => asset.symbol);
   }
 
-  // 1. Changed parameter type from 'string' to 'any' to satisfy the Angular compiler
   onAssetSelected(event: any) {
-    // 2. Safely extract the string whether PrimeNG sends an object OR a direct string
     const selectedSymbol = event.value || event; 
-    
     this.newInvestment.symbol = selectedSymbol; 
     
-    // Manually look up the object to fetch the current price
     const selectedAsset = this.masterAssetList.find(a => a.symbol === selectedSymbol);
     
     if (selectedAsset) {
+        // THE FIX: Grab the name from the matching object!
+        this.newInvestment.assetName = selectedAsset.assetName; 
         this.newInvestment.purchasePrice = selectedAsset.currentPrice;
-        this.calculateAllocation(); // Trigger live math!
+        this.calculateAllocation(); 
     }
   }
 
-  // LIVE MATH CALCULATION!
   calculateAllocation() {
     if (this.newInvestment.qty && this.newInvestment.purchasePrice && this.totalPortfolioValue > 0) {
         const totalCost = this.newInvestment.qty * this.newInvestment.purchasePrice;
         const alloc = (totalCost / this.totalPortfolioValue) * 100;
         
-        // Truncate to 2 decimal places and assign
         this.newInvestment.allocation = parseFloat(alloc.toFixed(2)); 
     } else {
         this.newInvestment.allocation = null;
@@ -101,6 +95,7 @@ export class AddInvestmentComponent implements OnInit {
   }
 
   resetForm() {
-    this.newInvestment = { type: '', symbol: '', qty: null, purchasePrice: null, allocation: null };
+    // THE FIX: Ensure assetName resets when the modal closes
+    this.newInvestment = { type: '', symbol: '', assetName: '', qty: null, purchasePrice: null, allocation: null };
   }
 }

@@ -70,7 +70,6 @@ export class ProfileComponent {
     }); 
   }
 
-  // 🚨 UI INTERACTIONS - Relaxed strict typing to prevent TS2345
   onTabChange(t: any) { 
     this.activeTab.set(t); 
   }
@@ -87,16 +86,38 @@ export class ProfileComponent {
     const pComp = this.personalComp();
     const iComp = this.investComp();
 
-    if (pComp?.profileForm.invalid || iComp?.investForm.invalid) {
-      this.messageService.add({ severity: 'error', summary: 'Validation Error', detail: 'Please fix form errors.' });
+    let hasValidationError = false;
+
+    // 1. Check Personal Form and force red borders on empty fields
+    if (pComp?.profileForm.invalid) {
+      Object.keys(pComp.profileForm.controls).forEach(key => {
+        pComp.profileForm.get(key)?.markAsDirty();
+        pComp.profileForm.get(key)?.markAsTouched();
+      });
+      hasValidationError = true;
+    }
+
+    // 2. Check Investment Form and force red borders on empty fields
+    if (iComp?.investForm.invalid) {
+      Object.keys(iComp.investForm.controls).forEach(key => {
+        iComp.investForm.get(key)?.markAsDirty();
+        iComp.investForm.get(key)?.markAsTouched();
+      });
+      hasValidationError = true;
+    }
+
+    // 3. If any field is missing, stop the save and alert the user
+    if (hasValidationError) {
+      this.messageService.add({ severity: 'error', summary: 'Missing Information', detail: 'Please fill in all the fields highlighted in red.' });
       return;
     }
 
+    // --- If we pass validation, proceed with saving ---
     const currentClient = this.selectedClient();
     if (!currentClient || !currentClient.clientId) return;
 
-    const pData = pComp?.getFormData() || {};
-    const iData = iComp?.getFormData() || {};
+    const pData = pComp?.getFormData() || this.personalData() || {};
+    const iData = iComp?.getFormData() || this.investProfile() || {};
 
     const updatedPayload = {
       ...pData,
@@ -120,7 +141,11 @@ export class ProfileComponent {
       },
       error: (err) => {
         console.error('Save failed:', err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not save to Database.' });
+        if (err.status === 409) {
+          this.messageService.add({ severity: 'error', summary: 'Duplicate Email', detail: 'This email is already in use by another client.' });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Could not save to Database.' });
+        }
       }
     });
   }

@@ -12,10 +12,17 @@
 
 .summary-grid {
   display: grid;
-  /* Forces 5 columns to share the space equally */
-  grid-template-columns: repeat(5, minmax(0, 1fr)); 
-  gap: 12px; /* Reduced gap slightly so the 5 cards fit easily */
+  /* 1fr forces each of the 4 columns to take up exactly 25% of the available space */
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 24px; 
+  width: 100%;
   margin-bottom: 24px;
+}
+
+/* This targets the card components directly to ensure they don't shrink */
+.summary-grid app-portfolio-card {
+  width: 100%;
+  display: block;
 }
 
 /* Push the breakpoint down! It will only wrap on screens smaller than 1200px */

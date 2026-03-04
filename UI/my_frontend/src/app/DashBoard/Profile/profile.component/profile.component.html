@@ -3,44 +3,8 @@
 @if (selectedClient()) {
   <div class="profile-wrapper">
     
-    <app-client-card 
-      [name]="clientCard().name" 
-      [clientId]="clientCard().clientId"
-      [riskProfile]="clientCard().riskProfile"
-      [goal]="clientCard().goal"
-      [isVerified]="clientCard().isVerified">
-    </app-client-card>
-
-    <app-tab-filter 
-      [tabs]="profileTabs" 
-      (tabChanged)="onTabChange($any($event))">
-    </app-tab-filter>
-
-    <div class="tab-content mt-4">
-      @if (activeTab() === 'Personal Information') {
-        <app-personal-details 
-          [personalData]="personalData()" 
-          [isEditMode]="isEditing()">
-        </app-personal-details>
-      }
-
-      @if (activeTab() === 'Investment Profile') {
-        <app-investement-profile 
-          [profileData]="investProfile()" 
-          [summary]="investSummary()"
-          [isEditMode]="isEditing()">
-        </app-investement-profile>
-      }
-
-      @if (activeTab() === 'KYC Verification') {
-        <app-security-settings 
-          [client]="selectedClient()">
-        </app-security-settings>
-      }
-    </div>
-
     @if (activeTab() !== 'KYC Verification') {
-      <div class="action-footer mt-4 flex justify-content-end gap-3">
+      <div class="flex justify-content-end gap-3 mb-3">
         @if (!isEditing()) {
           <p-button label="Edit Profile" icon="pi pi-pencil" (onClick)="onEdit()"></p-button>
         } @else {
@@ -49,6 +13,46 @@
         }
       </div>
     }
+
+   <app-client-card 
+      [name]="selectedClient()?.fullName || selectedClient()?.name" 
+      [clientId]="selectedClient()?.clientId"
+      [riskProfile]="selectedClient()?.riskProfile"
+      [goal]="selectedClient()?.investmentGoal"
+      [kycStatus]="selectedClient()?.kycStatus">
+    </app-client-card>
+
+    <div class="mt-4">
+      <app-tab-filter 
+        [tabs]="profileTabs" 
+        (tabChanged)="onTabChange($any($event))">
+      </app-tab-filter>
+    </div>
+
+    <div class="tab-content mt-4">
+      
+      <div [hidden]="activeTab() !== 'Personal Information'">
+        <app-personal-details 
+          [personalData]="personalData()" 
+          [isEditMode]="isEditing()">
+        </app-personal-details>
+      </div>
+
+      <div [hidden]="activeTab() !== 'Investment Profile'">
+        <app-investement-profile 
+          [profileData]="investProfile()" 
+          [summary]="investSummary()"
+          [isEditMode]="isEditing()">
+        </app-investement-profile>
+      </div>
+
+      <div [hidden]="activeTab() !== 'KYC Verification'">
+        <app-security-settings 
+          [client]="selectedClient()">
+        </app-security-settings>
+      </div>
+
+    </div>
 
   </div>
 } 

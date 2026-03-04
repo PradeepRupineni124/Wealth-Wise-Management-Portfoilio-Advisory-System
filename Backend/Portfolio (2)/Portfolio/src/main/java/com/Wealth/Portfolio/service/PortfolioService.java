@@ -31,28 +31,20 @@ public class PortfolioService {
     private final AssetRepository assetRepository;
     private final ClientServiceClient clientServiceClient;
 
-    // 1. Create Portfolio with Risk Profile Mapping
-    // Make sure to inject your Feign Client at the top of PortfolioService!
-    // private final ClientServiceClient clientServiceClient;
-
     public Portfolio createPortfolio(Long clientId) {
         log.info("Creating new portfolio for Client ID: {}", clientId);
 
-        // 1. Call the Client Service through the Feign bridge!
         ClientDTO clientData = clientServiceClient.getClientById(clientId);
 
-        // 2. Build the Portfolio using the secure data from the Client Service
         Portfolio newPortfolio = Portfolio.builder()
                 .clientId(clientId)
-                .cashBalance(clientData.getInvestmentAmount()) // Fetched securely!
-                .riskProfile(clientData.getRiskProfile())      // Fetched securely!
+                .cashBalance(clientData.getInvestmentAmount())
+                .riskProfile(clientData.getRiskProfile())
                 .build();
 
-        // 3. Save to the database
         return portfolioRepository.save(newPortfolio);
     }
 
-    // 2. Fetch the summary cards (ALL 7 CARDS)
     public PortfolioSummaryDTO getPortfolioSummary(Long clientId) {
         log.info("Fetching portfolio summary for Client ID: {}", clientId);
 
@@ -65,15 +57,9 @@ public class PortfolioService {
         BigDecimal totalMarketValue = BigDecimal.ZERO;
         BigDecimal totalBuyValue = BigDecimal.ZERO;
 
-        // Buckets for the Asset Class cards
         BigDecimal eqValue = BigDecimal.ZERO;
         BigDecimal bondValue = BigDecimal.ZERO;
         BigDecimal mfValue = BigDecimal.ZERO;
-
-        // --- 1. NEW: Variables for Annual (YTD) Return ---
-        int currentYear = java.time.LocalDateTime.now().getYear();
-        BigDecimal ytdBuyValue = BigDecimal.ZERO;
-        BigDecimal ytdMarketValue = BigDecimal.ZERO;
 
         for (Holding holding : holdings) {
             BigDecimal marketValue = holding.getQuantity().multiply(holding.getAsset().getCurrentPrice());
@@ -82,13 +68,6 @@ public class PortfolioService {
             totalMarketValue = totalMarketValue.add(marketValue);
             totalBuyValue = totalBuyValue.add(buyValue);
 
-            // --- 2. NEW: Calculate values ONLY for assets bought this year ---
-            if (holding.getAddedDate() != null && holding.getAddedDate().getYear() == currentYear) {
-                ytdMarketValue = ytdMarketValue.add(marketValue);
-                ytdBuyValue = ytdBuyValue.add(buyValue);
-            }
-
-            // Group by Asset Type for the bottom cards
             String type = holding.getAsset().getAssetType();
             if ("Equity".equalsIgnoreCase(type)) {
                 eqValue = eqValue.add(marketValue);
@@ -101,7 +80,6 @@ public class PortfolioService {
 
         BigDecimal totalPortfolioValue = totalMarketValue.add(portfolio.getCashBalance());
 
-        // Calculate Total Return %
         BigDecimal totalReturnPct = BigDecimal.ZERO;
         if (totalBuyValue.compareTo(BigDecimal.ZERO) > 0) {
             totalReturnPct = totalMarketValue.subtract(totalBuyValue)
@@ -109,34 +87,21 @@ public class PortfolioService {
                     .multiply(new BigDecimal("100"));
         }
 
-        // --- 3. NEW: Apply the Annual Return Math Formula ---
-        BigDecimal annualReturnPct = BigDecimal.ZERO;
-        if (ytdBuyValue.compareTo(BigDecimal.ZERO) > 0) {
-            annualReturnPct = ytdMarketValue.subtract(ytdBuyValue)
-                    .divide(ytdBuyValue, 4, RoundingMode.HALF_UP)
-                    .multiply(new BigDecimal("100"));
-        }
-
-        // Calculate Allocations for the Badges
         String eqBadge = totalPortfolioValue.compareTo(BigDecimal.ZERO) > 0 ? eqValue.divide(totalPortfolioValue, 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).intValue() + "%" : "0%";
         String bondBadge = totalPortfolioValue.compareTo(BigDecimal.ZERO) > 0 ? bondValue.divide(totalPortfolioValue, 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).intValue() + "%" : "0%";
         String mfBadge = totalPortfolioValue.compareTo(BigDecimal.ZERO) > 0 ? mfValue.divide(totalPortfolioValue, 2, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).intValue() + "%" : "0%";
 
-        // Formatter for clean numbers with commas (e.g., $1,146,551)
         java.text.NumberFormat fmt = java.text.NumberFormat.getNumberInstance(java.util.Locale.US);
         fmt.setMaximumFractionDigits(0);
 
-        // 1. TOP 4 STAT CARDS
-        // 1. TOP 5 STAT CARDS
         List<StatCardDTO> stats = List.of(
                 StatCardDTO.builder().title("Total Portfolio Value").value("$" + fmt.format(totalPortfolioValue)).color("#0f172a").build(),
-                StatCardDTO.builder().title("Available Cash").value("$" + fmt.format(portfolio.getCashBalance())).color("#0f172a").build(), // The new Cash card!
-                StatCardDTO.builder().title("Total Return").value(annualReturnPct.setScale(2, RoundingMode.HALF_UP) + "%").color(annualReturnPct.compareTo(BigDecimal.ZERO) >= 0 ? "#10b981" : "#ef4444").build(),
+                StatCardDTO.builder().title("Available Cash").value("$" + fmt.format(portfolio.getCashBalance())).color("#0f172a").build(),
+                StatCardDTO.builder().title("Total Return").value(totalReturnPct.setScale(2, RoundingMode.HALF_UP) + "%").color(totalReturnPct.compareTo(BigDecimal.ZERO) >= 0 ? "#10b981" : "#ef4444").build(),
                 StatCardDTO.builder().title("Total Positions").value(String.valueOf(holdings.size())).color("#0f172a").build(),
-                StatCardDTO.builder().title("Asset Classes").value("3").color("#0f172a").build() // Kept the Asset Classes card!
+                StatCardDTO.builder().title("Asset Classes").value("3").color("#0f172a").build()
         );
 
-        // 2. BOTTOM 3 ASSET CLASS CARDS
         List<AssetClassDTO> assetClasses = List.of(
                 AssetClassDTO.builder().title("Equities").value("$" + fmt.format(eqValue)).badgeText(eqBadge).badgeBgColor("#eefdf3").trendText("+15.2% YTD").trendColor("#10b981").build(),
                 AssetClassDTO.builder().title("Bonds").value("$" + fmt.format(bondValue)).badgeText(bondBadge).badgeBgColor("#eff6ff").trendText("+1.4% YTD").trendColor("#3b82f6").build(),
@@ -147,34 +112,29 @@ public class PortfolioService {
                 .portfolioId(portfolio.getPortfolioId())
                 .cashBalance(portfolio.getCashBalance())
                 .stats(stats)
-                .assetClasses(assetClasses) // Sending the bottom cards to Angular!
+                .assetClasses(assetClasses)
                 .build();
     }
 
-    // 3. Fetch JUST the Holdings for the AG Grid
     public List<HoldingDTO> getPortfolioHoldings(Long portfolioId) {
         log.info("Fetching holdings for Portfolio ID: {}", portfolioId);
 
-        // We need the portfolio to get the cash balance!
         Portfolio portfolio = portfolioRepository.findById(portfolioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Portfolio not found"));
 
         List<Holding> holdings = holdingRepository.findByPortfolioPortfolioId(portfolioId);
 
-        // --- STEP A: CALCULATE TOTAL PORTFOLIO VALUE ---
         BigDecimal totalInvested = holdings.stream()
                 .map(h -> h.getQuantity().multiply(h.getAsset().getCurrentPrice()))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
         BigDecimal totalPortfolioValue = totalInvested.add(portfolio.getCashBalance());
 
-        // --- STEP B: MAP TO DTO AND CALCULATE PERCENTAGES ---
         return holdings.stream().map(holding -> {
             BigDecimal qty = holding.getQuantity();
             BigDecimal currentPrice = holding.getAsset().getCurrentPrice();
             BigDecimal avgPrice = holding.getBuyPrice();
             BigDecimal marketValue = qty.multiply(currentPrice);
 
-            // Calculate Return %
             BigDecimal returnPct = BigDecimal.ZERO;
             if (avgPrice.compareTo(BigDecimal.ZERO) > 0) {
                 returnPct = currentPrice.subtract(avgPrice)
@@ -182,7 +142,6 @@ public class PortfolioService {
                         .multiply(new BigDecimal("100"));
             }
 
-            // Calculate Allocation %
             BigDecimal allocationPct = BigDecimal.ZERO;
             if (totalPortfolioValue.compareTo(BigDecimal.ZERO) > 0) {
                 allocationPct = marketValue
@@ -195,20 +154,22 @@ public class PortfolioService {
                     .symbol(holding.getAsset().getSymbol())
                     .name(holding.getAsset().getAssetName())
                     .type(holding.getAsset().getAssetType())
+                    .sector(holding.getAsset().getSector())
                     .qty(qty)
                     .avgPrice(avgPrice)
                     .currentPrice(currentPrice)
                     .marketValue(marketValue)
                     .returnPct(returnPct)
-                    .allocationPct(allocationPct) // <--- SENDING THE NEW CALCULATION!
+                    .allocationPct(allocationPct)
+                    // --- 1. THE FIX: Ensures the Cash column works perfectly! ---
+                    .liquidityAssets(portfolio.getCashBalance())
                     .geography(holding.getAsset().getGeography())
                     .addedDate(holding.getAddedDate())
                     .build();
         }).collect(Collectors.toList());
     }
-    // 4. Add a new investment (Holding) to a portfolio
-    // 4. Add a new investment OR update an existing one
-    @Transactional // Rolls back the database if anything fails!
+
+    @Transactional
     public void addInvestmentToPortfolio(Long portfolioId, AddInvestmentRequestDTO request) {
         log.info("Processing investment {} for Portfolio ID: {}", request.getSymbol(), portfolioId);
 
@@ -218,22 +179,18 @@ public class PortfolioService {
         Asset asset = assetRepository.findBySymbol(request.getSymbol())
                 .orElseThrow(() -> new ResourceNotFoundException("Asset not found in master list: " + request.getSymbol()));
 
-        // --- 1. CALCULATE TOTAL COST ---
         BigDecimal newQty = request.getQty();
         BigDecimal newPrice = request.getPurchasePrice();
         BigDecimal totalCost = newQty.multiply(newPrice);
 
-        // --- 2. CHECK FOR INSUFFICIENT FUNDS ---
         if (portfolio.getCashBalance().compareTo(totalCost) < 0) {
             log.warn("Insufficient funds! Cash: {}, Required: {}", portfolio.getCashBalance(), totalCost);
             throw new BadRequestException("Insufficient cash balance. You need $" + totalCost + " but only have $" + portfolio.getCashBalance());
         }
 
-        // --- 3. DEDUCT THE CASH ---
         portfolio.setCashBalance(portfolio.getCashBalance().subtract(totalCost));
         portfolioRepository.save(portfolio);
 
-        // --- 4. CHECK IF ASSET ALREADY EXISTS IN PORTFOLIO ---
         List<Holding> existingHoldings = holdingRepository.findByPortfolioPortfolioId(portfolioId);
 
         Holding existingHolding = existingHoldings.stream()
@@ -242,27 +199,23 @@ public class PortfolioService {
                 .orElse(null);
 
         if (existingHolding != null) {
-            // SCENARIO A: THE USER ALREADY OWNS THIS ASSET
             log.info("Asset {} already exists. Updating quantity and calculating new Average Price.", request.getSymbol());
 
             BigDecimal oldQty = existingHolding.getQuantity();
             BigDecimal oldAvgPrice = existingHolding.getBuyPrice();
 
-            // Math for new Average Buy Price: ((Old Qty * Old Price) + (New Qty * New Price)) / Total Qty
             BigDecimal totalOldCost = oldQty.multiply(oldAvgPrice);
             BigDecimal combinedQty = oldQty.add(newQty);
             BigDecimal newAvgPrice = (totalOldCost.add(totalCost)).divide(combinedQty, 4, RoundingMode.HALF_UP);
 
-            // Update the existing row
             existingHolding.setQuantity(combinedQty);
             existingHolding.setBuyPrice(newAvgPrice);
-            existingHolding.setTargetAllocPct(request.getAllocation()); // Update their target goal
+            existingHolding.setTargetAllocPct(request.getAllocation());
 
             holdingRepository.save(existingHolding);
             log.info("Successfully updated {}. New Qty: {}, New Avg Price: {}", request.getSymbol(), combinedQty, newAvgPrice);
 
         } else {
-            // SCENARIO B: THIS IS A BRAND NEW ASSET
             log.info("Asset {} is new. Creating a new holding row.", request.getSymbol());
 
             Holding newHolding = Holding.builder()
@@ -278,17 +231,52 @@ public class PortfolioService {
             log.info("Successfully saved new holding for {}.", request.getSymbol());
         }
     }
-    // 5. Update an existing holding (e.g., editing quantity in AG Grid)
+
+    // --- 2. THE FIX: The new, mathematically accurate inline update method! ---
+    @Transactional
     public Holding updateHolding(Long holdingId, UpdateHoldingDTO dto) {
-        log.info("Updating Holding ID: {}", holdingId);
+        log.info("Updating Holding ID: {} to new quantity: {}", holdingId, dto.getQuantity());
 
         Holding holding = holdingRepository.findById(holdingId)
                 .orElseThrow(() -> new ResourceNotFoundException("Holding not found with ID: " + holdingId));
 
-        holding.setQuantity(dto.getQuantity());
-        holding.setBuyPrice(dto.getBuyPrice());
-        holding.setTargetAllocPct(dto.getTargetAllocPct());
+        Portfolio portfolio = holding.getPortfolio();
 
-        return holdingRepository.save(holding);
+        BigDecimal oldQty = holding.getQuantity();
+        BigDecimal newQty = dto.getQuantity();
+        BigDecimal difference = newQty.subtract(oldQty); // Positive = buying, Negative = selling
+
+        // Calculate cash impact using current market price
+        BigDecimal currentPrice = holding.getAsset().getCurrentPrice();
+        BigDecimal cashImpact = difference.multiply(currentPrice);
+
+        // If they are buying more, make sure they have enough cash!
+        if (difference.compareTo(BigDecimal.ZERO) > 0 && portfolio.getCashBalance().compareTo(cashImpact) < 0) {
+            log.warn("Insufficient funds for inline update. Needed: {}, Available: {}", cashImpact, portfolio.getCashBalance());
+            throw new BadRequestException("Insufficient liquidity. You need $" + cashImpact + " to buy more, but only have $" + portfolio.getCashBalance());
+        }
+
+        // Deduct the cost (or add the revenue if they sold)
+        portfolio.setCashBalance(portfolio.getCashBalance().subtract(cashImpact));
+        portfolioRepository.save(portfolio);
+
+        // If the user set the quantity to 0 (or lower), sell the whole position!
+        if (newQty.compareTo(BigDecimal.ZERO) <= 0) {
+            log.info("Quantity updated to 0. Removing holding ID: {}", holdingId);
+            holdingRepository.delete(holding);
+            return null;
+        } else {
+            holding.setQuantity(newQty);
+
+            // Only update these if they were actually passed in the request
+            if (dto.getBuyPrice() != null) {
+                holding.setBuyPrice(dto.getBuyPrice());
+            }
+            if (dto.getTargetAllocPct() != null) {
+                holding.setTargetAllocPct(dto.getTargetAllocPct());
+            }
+
+            return holdingRepository.save(holding);
+        }
     }
 }

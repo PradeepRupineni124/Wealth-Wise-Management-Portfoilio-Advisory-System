@@ -62,23 +62,27 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   loadDashboard() {
-    // SAFETY CHECK: Stop here if there is no client ID
     if (!this.currentClientId) return;
 
     this.portfolioService.loadOrCreatePortfolio(this.currentClientId).subscribe({
       next: (summary) => {
         this.currentPortfolioId = summary.portfolioId; 
         
-        // Use the spread operator [...] to force Angular to redraw the cards
-        this.portfolioStats = [...summary.stats];
-        this.assetClasses = [...(summary.assetClasses || [])];
-        
-        // Extract raw number for the live math in the Add Investment modal
-        if (this.portfolioStats && this.portfolioStats.length > 0) {
-            const valStr = this.portfolioStats[0].value; 
+        // Extract raw number for the modal
+        if (summary.stats && summary.stats.length > 0) {
+            const valStr = summary.stats[0].value; 
             this.currentTotalValue = parseFloat(valStr.replace(/[^0-9.-]+/g, "")); 
         }
 
+        // --- THE FIX: Find the Cash card and delete it from the UI! ---
+        const cashIndex = summary.stats.findIndex((s: any) => s.title.includes('Cash') || s.title.includes('Available'));
+        if (cashIndex !== -1) {
+            summary.stats.splice(cashIndex, 1); 
+        }
+
+        this.portfolioStats = [...summary.stats];
+        this.assetClasses = [...(summary.assetClasses || [])];
+        
         this.cdr.detectChanges(); 
 
         if (this.currentPortfolioId) {
@@ -123,6 +127,34 @@ export class PortfolioComponent implements OnInit, OnDestroy {
             detail: err.error?.message || "An unknown error occurred." 
         });
       }
+    });
+  }
+
+  onInlineQuantityUpdate(event: {holdingId: number, newQty: number, oldQty: number}) {
+    const payload = {
+        quantity: event.newQty
+    };
+
+    // Calls the backend to update the database
+    this.portfolioService.updateHolding(event.holdingId, payload).subscribe({
+        next: () => {
+            this.messageService.add({ 
+                severity: 'success', 
+                summary: 'Position Updated', 
+                detail: `Successfully updated quantity to ${event.newQty}.` 
+            });
+            // Instantly reload the dashboard so the Cash column and Math updates!
+            this.loadDashboard(); 
+        },
+        error: (err) => {
+            this.messageService.add({ 
+                severity: 'error', 
+                summary: 'Update Failed', 
+                detail: err.error?.message || 'Could not update quantity. Check cash balance.' 
+            });
+            // Reload to revert the AG Grid cell back to the original number if the backend blocked it
+            this.loadDashboard(); 
+        }
     });
   }
 }

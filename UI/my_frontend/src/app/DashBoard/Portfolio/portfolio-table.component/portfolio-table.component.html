@@ -24,13 +24,11 @@
         [defaultColDef]="defaultColDef"
         [domLayout]="'autoHeight'" 
         [animateRows]="true" 
-        
         [pagination]="true"
         [paginationPageSize]="5"
         [paginationPageSizeSelector]="[5, 10, 20]"
-        
-        (gridReady)="onGridReady($event)">
-      </ag-grid-angular>
+        (gridReady)="onGridReady($event)"
+        (cellValueChanged)="onCellValueChanged($event)"> </ag-grid-angular>
     } @else {
       <div class="loading-state">
         <i class="pi pi-spin pi-spinner"></i> Initializing Portfolio...

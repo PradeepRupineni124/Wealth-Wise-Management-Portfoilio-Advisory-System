@@ -25,7 +25,10 @@
       </section>
 
       <section class="table-section">
-        <app-portfolio-table [rowData]="portfolioData"></app-portfolio-table>
+        <app-portfolio-table 
+            [rowData]="portfolioData"
+            (quantityChanged)="onInlineQuantityUpdate($event)">
+        </app-portfolio-table>
       </section>
 
       <section class="summary-box">

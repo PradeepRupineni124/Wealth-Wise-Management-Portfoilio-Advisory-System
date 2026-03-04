@@ -9,7 +9,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 })
 export class PortfolioService {
   // Pointing to your API Gateway!
-  private baseUrl = 'http://ltin656932.cts.com:9090/api';
+  private baseUrl = 'http://ltin656690.cts.com:9090/api';
 
   constructor(private http: HttpClient) {}
 
@@ -41,5 +41,10 @@ export class PortfolioService {
   // 4. Submits the new trade
   addInvestment(portfolioId: number, payload: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/portfolio/${portfolioId}/holdings`, payload, { responseType: 'text' });
+  }
+
+  // Add this to your frontend portfolio.service.ts if it isn't there already
+  updateHolding(holdingId: number, payload: any) {
+    return this.http.put(`${this.baseUrl}/holdings/${holdingId}`, payload, { responseType: 'text' });
   }
 }
