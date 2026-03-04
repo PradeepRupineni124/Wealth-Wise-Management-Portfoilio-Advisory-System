@@ -27,52 +27,13 @@ import { Toast, ToastModule } from 'primeng/toast';
     ToastModule
   ],
   // providers :[MessageService],
-  template: `
-  <p-toast position="top-right" [style]="{zIndex: 9999}"></p-toast>
-    <div class="">
-      <div class="mb-4">
-         <h1 class="text-900 font-bold m-0 text-2xl">Welcome back, <span class="text-primary">{{ currentClientName }}</span></h1>
-         <p class="text-500 mt-1">Here's an overview of your wealth management portfolio</p>
-      </div>
-
-      <div *ngIf="loading" class="flex justify-content-center align-items-center" style="height: 20rem;">
-        <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-      </div>
-
-      <div *ngIf="!loading">
-        
-        <div class="grid mb-4">
-          <div class="col-12 md:col-6 lg:col-3" *ngFor="let stat of stats">
-            <app-stat-card [metric]="stat"></app-stat-card>
-          </div>
-        </div>
-
-        <div class="grid mb-4">
-          <div class="col-12 lg:col-8">
-            <app-portfolio-chart [rawData]="chartData" (rangeChange)="onRangeChange($event)"></app-portfolio-chart>
-          </div>
-          <div class="col-12 lg:col-4">
-            <app-asset-allocation [assets]="assets"></app-asset-allocation>
-          </div>
-        </div>
-
-        <div class="grid">
-          <div class="col-12 lg:col-6">
-            <app-recent-activities [activities]="activities"></app-recent-activities>
-          </div>
-          <div class="col-12 lg:col-6">
-            <app-notifications [notifications]="notifications"></app-notifications>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  `
+  templateUrl : './overview.component.html'
 })
 export class OverviewComponent implements OnInit {
   loading = true;
   currentClientName = 'Client'; // Safe default
   currentClientId = 1;
+  hasClient: boolean = false;
   
   stats: StatMetric[] = [];
   assets: Asset[] = [];
@@ -105,17 +66,26 @@ export class OverviewComponent implements OnInit {
       switchMap(client => {
         // 1. DEFENSIVE: Safely grab the ID and Name regardless of object structure
         const safeId = client?.clientId || client?.id;
-        const safeName = client?.fullName || client?.name || 'Client';
+        const safeName = client?.fullName || client?.name || 'Loading...';
 
         // 2. DEFENSIVE: If no ID exists, shield the stream from crashing
         if (!safeId) {
+        setTimeout(() => {
+             this.hasClient = false; 
+             this.loading = false;
+             this.cdr.detectChanges();
+          }, 0);
           return of(null);
         }
 
         // 3. Update component state safely
-        this.currentClientName = safeName;
-        this.currentClientId = safeId;
-        this.loading = true;
+        setTimeout(() => {
+           this.hasClient = true;
+           this.currentClientName = safeName;
+           this.currentClientId = safeId;
+           this.loading = true;
+           this.cdr.detectChanges();
+        }, 0);
 
         // 4. EFFICIENT BFF CALLS: Fetch Main Data + Chart Data in parallel (2 Calls only)
         return forkJoin({
