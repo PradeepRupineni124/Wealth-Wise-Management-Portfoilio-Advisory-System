@@ -295,4 +295,15 @@ public class PortfolioService {
             return holdingRepository.save(holding);
         }
     }
+
+
+    public Long getPortfolioIdByClientId(Long clientId) {
+        log.info("Fetching Portfolio ID for Client ID: {}", clientId);
+        return portfolioRepository.findByClientId(clientId).stream()
+                .findFirst()
+                .map(Portfolio::getPortfolioId)
+                .orElseThrow(() -> new ResourceNotFoundException("No portfolio found for Client ID: " + clientId));
+    }
+
+
 }

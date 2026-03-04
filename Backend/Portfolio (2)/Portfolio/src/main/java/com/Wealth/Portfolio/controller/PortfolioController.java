@@ -57,4 +57,12 @@ public class PortfolioController {
         List<HoldingDTO> holdings = portfolioService.getPortfolioHoldings(portfolioId);
         return ResponseEntity.ok(holdings);
     }
+
+    @GetMapping("/{clientId}/id")
+    public ResponseEntity<Long> getPortfolioId(@PathVariable Long clientId) {
+        log.info("REST request to get Portfolio ID for Client ID: {}", clientId);
+        Long portfolioId = portfolioService.getPortfolioIdByClientId(clientId);
+        return ResponseEntity.ok(portfolioId);
+    }
+
 }
