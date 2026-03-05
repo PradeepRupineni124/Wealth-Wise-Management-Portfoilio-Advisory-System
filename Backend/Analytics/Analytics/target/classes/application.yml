@@ -1,21 +1,20 @@
+server:
+  port: 8070
+
 spring:
   application:
-    name: wealth-analytics-service
-  cloud:
-    openfeign:
-      client:
-        config:
-          default:
-            connect-timeout: 5000
-            read-timeout: 5000
+    name: analytics-service
+
+  # --- Database Configuration ---
   datasource:
     url: jdbc:mysql://localhost:3306/finance_db
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-    # Optional pool settings (HikariCP defaults)
     hikari:
-      maximum-pool-size: 10
+      maximum-pool-size: 10 # Optional pool settings
+
+  # --- JPA / Hibernate Configuration ---
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,17 +22,19 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: false
-  web:
-    cors:
-      allowed-origins: "http://localhost:3000,http://localhost:4200"
-      allowed-methods: "GET,POST,PUT,DELETE,OPTIONS"
-      allowed-headers: "*"
-      allow-credentials: true
-      max-age: 3600
 
-server:
-  port: 8083
+  # --- OpenFeign & Circuit Breaker ---
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+      client:
+        config:
+          default:
+            connect-timeout: 5000
+            read-timeout: 5000
 
+# --- Eureka Discovery Client ---
 eureka:
   client:
     service-url:
@@ -41,6 +42,6 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
   instance:
-    hostname: LTIN656497.cts.com
-    prefer-ip-address: false
-    instance-id: ${eureka.instance.hostname}:${spring.application.name}
+    prefer-ip-address: true
+    # TIP: If you get "Connection timed out" errors again because of Wi-Fi changes,
+    # change prefer-ip-address to 'false' and add 'hostname: localhost' here!

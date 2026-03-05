@@ -4,8 +4,8 @@ spring:
   
   datasource:
     url: jdbc:mysql://localhost:3306/compilance
-    username: user
-    password: Venu@007
+    username: root
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   
   jpa:

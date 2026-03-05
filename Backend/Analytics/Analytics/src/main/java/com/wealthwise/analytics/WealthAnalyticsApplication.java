@@ -16,17 +16,6 @@ public class WealthAnalyticsApplication {
         SpringApplication.run(WealthAnalyticsApplication.class, args);
     }
 
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                    .allowedOrigins("http://localhost:3000", "http://localhost:4200")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                    .allowCredentials(true)
-                    .maxAge(3600);
-            }
-        };
+
     }
-}
+

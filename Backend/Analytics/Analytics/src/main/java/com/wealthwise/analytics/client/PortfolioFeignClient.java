@@ -4,16 +4,37 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "portfolio-service")
+import java.math.BigDecimal;
+import java.util.List;
+
+@FeignClient(name = "portfolio-service", fallback = PortfolioFeignClientFallback.class)
 public interface PortfolioFeignClient {
 
-    @GetMapping("/api/portfolio/{clientId}")
-    PortfolioResponse getPortfolioByClientId(@PathVariable String clientId);
+    // 1. Get the summary to find the Portfolio ID and Cash Balance
+    @GetMapping("/api/portfolio/{clientId}/summary")
+    PortfolioSummaryDTO getPortfolioSummary(@PathVariable("clientId") Long clientId);
 
-    record PortfolioResponse(
-        String clientId,
-        Double currentValue,
-        Double beginningValue,
-        Double[] monthlyReturns
+    // 2. Get the actual holdings to calculate values dynamically
+    @GetMapping("/api/portfolio/{portfolioId}/holdings")
+    List<HoldingDTO> getPortfolioHoldings(@PathVariable("portfolioId") Long portfolioId);
+
+    // --- DTO MAPPINGS ---
+    record PortfolioSummaryDTO(
+            Long portfolioId,
+            BigDecimal cashBalance
+    ) {}
+
+    record HoldingDTO(
+            Long holdingId,
+            String symbol,
+            String name,
+            String type,
+            String sector,
+            BigDecimal qty,
+            BigDecimal avgPrice,
+            BigDecimal currentPrice,
+            BigDecimal marketValue,
+            BigDecimal allocationPct,
+            String geography
     ) {}
 }

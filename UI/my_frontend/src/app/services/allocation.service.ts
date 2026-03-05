@@ -1,259 +1,167 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { BehaviorSubject, Observable, forkJoin, of } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 
-
+// --- Domain Interfaces ---
 export interface Sector { name: string; value: number; color: string; }
 export interface Region { name: string; value: string; class: string; }
-export interface ChartDataset {
-  label: string; data: number[]; fill: boolean; borderColor: string;
-  tension: number; pointBackgroundColor: string; pointRadius: number;
-  borderDash?: number[]; yAxisID?: string; backgroundColor?: string;
-}
+export interface ChartDataset { label: string; data: number[]; fill: boolean; borderColor: string; tension: number; pointBackgroundColor: string; pointRadius: number; borderDash?: number[]; yAxisID?: string; backgroundColor?: string; }
 export interface PerformanceData { labels: string[]; datasets: ChartDataset[]; }
 export interface KeyMetric { title: string; value: string; subtext: string; isPositive: boolean; }
 export interface AssetMetric { label: string; value: number; returnRate: number; }
 export interface RiskMetric { title: string; portfolioValue: string; benchmarkValue: string; }
 export interface RiskAssessment { level: string; score: number; description: string; }
 export interface VaRMetric { period: string; confidence: number; value: string; percentage: string; theme: string; }
-export interface Report {
-  title: string; description: string; date: string; icon: string;
-  iconBg: string; iconColor: string; type: 'performance' | 'tax' | 'risk' | 'holdings';
-}
+export interface Report { title: string; description: string; date: string; icon: string; iconBg: string; iconColor: string; type: 'performance' | 'tax' | 'risk' | 'holdings'; }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AllocationService {
-  
+  private readonly API_BASE = 'http://ltin656497.cts.com:9090/api/analytics';
 
-  private clientCache = new Map<number, any>();
+  // --- THE TRIGGER STREAM (Matches OverviewService pattern) ---
+  private clientTrigger$ = new BehaviorSubject<number | null>(null);
+  public activeClient$ = this.clientTrigger$.asObservable();
 
+  // --- Reactive State ---
+  private sectors$ = new BehaviorSubject<Sector[]>([]);
+  private regions$ = new BehaviorSubject<Region[]>([]);
+  private performance$ = new BehaviorSubject<PerformanceData>({ labels: [], datasets: [] });
+  private metrics$ = new BehaviorSubject<KeyMetric[]>([]);
+  private assetMetrics$ = new BehaviorSubject<AssetMetric[]>([]);
+  private riskMetrics$ = new BehaviorSubject<RiskMetric[]>([]);
+  private riskAssessment$ = new BehaviorSubject<RiskAssessment>({ level: '', score: 0, description: '' });
+  private varData$ = new BehaviorSubject<VaRMetric[]>([]);
+  private reports$ = new BehaviorSubject<Report[]>(this.getStandardReports());
 
-  private sectorsSubject = new BehaviorSubject<Sector[]>([]);
-  private regionsSubject = new BehaviorSubject<Region[]>([]);
-  private performanceSubject = new BehaviorSubject<PerformanceData>({ labels: [], datasets: [] });
-  private metricsSubject = new BehaviorSubject<KeyMetric[]>([]);
-  private assetMetricsSubject = new BehaviorSubject<AssetMetric[]>([]);
-  private riskMetricsSubject = new BehaviorSubject<RiskMetric[]>([]);
-  private riskAssessmentSubject = new BehaviorSubject<RiskAssessment>({ level: '', score: 0, description: '' });
-  private varDataSubject = new BehaviorSubject<VaRMetric[]>([]);
-  private reportsSubject = new BehaviorSubject<Report[]>([]);
+  constructor(private http: HttpClient) {}
 
-  constructor() {
-  
-    this.updateClient(1);
+  // --- Public Observables ---
+  getAllocationData(): Observable<Sector[]> { return this.sectors$.asObservable(); }
+  getGeographicData(): Observable<Region[]> { return this.regions$.asObservable(); }
+  getPerformanceData(): Observable<PerformanceData> { return this.performance$.asObservable(); }
+  getKeyMetrics(): Observable<KeyMetric[]> { return this.metrics$.asObservable(); }
+  getAssetMetrics(): Observable<AssetMetric[]> { return this.assetMetrics$.asObservable(); }
+  getRiskMetrics(): Observable<RiskMetric[]> { return this.riskMetrics$.asObservable(); }
+  getRiskAssessment(): Observable<RiskAssessment> { return this.riskAssessment$.asObservable(); }
+  getVaRData(): Observable<VaRMetric[]> { return this.varData$.asObservable(); }
+  getReports(): Observable<Report[]> { return this.reports$.asObservable(); }
+
+  // ------------------------------------------------------------------
+  // CALLED BY LAYOUT COMPONENT (Keeps compilation from failing!)
+  // ------------------------------------------------------------------
+  public updateClient(clientId: number): void {
+    this.clientTrigger$.next(clientId);
   }
 
+  public refreshData(clientId?: number | null): void {
+    if (clientId) this.clientTrigger$.next(clientId);
+  }
 
-  getAllocationData(): Observable<Sector[]> { return this.sectorsSubject.asObservable(); }
-  getGeographicData(): Observable<Region[]> { return this.regionsSubject.asObservable(); }
-  getPerformanceData(): Observable<PerformanceData> { return this.performanceSubject.asObservable(); }
-  getKeyMetrics(): Observable<KeyMetric[]> { return this.metricsSubject.asObservable(); }
-  getAssetMetrics(): Observable<AssetMetric[]> { return this.assetMetricsSubject.asObservable(); }
-  getRiskMetrics(): Observable<RiskMetric[]> { return this.riskMetricsSubject.asObservable(); }
-  getRiskAssessment(): Observable<RiskAssessment> { return this.riskAssessmentSubject.asObservable(); }
-  getVaRData(): Observable<VaRMetric[]> { return this.varDataSubject.asObservable(); }
-  getReports(): Observable<Report[]> { return this.reportsSubject.asObservable(); }
+  // ------------------------------------------------------------------
+  // CALLED BY ANALYTICS COMPONENT (Using SwitchMap)
+  // ------------------------------------------------------------------
+  public fetchClientData(clientId: number): Observable<any> {
+    const noCacheParams = new HttpParams().set('_t', Date.now().toString());
 
+    return forkJoin({
+      // The retry block handles the Portfolio Database Race Condition safely!
+      dashboard: this.http.get<any>(`${this.API_BASE}/dashboard/${clientId}`, { params: noCacheParams }).pipe(
+        retry({ count: 3, delay: 800 }), 
+        catchError(() => of(null))
+      ),
+      risk: this.http.get<any>(`${this.API_BASE}/risk-analysis/${clientId}`, { params: noCacheParams }).pipe(
+        retry({ count: 3, delay: 800 }),
+        catchError(() => of(null))
+      )
+    });
+  }
 
-  updateClient(clientId: number) {
-    console.log(`Switching to Client ID: ${clientId}`);
+  public processData(data: any): void {
+    if (data.dashboard) this.mapDashboardResponse(data.dashboard);
+    if (data.risk) this.mapRiskResponse(data.risk);
+  }
 
-   
-    if (!this.clientCache.has(clientId)) {
-     
-      const newProfile = this.generateRandomProfile(clientId);
-      this.clientCache.set(clientId, newProfile);
+  private mapDashboardResponse(data: any): void {
+    console.log("Raw Dashboard Data:", data); // Debug log to inspect the raw response
+    const sectorsRaw = data.sectorAllocation || [];
+    this.sectors$.next(sectorsRaw.map((s: any) => ({
+      name: s.name || s.sectorName, value: s.percentage ?? s.percent ?? s.allocationPercent ?? s.allocation ?? s.value ?? 0,
+      color: this.getSectorColor(s.name || s.sectorName)
+    })));
+
+    const geoRaw = data.geoDiversification || [];
+    this.regions$.next(geoRaw.map((g: any) => ({
+      name: g.region, value: `${g.percentage || 0}%`, class: g.colorClass || 'bg-blue'
+    })));
+
+    const metricsRaw = data.keyMetrics || [];
+    this.metrics$.next(metricsRaw.map((m: any) => ({
+      title: m.metricName, value: `${Number(m.value || 0).toFixed(2)}${m.unit || ''}`, 
+      subtext: m.trend === 'UP' ? 'Outperforming' : 'Underperforming', isPositive: m.trend === 'UP'
+    })));
+
+    const pData = data.performanceData || {};
+    const isPositive = (pData.totalReturnYTD || 0) >= 0;
+
+    this.performance$.next({
+      labels: pData.historicalLabels || [],
+      datasets: [
+        { label: 'Portfolio', data: pData.portfolioReturns || [], fill: false, borderColor: isPositive ? '#10b981' : '#ef4444', tension: 0.4, pointBackgroundColor: isPositive ? '#10b981' : '#ef4444', pointRadius: 4 },
+        { label: 'Benchmark', data: pData.benchmarkReturns || [], fill: false, borderColor: '#94a3b8', borderDash: [5, 5], tension: 0.4, pointBackgroundColor: '#94a3b8', pointRadius: 3 }
+      ]
+    });
+
+    const assetMetricsRaw = data.assetMetrics || [];
+    this.assetMetrics$.next(assetMetricsRaw.map((a: any) => ({
+      label: a.assetClass || a.label, value: a.marketValue || a.value, returnRate: a.returnRate || 0
+    })));
+  }
+
+  private mapRiskResponse(data: any): void {
+    if (data.riskAssessment) {
+      const riskLevel = data.riskAssessment.level || data.riskAssessment.overallRiskLevel || 'Moderate';
+      this.riskAssessment$.next({ level: riskLevel, score: this.getRiskScore(riskLevel), description: data.riskAssessment.description || '' });
     }
 
-    
-    const data = this.clientCache.get(clientId);
+    const varData = data.valueAtRisk || {};
+    const varValues: any[] = Object.values(varData);
+    const var1d = varValues.length > 0 ? varValues[0] : {};
+    const var1m = varValues.length > 1 ? varValues[1] : {};
 
-    this.sectorsSubject.next(data.sectors);
-    this.regionsSubject.next(data.regions);
-    this.performanceSubject.next(data.performance);
-    this.metricsSubject.next(data.stats);
-    this.assetMetricsSubject.next(data.assetMetrics);
-    this.riskMetricsSubject.next(data.riskMetrics);
-    this.riskAssessmentSubject.next(data.riskAssessment);
-    this.varDataSubject.next(data.varData);
-    this.reportsSubject.next(data.reports);
-  }
-
-  addClient(id: number, name: string) {
-    
-    this.updateClient(id); 
-    
-  }
-
-
-  private generateRandomProfile(id: number): any {
-    
-    
-    const typeIndex = id % 3; 
-    
-    
-    const noise = (id * 7) % 10; 
-
-    if (typeIndex === 1) return this.createAggressiveProfile(noise);
-    if (typeIndex === 2) return this.createBalancedProfile(noise);
-    return this.createConservativeProfile(noise);
-  }
-
- 
-
-  private createAggressiveProfile(noise: number) {
-    return {
-      sectors: [
-        { name: 'Technology', value: 40 + noise, color: '#4285F4' },
-        { name: 'Consumer', value: 20 - noise, color: '#8B5CF6' },
-        { name: 'Financials', value: 15, color: '#F59E0B' },
-        { name: 'Healthcare', value: 15, color: '#10B981' },
-        { name: 'Others', value: 10, color: '#64748B' }
-      ],
-      regions: [
-        { name: 'North America', value: '80%', class: 'bg-blue' },
-        { name: 'Europe', value: '10%', class: 'bg-green' },
-        { name: 'Asia', value: '10%', class: 'bg-yellow' },
-        { name: 'Emerging', value: '0%', class: 'bg-purple' }
-      ],
-      performance: this.generatePerformanceData(true, noise),
-      stats: [
-        { title: 'Total Return (YTD)', value: `+${20 + noise}.4%`, subtext: 'Outperforming', isPositive: true },
-        { title: 'Sharpe Ratio', value: '1.95', subtext: 'High Risk/Reward', isPositive: true },
-        { title: 'Portfolio Beta', value: '1.25', subtext: 'High Volatility', isPositive: false },
-        { title: 'Alpha', value: `+${5 + noise}.2%`, subtext: 'Beating market', isPositive: true }
-      ],
-      assetMetrics: [
-        { label: 'Equities', value: 1500000 + (noise * 10000), returnRate: 18.5 },
-        { label: 'Crypto', value: 200000, returnRate: 45.1 },
-        { label: 'Cash', value: 100000, returnRate: 1.0 }
-      ],
-      riskMetrics: [
-        { title: 'Volatility', portfolioValue: '18.5%', benchmarkValue: '15.2%' },
-        { title: 'Sharpe Ratio', portfolioValue: '1.95', benchmarkValue: '1.40' },
-        { title: 'Beta', portfolioValue: '1.25', benchmarkValue: '1.00' },
-        { title: 'Max Drawdown', portfolioValue: '-15.5%', benchmarkValue: '-12.3%' }
-      ],
-      riskAssessment: { level: 'Aggressive', score: 85 + noise, description: 'High growth focus with significant volatility exposure.' },
-      varData: [ { period: '1 Day', confidence: 95, value: `-$${50 + noise},000`, percentage: '2.2%', theme: 'red' }, { period: '1 Month', confidence: 95, value: '-$210,000', percentage: '8.5%', theme: 'red' } ],
-      reports: this.getStandardReports()
+    const formatVaR = (rawVal: number) => {
+      const val = Number(rawVal) || 0;
+      if (val > 0) return { value: `-$${val.toLocaleString(undefined, { maximumFractionDigits: 0 })}`, theme: 'red' };
+      if (val < 0) return { value: `+$${Math.abs(val).toLocaleString(undefined, { maximumFractionDigits: 0 })}`, theme: 'green' };
+      return { value: `$0`, theme: 'red' };
     };
+
+    this.varData$.next([
+      { period: '1 Day', confidence: 95, value: formatVaR(var1d.value || var1d.dollarAmount || 0).value, percentage: `${(var1d.percentage || 0).toFixed(2)}%`, theme: formatVaR(var1d.value || 0).theme },
+      { period: '1 Month', confidence: 95, value: formatVaR(var1m.value || var1m.dollarAmount || 0).value, percentage: `${(var1m.percentage || 0).toFixed(2)}%`, theme: formatVaR(var1m.value || 0).theme }
+    ]);
+
+    const rm = data.riskAdjustedMetrics || data.riskMetrics || {};
+    this.riskMetrics$.next([
+      { title: 'Volatility', portfolioValue: `${(rm.volatility?.yourPortfolio ?? rm.volatility?.portfolioValue ?? 0).toFixed(2)}%`, benchmarkValue: `${(rm.volatility?.benchmark ?? rm.volatility?.benchmarkValue ?? 0).toFixed(2)}%` },
+      { title: 'Sharpe Ratio', portfolioValue: (rm.sharpeRatio?.yourPortfolio ?? rm.sharpeRatio?.portfolioValue ?? 0).toFixed(2), benchmarkValue: (rm.sharpeRatio?.benchmark ?? rm.sharpeRatio?.benchmarkValue ?? 0).toFixed(2) },
+      { title: 'Beta', portfolioValue: (rm.beta?.yourPortfolio ?? rm.beta?.portfolioValue ?? 0).toFixed(2), benchmarkValue: (rm.beta?.benchmark ?? rm.beta?.benchmarkValue ?? 0).toFixed(2) },
+      { title: 'Max Drawdown', portfolioValue: `${(rm.maxDrawdown?.yourPortfolio ?? rm.maxDrawdown?.portfolioValue ?? 0).toFixed(2)}%`, benchmarkValue: `${(rm.maxDrawdown?.benchmark ?? rm.maxDrawdown?.benchmarkValue ?? 0).toFixed(2)}%` }
+    ]);
   }
 
-  private createBalancedProfile(noise: number) {
-    return {
-      sectors: [
-        { name: 'Financials', value: 25 + noise, color: '#F59E0B' },
-        { name: 'Technology', value: 20 - noise, color: '#4285F4' },
-        { name: 'Healthcare', value: 20, color: '#10B981' },
-        { name: 'Industrials', value: 15, color: '#06B6D4' },
-        { name: 'Others', value: 20, color: '#64748B' }
-      ],
-      regions: [
-        { name: 'North America', value: '60%', class: 'bg-blue' },
-        { name: 'Europe', value: '25%', class: 'bg-green' },
-        { name: 'Asia', value: '10%', class: 'bg-yellow' },
-        { name: 'Emerging', value: '5%', class: 'bg-purple' }
-      ],
-      performance: this.generatePerformanceData(false, noise),
-      stats: [
-        { title: 'Total Return (YTD)', value: `+${12 + noise}.5%`, subtext: 'Steady Growth', isPositive: true },
-        { title: 'Sharpe Ratio', value: '1.55', subtext: 'Balanced Risk', isPositive: true },
-        { title: 'Portfolio Beta', value: '0.98', subtext: 'Market Neutral', isPositive: true },
-        { title: 'Alpha', value: '+1.5%', subtext: 'Slight Edge', isPositive: true }
-      ],
-      assetMetrics: [
-        { label: 'Equities', value: 1000000 + (noise * 5000), returnRate: 12.5 },
-        { label: 'Bonds', value: 800000, returnRate: 4.5 },
-        { label: 'Real Estate', value: 300000, returnRate: 7.2 }
-      ],
-      riskMetrics: [
-        { title: 'Volatility', portfolioValue: '12.5%', benchmarkValue: '15.2%' },
-        { title: 'Sharpe Ratio', portfolioValue: '1.55', benchmarkValue: '1.40' },
-        { title: 'Beta', portfolioValue: '0.98', benchmarkValue: '1.00' },
-        { title: 'Max Drawdown', portfolioValue: '-9.5%', benchmarkValue: '-12.3%' }
-      ],
-      riskAssessment: { level: 'Balanced', score: 55 + noise, description: 'Diversified across multiple sectors to minimize risk.' },
-      varData: [ { period: '1 Day', confidence: 95, value: `-$${25 + noise},000`, percentage: '1.5%', theme: 'yellow' }, { period: '1 Month', confidence: 95, value: '-$95,000', percentage: '5.8%', theme: 'yellow' } ],
-      reports: this.getStandardReports()
-    };
+  private getSectorColor(name: string): string {
+    const palette: any = { 'Technology': '#4285F4', 'Consumer': '#8B5CF6', 'Financials': '#F59E0B', 'Healthcare': '#10B981', 'Cash & Unclassified': '#94a3b8' };
+    return palette[name || ''] || '#64748B';
   }
 
-  private createConservativeProfile(noise: number) {
-    return {
-      sectors: [
-        { name: 'Bonds/Fixed', value: 55 + noise, color: '#64748B' },
-        { name: 'Utilities', value: 15, color: '#EF4444' },
-        { name: 'Cons. Staples', value: 15 - noise, color: '#8B5CF6' },
-        { name: 'Real Estate', value: 10, color: '#F59E0B' },
-        { name: 'Others', value: 5, color: '#64748B' }
-      ],
-      regions: [
-        { name: 'North America', value: '90%', class: 'bg-blue' },
-        { name: 'Europe', value: '10%', class: 'bg-green' },
-        { name: 'Asia', value: '0%', class: 'bg-yellow' },
-        { name: 'Emerging', value: '0%', class: 'bg-purple' }
-      ],
-      performance: this.generatePerformanceData(false, -2), // Low variance
-      stats: [
-        { title: 'Total Return (YTD)', value: `+${5 + noise}.2%`, subtext: 'Stable Income', isPositive: true },
-        { title: 'Sharpe Ratio', value: '2.15', subtext: 'Very Safe', isPositive: true },
-        { title: 'Portfolio Beta', value: '0.45', subtext: 'Low Correlation', isPositive: true },
-        { title: 'Yield', value: '4.8%', subtext: 'High Dividends', isPositive: true }
-      ],
-      assetMetrics: [
-        { label: 'Treasuries', value: 1500000, returnRate: 4.2 },
-        { label: 'Corp Bonds', value: 500000 + (noise * 10000), returnRate: 5.5 },
-        { label: 'Blue Chips', value: 200000, returnRate: 6.8 }
-      ],
-      riskMetrics: [
-        { title: 'Volatility', portfolioValue: '5.2%', benchmarkValue: '15.2%' },
-        { title: 'Sharpe Ratio', portfolioValue: '2.15', benchmarkValue: '1.40' },
-        { title: 'Beta', portfolioValue: '0.45', benchmarkValue: '1.00' },
-        { title: 'Max Drawdown', portfolioValue: '-3.2%', benchmarkValue: '-12.3%' }
-      ],
-      riskAssessment: { level: 'Conservative', score: 20 + noise, description: 'Primary focus on capital preservation and income.' },
-      varData: [ { period: '1 Day', confidence: 95, value: `-$${10 + noise},000`, percentage: '0.5%', theme: 'yellow' }, { period: '1 Month', confidence: 95, value: '-$35,000', percentage: '2.0%', theme: 'yellow' } ],
-      reports: this.getStandardReports()
-    };
-  }
+  private getRiskScore(level: string): number { return level === 'Aggressive' ? 85 : level === 'Moderately Aggressive' ? 70 : level === 'Moderate' ? 55 : 20; }
 
-  
-  private generatePerformanceData(isVolatile: boolean, noise: number) {
-    const base = isVolatile ? [5, 4, -2, 6, 4, 5, 4] : [2, 3, 1, 3, 2, 3, 2];
-    
-    const data = base.map(v => v + (Math.random() * 1.5 - 0.75)); 
-    
-    return {
-      labels: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
-      datasets: [
-        { 
-          label: 'Portfolio', 
-          data: data, 
-          fill: false, 
-          borderColor: isVolatile ? '#10b981' : '#4285F4', 
-          tension: 0.4, 
-          pointBackgroundColor: isVolatile ? '#10b981' : '#4285F4', 
-          pointRadius: 4 
-        },
-        { 
-          label: 'Benchmark', 
-          data: [1.5, 2.1, -0.8, 2.9, 2.3, 2.6, 1.8], 
-          fill: false, 
-          borderColor: '#94a3b8', 
-          borderDash: [5, 5], 
-          tension: 0.4, 
-          pointBackgroundColor: '#94a3b8', 
-          pointRadius: 3 
-        }
-      ]
-    };
-  }
-
-  private getStandardReports() {
+  private getStandardReports(): Report[] {
     return [
-      { title: 'Quarterly Performance', description: 'Analysis for Q4 2025', date: 'Jan 5, 2026', icon: 'pi pi-chart-bar', iconBg: '#eef2ff', iconColor: '#4f46e5', type: 'performance' },
+      { title: 'Quarterly Performance', description: 'Analysis for Q4', date: 'Jan 5, 2026', icon: 'pi pi-chart-bar', iconBg: '#eef2ff', iconColor: '#4f46e5', type: 'performance' },
       { title: 'Annual Tax Report', description: 'Detailed tax summary', date: 'Jan 1, 2026', icon: 'pi pi-chart-line', iconBg: '#f0fdf4', iconColor: '#16a34a', type: 'tax' },
       { title: 'Risk Analysis Report', description: 'Stress testing results', date: 'Dec 28, 2025', icon: 'pi pi-shield', iconBg: '#faf5ff', iconColor: '#9333ea', type: 'risk' },
       { title: 'Holdings Summary', description: 'Complete list of all positions.', date: 'Jan 6, 2026', icon: 'pi pi-list', iconBg: '#fffbeb', iconColor: '#d97706', type: 'holdings' }

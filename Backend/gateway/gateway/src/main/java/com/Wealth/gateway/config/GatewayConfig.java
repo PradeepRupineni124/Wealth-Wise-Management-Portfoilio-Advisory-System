@@ -71,6 +71,18 @@ public class GatewayConfig {
                         // Make sure OVERVIEW-SERVICE exactly matches the
                         // spring.application.name in your overview-service's application.yml
                         .uri("lb://overview-service"))
+                .route("analytics_route", r -> r.path("/api/analytics/**")
+                        .filters(f -> f
+                                // Optional: You can add the authFilter here if this route needs JWT protection
+                                // .filter(authFilter)
+                                .filter((exchange, chain) -> {
+                                    log.info("Routing request to Analytics Service: {}", exchange.getRequest().getURI());
+                                    return chain.filter(exchange);
+                                })
+                        )
+                        // IMPORTANT: Replace 'analytics-service' with the exact spring.application.name
+                        // registered in your Eureka server for the analytics microservice.
+                        .uri("lb://analytics-service"))
                 .build();
     }
 

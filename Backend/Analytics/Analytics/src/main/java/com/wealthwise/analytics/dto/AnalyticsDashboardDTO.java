@@ -8,6 +8,8 @@ public record AnalyticsDashboardDTO(
     Double totalPortfolioValue,
     PerformanceData performanceData,
     List<Sector> sectorAllocation,
+    List<Geography> geoDiversification,
     List<KeyMetric> keyMetrics,
+    List<AssetMetric> assetMetrics,
     LocalDateTime lastUpdated
 ) {}
