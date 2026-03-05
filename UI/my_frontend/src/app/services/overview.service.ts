@@ -32,7 +32,7 @@ export class OverviewService {
   mapStats(dto: any): StatMetric[] {
     if (!dto) return [];
     
-    const isUp = dto.totalValueChange >= 0;
+    
 
 
     const totalVal = dto.totalPortfolioValue || 0;
@@ -49,6 +49,8 @@ export class OverviewService {
     const risk = Number(dto.riskScore) || 0; 
     const isHighRisk = risk > 5;
 
+    const isUp = isBeatingMarket;
+
     return [
       {
         title: 'Total Portfolio Value',
@@ -56,7 +58,7 @@ export class OverviewService {
         subValue: 'this year',
         subTextColor: isUp ? 'text-green-600' : 'text-red-600',
         trend: isUp ? 'up' : 'down',
-        trendValue: (isUp ? '+' : '') + '$' + new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(calculatedValueChange),
+        trendValue: (isUp ? '' : '') + '$' + new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(calculatedValueChange),
         icon: 'pi pi-dollar',
         iconBg: isUp ? 'bg-green-100' : 'bg-red-100',
         iconColor: isUp ? 'text-green-600' : 'text-red-600',
@@ -65,7 +67,7 @@ export class OverviewService {
       },
       {
         title: 'Annual Return',
-        value: (returnPct > 0 ? '+' : '') + returnPct.toFixed(1) + '%',
+        value: (returnPct > 0 ? '+' : '') + returnPct.toFixed(2) + '%',
         subValue: isBeatingMarket ? `Beating market by ${diffPct}%` : `Underperforming by ${diffPct}%`,
         subTextColor: isBeatingMarket ? 'text-blue-600' : 'text-orange-600',
         trend: 'neutral',
@@ -79,7 +81,7 @@ export class OverviewService {
         title: 'Risk Score',
         value: dto.riskScore + ' / 10',
         subValue: isHighRisk ? 'High Risk' : 'Low Risk',
-        subTextColor: 'text-500',
+        subTextColor: isHighRisk ? 'text-red-500' : 'text-500',
         trend: 'neutral',
         icon: 'pi pi-shield',
         iconBg: 'bg-orange-100',
