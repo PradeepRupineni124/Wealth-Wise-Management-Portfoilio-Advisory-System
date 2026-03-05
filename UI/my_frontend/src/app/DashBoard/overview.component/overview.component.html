@@ -1,47 +1,99 @@
 <p-toast position="top-right" [style]="{zIndex: 9999}"></p-toast>
   
-  <div *ngIf="!loading && !hasClient" class="flex flex-column align-items-center justify-content-center p-6 m-4 border-2 border-dashed surface-border border-round-2xl surface-card" style="min-height: 60vh;">
-      <div class="flex align-items-center justify-content-center w-5rem h-5rem mb-4 surface-100 border-circle">
-          <i class="pi pi-users text-4xl text-500"></i>
-      </div>
-      <h2 class="text-2xl font-semibold text-900 mb-2 mt-0">No Client Selected</h2>
-      <p class="text-500 text-center mt-0 line-height-3">
-          Please search for a client in the top navigation bar, or<br>
-          click "Add Client" to add a new client.
-      </p>
-  </div>
+<div *ngIf="!loading && !hasClient" class="flex flex-column align-items-center justify-content-center p-6 m-4 border-2 border-dashed surface-border border-round-2xl surface-card" style="min-height: 60vh;">
+    <div class="flex align-items-center justify-content-center w-5rem h-5rem mb-4 surface-100 border-circle">
+        <i class="pi pi-users text-4xl text-500"></i>
+    </div>
+    <h2 class="text-2xl font-semibold text-900 mb-2 mt-0">No Client Selected</h2>
+    <p class="text-500 text-center mt-0 line-height-3">
+        Please search for a client in the top navigation bar, or<br>
+        click "Add Client" to add a new client.
+    </p>
+</div>
 
-  <div *ngIf="loading" class="flex justify-content-center align-items-center" style="height: 20rem;">
-    <i class="pi pi-spin pi-spinner text-4xl text-primary"></i>
-  </div>
+<div *ngIf="loading" class="fadein animation-duration-500">
+    <div class="mb-4">
+        <p-skeleton width="18rem" height="2.5rem" styleClass="mb-2"></p-skeleton>
+        <p-skeleton width="24rem" height="1.2rem"></p-skeleton>
+    </div>
 
-  <div *ngIf="!loading && hasClient" class="">
-      <div class="mb-4">
-         <h1 class="text-900 font-bold m-0 text-2xl">Welcome back, <span class="text-primary">{{ currentClientName }}</span></h1>
-         <p class="text-500 mt-1">Here's an overview of your wealth management portfolio</p>
-      </div>
-
-      <div class="grid mb-4">
-        <div class="col-12 md:col-6 lg:col-3" *ngFor="let stat of stats">
-          <app-stat-card [metric]="stat"></app-stat-card>
+    <div class="grid mb-4">
+        <div class="col-12 md:col-6 lg:col-3" *ngFor="let i of [1,2,3,4]">
+            <div class="surface-card p-4 border-round-xl border-1 surface-border">
+                <p-skeleton width="60%" height="1.2rem" styleClass="mb-3"></p-skeleton>
+                <p-skeleton width="80%" height="2.5rem" styleClass="mb-3"></p-skeleton>
+                <p-skeleton width="40%" height="1rem"></p-skeleton>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="grid mb-4">
+    <div class="grid mb-4">
         <div class="col-12 lg:col-8">
-          <app-portfolio-chart [rawData]="chartData" (rangeChange)="onRangeChange($event)"></app-portfolio-chart>
+            <div class="surface-card p-4 border-round-xl border-1 surface-border h-full">
+                <div class="flex justify-content-between mb-4">
+                    <p-skeleton width="30%" height="2rem"></p-skeleton>
+                    <p-skeleton width="15%" height="2rem" styleClass="border-round-2xl"></p-skeleton>
+                </div>
+                <p-skeleton width="100%" height="300px"></p-skeleton>
+            </div>
         </div>
         <div class="col-12 lg:col-4">
-          <app-asset-allocation [assets]="assets"></app-asset-allocation>
+            <div class="surface-card p-4 border-round-xl border-1 surface-border h-full">
+                <p-skeleton width="50%" height="2rem" styleClass="mb-4"></p-skeleton>
+                <div class="flex flex-column gap-3 mt-4">
+                    <p-skeleton width="100%" height="4rem" *ngFor="let i of [1,2,3]"></p-skeleton>
+                </div>
+            </div>
         </div>
-      </div>
+    </div>
 
-      <div class="grid">
+    <div class="grid">
         <div class="col-12 lg:col-6">
-          <app-recent-activities [activities]="activities"></app-recent-activities>
+            <div class="surface-card p-4 border-round-xl border-1 surface-border h-full">
+                <p-skeleton width="40%" height="2rem" styleClass="mb-4"></p-skeleton>
+                <div class="flex flex-column gap-3">
+                    <p-skeleton width="100%" height="4.5rem" *ngFor="let i of [1,2,3,4]"></p-skeleton>
+                </div>
+            </div>
         </div>
         <div class="col-12 lg:col-6">
-          <app-notifications [notifications]="notifications"></app-notifications>
+            <div class="surface-card p-4 border-round-xl border-1 surface-border h-full">
+                <p-skeleton width="40%" height="2rem" styleClass="mb-4"></p-skeleton>
+                <div class="flex flex-column gap-3">
+                    <p-skeleton width="100%" height="4.5rem" *ngFor="let i of [1,2,3,4]"></p-skeleton>
+                </div>
+            </div>
         </div>
-      </div>
-  </div>
+    </div>
+</div>
+
+<div *ngIf="!loading && hasClient" class="fadein animation-duration-500">
+    <div class="mb-4">
+        <h1 class="text-900 font-bold m-0 text-2xl">Welcome back, <span class="text-primary">{{ currentClientName }}</span></h1>
+        <p class="text-500 mt-1">Here's an overview of your wealth management portfolio</p>
+    </div>
+
+    <div class="grid mb-4">
+    <div class="col-12 md:col-6 lg:col-3" *ngFor="let stat of stats">
+        <app-stat-card [metric]="stat"></app-stat-card>
+    </div>
+    </div>
+
+    <div class="grid mb-4">
+    <div class="col-12 lg:col-8">
+        <app-portfolio-chart [rawData]="chartData" (rangeChange)="onRangeChange($event)"></app-portfolio-chart>
+    </div>
+    <div class="col-12 lg:col-4">
+        <app-asset-allocation [assets]="assets"></app-asset-allocation>
+    </div>
+    </div>
+
+    <div class="grid">
+    <div class="col-12 lg:col-6">
+        <app-recent-activities [activities]="activities"></app-recent-activities>
+    </div>
+    <div class="col-12 lg:col-6">
+        <app-notifications [notifications]="notifications"></app-notifications>
+    </div>
+    </div>
+</div>

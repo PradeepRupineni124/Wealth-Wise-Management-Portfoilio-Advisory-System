@@ -13,6 +13,7 @@ import { NotificationsComponent } from '../../shareable-components/notifications
 
 import { MessageService } from 'primeng/api';
 import { Toast, ToastModule } from 'primeng/toast';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-overview',
@@ -24,7 +25,8 @@ import { Toast, ToastModule } from 'primeng/toast';
     AssetAllocationComponent,
     RecentActivitiesComponent,
     NotificationsComponent,
-    ToastModule
+    ToastModule,
+    SkeletonModule
   ],
   // providers :[MessageService],
   templateUrl : './overview.component.html'
@@ -125,15 +127,21 @@ export class OverviewComponent implements OnInit {
         if (data) {
           const { overview, chart } = data;
 
-          if (!overview) {
+           if (!overview) {
               setTimeout(() => {
                   this.messageService.add({ severity: 'error', summary: 'Data Missing', detail: 'Failed to load portfolio dashboard.', life: 5000 });
               }, 0);
-          } else if (!overview.totalPortfolioValue || overview.totalPortfolioValue === 0) {
+            }
+            else if (overview.riskScore === 0) {
               setTimeout(() => {
-                  this.messageService.add({ severity: 'error', summary: 'server error', detail: 'Portfolio system is down. Showing defaults.', life: 5000 });
+                  this.messageService.add({ severity: 'error', summary: 'Server Error', detail: 'Portfolio system is offline. Showing defaults.', life: 5000 });
               }, 0);
           }
+             else if (!overview.totalPortfolioValue || !overview.activeInvestmentsCount || overview.activeInvestmentsCount === 0) {
+                setTimeout(() => {
+                    this.messageService.add({ severity: 'info', summary: 'Portfolio Empty', detail: 'Please add investments to get started!', life: 5000 });
+                }, 0);
+            }
 
           // 1. Map Java DTO to Frontend 'StatMetric'
           this.stats = this.overviewService.mapStats(overview);
