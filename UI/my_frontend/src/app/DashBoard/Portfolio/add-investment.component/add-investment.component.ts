@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog'; 
 import { SelectModule } from 'primeng/select';
 import { AutoCompleteModule } from 'primeng/autocomplete'; 
-import { PortfolioService } from '../../../portfolio.service';
+import { PortfolioService } from '../../../services/portfolio.service';
 
 @Component({
   selector: 'app-add-investment',

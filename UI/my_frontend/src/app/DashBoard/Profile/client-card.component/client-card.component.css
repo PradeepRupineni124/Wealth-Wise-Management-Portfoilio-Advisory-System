@@ -83,8 +83,9 @@
 }
 
 .badge-purple { 
-  background-color: #f3e8ff; 
-  color: #7e22ce; 
+  background-color: #d1fae5; 
+  color: #065f46; 
+  border: 1px solid #a7f3d0;
 }
 
 /* Add these to the bottom of your client-card.component.css */

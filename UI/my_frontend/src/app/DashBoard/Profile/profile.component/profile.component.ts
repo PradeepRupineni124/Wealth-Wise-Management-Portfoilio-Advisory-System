@@ -7,8 +7,8 @@ import { MessageService } from 'primeng/api';
 
 // Services
 import { ClientState } from '../../../services/client-state';       
-import { ProfileFormatterService } from '../../../profile-formatter.service'; 
-import { ClientApi } from '../../../client-api'; 
+import { ProfileFormatterService } from '../../../services/profile-formatter.service'; 
+import { ClientApi } from '../../../services/client-api'; 
 
 // Child Components
 import { TabFilterComponent } from '../../../shareable-components/tab-filter.component/tab-filter.component';

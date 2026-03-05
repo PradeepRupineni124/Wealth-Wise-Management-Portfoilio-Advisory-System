@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="WealthEurekaServer" />
+        <module name="wealth-analytics-service" />
         <module name="Project" />
       </profile>
       <profile name="Annotation profile for Portfolio" enabled="true">
@@ -32,6 +33,7 @@
       <module name="client-service" options="-parameters" />
       <module name="gateway" options="-parameters" />
       <module name="overview-service" options="-parameters" />
+      <module name="wealth-analytics-service" options="-parameters" />
     </option>
   </component>
 </project>

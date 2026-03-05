@@ -23,8 +23,11 @@ export class ClientCardComponent {
   }
 
   formatText(value: string): string {
-    if (!value) return 'Pending...';
-    return value
+    // Safely handle null or undefined values for newly created clients
+    if (!value) return 'N/A'; 
+    
+    // Convert to string and handle raw backend enums (e.g., "WEALTH_ACCUMULATION" -> "Wealth Accumulation")
+    return String(value)
       .split('_')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');

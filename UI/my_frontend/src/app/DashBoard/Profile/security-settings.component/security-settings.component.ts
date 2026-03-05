@@ -13,7 +13,7 @@ import { MessageService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 
 // Services
-import { ClientApi } from '../../../client-api';
+import { ClientApi } from '../../../services/client-api';
 import { ClientState } from '../../../services/client-state'; 
 
 @Component({
@@ -51,35 +51,35 @@ export class SecuritySettingsComponent implements OnChanges, OnDestroy {
   rawObjectUrl: string | null = null; 
   private verificationTimer: any = null;
 
-  // =========================================================================
+ // =========================================================================
   // SECTION 1: COMPONENT SETUP & CLEANUP
   // =========================================================================
 
-  // Runs every time a new client is selected from the top search bar
-  // Runs every time a new client is selected from the top search bar
   ngOnChanges(changes: SimpleChanges) {
     if (changes['client'] && this.client) {
       
-      if (this.client.kycDocumentRef || this.client.kycStatus !== 'NOT_VERIFIED') {
+      // STEP 1 & 2 LOGIC: Does a physical document exist in the backend?
+      if (this.client.kycDocumentRef) {
+        
+        // Yes! Populate the document card.
         this.kycData = {
-          fileName: 'Uploaded_Document',
+          fileName: 'Uploaded_Document', // Or this.client.fileName if your backend sends it
           status: this.client.kycStatus,
           uploadDate: this.client.createdDate ? this.client.createdDate.split('T')[0] : 'N/A'
         };
 
-        // 🚨 THE FIX: Only run the auto-verify timer if a document ACTUALLY exists!
+        // If it is sitting in PENDING, start the system verification timer
         if (this.kycData.status === 'PENDING') {
-          if (this.client.kycDocumentRef) {
-            this.simulateVerification(3000); 
-          } else {
-            this.clearVerificationTimer(); // Don't verify if no document is uploaded
-          }
+          this.simulateVerification(3000); 
         } else {
-          this.clearVerificationTimer();
+          this.clearVerificationTimer(); 
         }
 
       } else {
-        this.kycData = null; // No document exists
+        // STEP 1 LOGIC: No document exists! 
+        // Force the UI into the empty state so the advisor MUST upload one.
+        this.kycData = null; 
+        this.clearVerificationTimer();
       }
       
       this.clearPendingState();
@@ -87,6 +87,36 @@ export class SecuritySettingsComponent implements OnChanges, OnDestroy {
       this.updateUIStates(); 
     }
   }
+
+  // ... (Keep your ngOnDestroy, enableEdit, onFileSelect, saveDocument, etc. the same) ...
+
+  // =========================================================================
+  // HELPER: UI STATE MANAGER
+  // =========================================================================
+
+  private updateUIStates() {
+    this.isPdf = this.pendingFile ? this.pendingFile.type === 'application/pdf' : true; 
+
+    if (this.pendingFile) {
+      this.displayStatus = 'Ready to Upload';
+      this.severity = 'info';
+    } else if (this.kycData) {
+      // Step 2 & 3: Document exists, so show its actual backend status
+      this.displayStatus = this.kycData.status;
+      switch (this.kycData.status) {
+        case 'VERIFIED': this.severity = 'success'; break;
+        case 'PENDING': this.severity = 'warn'; break;
+        case 'REJECTED': this.severity = 'danger'; break;
+        default: this.severity = 'info';
+      }
+    } else {
+      // Step 1: No document exists. Force the status to show NOT SUBMITTED.
+      this.displayStatus = 'NOT SUBMITTED';
+      this.severity = 'warn';
+    }
+  }
+
+  
 
   // Prevents memory leaks when the user leaves the page
   ngOnDestroy() {
@@ -218,6 +248,20 @@ export class SecuritySettingsComponent implements OnChanges, OnDestroy {
           this.displayViewer = true;
           this.updateUIStates(); 
           this.cdr.detectChanges(); 
+        },
+        // 🚨 FIX: Add error handling for missing/deleted backend files
+        error: (err) => {
+          console.error('Failed to load document preview:', err);
+          this.loading = false; // Stop the spinner
+          
+          // Show the toast message telling them to re-upload
+          this.messageService.add({ 
+            severity: 'error', 
+            summary: 'Preview Not Available', 
+            detail: 'The document file could not be found. Please update and re-upload the document.' 
+          });
+          
+          this.cdr.detectChanges();
         }
       });
     }
@@ -251,23 +295,5 @@ export class SecuritySettingsComponent implements OnChanges, OnDestroy {
     }
   }
 
-  private updateUIStates() {
-    this.isPdf = this.pendingFile ? this.pendingFile.type === 'application/pdf' : true; 
-
-    if (this.pendingFile) {
-      this.displayStatus = 'Ready to Upload';
-      this.severity = 'info';
-    } else if (this.kycData) {
-      this.displayStatus = this.kycData.status;
-      switch (this.kycData.status) {
-        case 'VERIFIED': this.severity = 'success'; break;
-        case 'PENDING': this.severity = 'warn'; break;
-        case 'REJECTED': this.severity = 'danger'; break;
-        default: this.severity = 'info';
-      }
-    } else {
-      this.displayStatus = 'NOT SUBMITTED';
-      this.severity = 'warn';
-    }
-  }
+ 
 }

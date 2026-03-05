@@ -19,7 +19,7 @@ export interface Report { title: string; description: string; date: string; icon
   providedIn: 'root',
 })
 export class AllocationService {
-  private readonly API_BASE = 'http://ltin656932.cts.com:9090/api/analytics';
+  private readonly API_BASE = 'http://ltin656690.cts.com:9090/api/analytics';
 
   // --- THE TRIGGER STREAM (Matches OverviewService pattern) ---
   private clientTrigger$ = new BehaviorSubject<number | null>(null);

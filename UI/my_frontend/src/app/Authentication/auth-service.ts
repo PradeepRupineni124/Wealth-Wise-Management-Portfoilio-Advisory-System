@@ -12,7 +12,7 @@ export class AuthService {
   private payloadservice = inject(PayloadService);
   private platformId = inject(PLATFORM_ID);
 
-  private baseUrl = 'http://ltin656932.cts.com:9090/auth';
+  private baseUrl = 'http://ltin656690.cts.com:9090/auth';
 
   register(userData: any): Observable<string> {
     const payload = this.payloadservice.RegisterPayload(userData);

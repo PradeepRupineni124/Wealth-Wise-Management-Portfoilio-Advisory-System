@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { PortfolioCardComponent } from "../portfolio-card.component/portfolio-card.component";
 import { AddInvestmentComponent } from '../add-investment.component/add-investment.component';
 import { PortfolioTableComponent } from "../portfolio-table.component/portfolio-table.component";
-import { PortfolioService } from '../../../portfolio.service';
+import { PortfolioService } from '../../../services/portfolio.service';
 import { ClientDataService } from '../client-data.service';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';

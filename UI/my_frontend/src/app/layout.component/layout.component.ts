@@ -18,7 +18,7 @@ import { ClientDataService } from '../DashBoard/Portfolio/client-data.service';
 import { AllocationService } from '../services/allocation.service';
 import { OverviewService } from '../services/overview.service';
 import { AuthService } from '../Authentication/auth-service';
-import { ClientApi } from '../client-api';
+import { ClientApi } from '../services/client-api';
 
 @Component({
   selector: 'app-layout',
