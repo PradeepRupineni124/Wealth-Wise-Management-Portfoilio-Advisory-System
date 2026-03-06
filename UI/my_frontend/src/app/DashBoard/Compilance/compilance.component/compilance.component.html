@@ -1,125 +1,245 @@
 <div class="dashboard-container">
+    <p-toast></p-toast>
+
     <div class="header-section">
-        <h1>Compliance & Risk Monitoring</h1>
-        <p class="subtitle">Track regulatory compliance and risk exposure</p>
-    </div>
-
-    <div class="stats-grid">
-        <app-stat-card-v label="Compliance Score" [value]="stats.score + '%'" icon="pi pi-shield"
-            [colorClass]="stats.scoreColor" [showProgress]="true" [progressValue]="stats.score"
-            [textColor]="stats.scoreTextColor">
-        </app-stat-card-v>
-
-        <app-stat-card-v label="Compliant" [value]="stats.compliant.toString()" subtext="Active checks"
-            icon="pi pi-check-circle" colorClass="green">
-        </app-stat-card-v>
-
-        <app-stat-card-v label="Action Required" [value]="stats.actionRequired.toString()" subtext="Pending items"
-            icon="pi pi-exclamation-triangle" colorClass="orange">
-        </app-stat-card-v>
-
-        <app-stat-card-v label="Reports Generated" [value]="stats.reports.toString()" subtext="This quarter"
-            icon="pi pi-file" colorClass="blue">
-        </app-stat-card-v>
-    </div>
-
-    <div class="panel">
-        <div class="panel-header">
+        <div class="flex justify-between items-center">
             <div>
-                <h2>Risk Exposure Limits</h2>
-                <p class="subtitle">Current exposure vs regulatory limits</p>
-            </div>
-            <button class="btn-outline-sm" (click)="exportRiskReport()">
-                <i class="pi pi-download"></i> Export Report
-            </button>
-        </div>
-        <div class="risk-list">
-            <div *ngFor="let item of riskLimits" class="risk-item">
-                <div class="risk-info">
-                    <span class="risk-label">{{ item.label }}</span>
-                    <div class="risk-meta">
-                        <span class="subtitle">{{ item.display }}</span>
-                        <span class="badge" [ngClass]="{
-                                'bg-emerald': item.status === 'Safe',
-                                'bg-amber': item.status === 'Near Limit', 
-                                'bg-rose': item.status === 'Critical'
-                              }">
-                            {{ item.status }}
-                        </span>
-                        <span *ngIf="item.extra" class="badge bg-rose">{{ item.extra }}</span>
-                    </div>
+                <div class="flex items-center gap-3">
+                    <h1>Compliance & Risk Monitoring</h1>
                 </div>
-                <div class="risk-bar-bg">
-                    <div class="risk-bar-fill" [style.width]="item.val + '%'" [style.background-color]="item.color">
+                <p class="subtitle">Real-time regulatory tracking via Compliance Microservice</p>
+            </div>
+        </div>
+    </div>
+
+    <ng-container *ngIf="loading; else dashboardContent">
+        
+        <div class="animate-in">
+            <div class="stats-grid">
+                <div class="panel p-4" *ngFor="let i of [1,2,3,4]" style="height: 140px; display: flex; align-items: center;">
+                    <div class="flex gap-4 items-center w-full">
+                        <p-skeleton shape="circle" size="3.5rem"></p-skeleton>
+                        <div class="w-full">
+                            <p-skeleton width="60%" height="1rem" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="40%" height="1.5rem"></p-skeleton>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="panel">
-        <div class="panel-header">
-            <div>
-                <h2>Compliance Audit Log</h2>
-                <p class="subtitle">Recent compliance checks and findings</p>
-            </div>
-            <button class="btn-emerald" (click)="generateReport()">Generate Compliance Report</button>
-        </div>
-        <p-table [value]="auditLogs" class="custom-table">
-            <ng-template pTemplate="header">
-                <tr>
-                    <th>Review Type</th>
-                    <th>Regulation</th>
-                    <th>Status</th>
-                    <th>Findings</th>
-                    <th>Review Date</th>
-                    <th>Next Review</th>
-                    <th>Actions</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-log>
-                <tr>
-                    <td class="font-bold">{{ log.type }}</td>
-                    <td><span class="reg-pill">{{ log.reg }}</span></td>
-                    <td><p-tag [value]="log.status" [severity]="getSeverity(log.status)" [rounded]="true"></p-tag></td>
-                    <td class="text-secondary">{{ log.findings }}</td>
-                    <td class="text-secondary">{{ log.date }}</td>
-                    <td class="text-secondary">{{ log.next }}</td>
-                    <td class="font-bold action-link">View Details</td>
-                </tr>
-            </ng-template>
-        </p-table>
-    </div>
-
-    <div class="footer-grid">
-        <div class="panel updates-panel">
-            <h2>Recent Regulatory Updates</h2>
-            <div class="update-item">
-                <i class="pi pi-file-pdf icon-blue"></i>
-                <div>
-                    <p class="font-bold">SEC Amends Investment Adviser Rules</p>
-                    <p class="text-xs">New amendments effective Q2 2026. Posted: Jan 4, 2026</p>
+            <div class="panel">
+                <div class="panel-header">
+                    <p-skeleton width="180px" height="1.5rem"></p-skeleton>
+                    <p-skeleton width="120px" height="2rem" borderRadius="6px"></p-skeleton>
+                </div>
+                <div class="flex flex-col gap-6">
+                    <div *ngFor="let i of [1,2,3,4]">
+                        <div class="flex justify-between mb-2">
+                            <p-skeleton width="25%" height="1rem"></p-skeleton>
+                            <p-skeleton width="15%" height="1rem"></p-skeleton>
+                        </div>
+                        <p-skeleton width="100%" height="10px" borderRadius="10px"></p-skeleton>
+                    </div>
                 </div>
             </div>
-            <div class="update-item mt-2">
-                <i class="pi pi-file-pdf icon-blue"></i>
-                <div>
-                    <p class="font-bold">Updated AML Requirements</p>
-                    <p class="text-xs">Enhanced diligence procedures now in effect. Posted: Dec 28, 2025</p>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <p-skeleton width="220px" height="1.5rem"></p-skeleton>
+                    <p-skeleton width="140px" height="2rem" borderRadius="6px"></p-skeleton>
+                </div>
+                <div class="w-full">
+                    <div class="flex gap-4 mb-4 border-b pb-2">
+                        <p-skeleton width="20%" height="1.2rem" *ngFor="let col of [1,2,3,4,5]"></p-skeleton>
+                    </div>
+                    <div class="flex gap-4 mb-4 border-b pb-2" *ngFor="let row of [1,2,3,4,5]">
+                        <p-skeleton width="20%" height="1rem" *ngFor="let col of [1,2,3,4,5]"></p-skeleton>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="status-excellent-card">
-            <div class="flex-gap">
-                <div class="icon-sq"><i class="pi pi-shield"></i></div>
-                <div>
-                    <h2 class="text-emerald-dark">Compliance Status: Excellent</h2>
-                    <p class="text-emerald-p">Your portfolio maintains strong compliance across all regulatory
-                        requirements. Address the 1 pending KYC verification.</p>
-                    <button class="btn-emerald mt-3" (click)="scheduleReview()">Schedule Compliance Review</button>
+            <div class="footer-grid">
+                <div class="panel h-full">
+                    <p-skeleton width="50%" height="1.5rem" styleClass="mb-4"></p-skeleton>
+                    <div class="flex gap-3 mb-4">
+                        <p-skeleton size="3rem"></p-skeleton>
+                        <div class="w-full">
+                            <p-skeleton width="70%" height="1rem" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="40%" height="0.8rem"></p-skeleton>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <p-skeleton size="3rem"></p-skeleton>
+                        <div class="w-full">
+                            <p-skeleton width="70%" height="1rem" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="40%" height="0.8rem"></p-skeleton>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel h-full">
+                    <div class="flex gap-4 h-full items-start">
+                        <p-skeleton size="3.5rem" borderRadius="12px"></p-skeleton>
+                        <div class="w-full">
+                            <p-skeleton width="60%" height="1.5rem" styleClass="mb-3"></p-skeleton>
+                            <p-skeleton width="90%" height="1rem" styleClass="mb-2"></p-skeleton>
+                            <p-skeleton width="80%" height="1rem" styleClass="mb-4"></p-skeleton>
+                            <p-skeleton width="140px" height="2.5rem" borderRadius="8px"></p-skeleton>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
+
+    <ng-template #dashboardContent>
+        <div class="animate-in">
+            <div class="stats-grid">
+                <app-stat-card-v label="Compliance Score" [value]="stats.score + '%'" icon="pi pi-shield"
+                    [colorClass]="stats.scoreColor" [showProgress]="true" [progressValue]="stats.score"
+                    [textColor]="stats.scoreTextColor">
+                </app-stat-card-v>
+
+                <app-stat-card-v label="Compliant" [value]="stats.compliant.toString()" subtext="Active checks"
+                    icon="pi pi-check-circle" [colorClass]="stats.score === 0 ? 'blue' : 'green'">
+                </app-stat-card-v>
+
+                <app-stat-card-v label="Action Required" [value]="stats.actionRequired.toString()" subtext="Pending items"
+                    icon="pi pi-exclamation-triangle" [colorClass]="stats.score === 0 ? 'blue' : 'orange'">
+                </app-stat-card-v>
+
+                <app-stat-card-v label="Reports Generated" [value]="stats.reports.toString()" subtext="This quarter"
+                    icon="pi pi-file" colorClass="blue">
+                </app-stat-card-v>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Risk Exposure Limits</h2>
+                        <p class="subtitle">Live metrics vs regulatory thresholds</p>
+                    </div>
+                    <button class="btn-outline-sm" (click)="exportRiskReport()">
+                        <i class="pi pi-file-pdf mr-2"></i> Export Risk PDF
+                    </button>
+                </div>
+                <div class="risk-list">
+                    <div *ngFor="let item of riskLimits" class="risk-item">
+                        <div class="risk-info">
+                            <span class="risk-label">{{ item.label }}</span>
+                            <div class="risk-meta">
+                                <span class="subtitle">{{ item.display }}</span>
+                                <span class="badge" [ngClass]="{
+                                        'bg-emerald': item.status === 'Safe',
+                                        'bg-amber': item.status === 'Near Limit',
+                                        'bg-rose': item.status === 'Critical'
+                                      }">
+                                    {{ item.status }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="risk-bar-bg">
+                            <div class="risk-bar-fill" [style.width]="item.val + '%'" [style.background-color]="stats.score === 0 ? '#3b82f6' : item.color">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Compliance Audit Log</h2>
+                        <p class="subtitle">Persisted logs from MySQL database</p>
+                    </div>
+                    <button class="btn-emerald" (click)="generateReport()">
+                        <i class="pi pi-file-pdf mr-2"></i> Download PDF Report
+                    </button>
+                </div>
+
+                <p-table [value]="auditLogs" class="custom-table" [rowHover]="true" [rows]="5" [paginator]="true"
+                    [showCurrentPageReport]="true" 
+                    currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                    paginatorTemplate="RowsPerPageDropdown CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+                    [rowsPerPageOptions]="[5, 10, 20]"
+                    [scrollable]="true" scrollDirection="horizontal">
+                    
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th style="min-width: 180px;">Review Type</th>
+                            <th style="min-width: 180px;">Regulation</th>
+                            <th style="min-width: 160px;">Status</th>
+                            <th style="min-width: 350px;">Findings</th>
+                            <th style="min-width: 140px;">Review Date</th>
+                            <th style="min-width: 140px;">Next Review</th>
+                            <th style="min-width: 120px;">Actions</th>
+                        </tr>
+                    </ng-template>
+                    
+                    <ng-template pTemplate="body" let-log>
+                        <tr class="audit-log-row">
+                            <td class="font-bold">{{ log.reviewType }}</td>
+                            <td><span class="reg-pill">{{ log.regulation }}</span></td>
+                            <td>
+                                <p-tag [value]="log.status ? 'Compliant' : 'Action Required'"
+                                    [severity]="getSeverity(log.status)" [rounded]="true">
+                                </p-tag>
+                            </td>
+                            <td class="text-secondary truncate-cell" style="white-space: normal;">{{ log.findings }}</td>
+                            <td class="text-secondary">{{ log.reviewDate | date:'mediumDate' }}</td>
+                            <td class="text-secondary">{{ log.nextReview | date:'mediumDate' }}</td>
+                            <td class="font-bold action-link" (click)="showLogDetails(log)">
+                                <span class="hover:underline">View Details</span>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="7" class="text-center p-4">No audit logs found for this client.</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+
+            <div class="footer-grid">
+                <div class="panel updates-panel">
+                    <h2>Regulatory Intelligence</h2>
+                    
+                    <div class="update-item pointer-cursor" (click)="generateRegulationPdf('sec-rules')">
+                        <i class="pi pi-file-pdf icon-blue"></i>
+                        <div>
+                            <p class="font-bold">SEC Amends Adviser Rules</p>
+                            <p class="text-xs">New amendments effective Q2 2026. Posted: Jan 4, 2026</p>
+                        </div>
+                    </div>
+                    
+                    <div class="update-item mt-2 pointer-cursor" (click)="generateRegulationPdf('aml-rules')">
+                        <i class="pi pi-file-pdf icon-blue"></i>
+                        <div>
+                            <p class="font-bold">Updated AML Requirements</p>
+                            <p class="text-xs">Enhanced diligence procedures now in effect. Posted: Dec 28, 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-excellent-card" [ngStyle]="{'background': stats.score === 0 ? '#eff6ff' : (stats.score >= 80 ? '#dcfce7' : '#fff7ed')}">
+                    <div class="flex-gap">
+                        <div class="icon-sq" [ngStyle]="{'background': stats.score === 0 ? '#3b82f6' : (stats.score >= 80 ? '#16a34a' : '#ea580c')}">
+                            <i class="pi pi-shield"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-emerald-dark" [ngStyle]="{'color': stats.score === 0 ? '#1e3a8a' : (stats.score >= 80 ? '#14532d' : '#7c2d12')}">
+                                Status: {{ stats.score === 0 ? 'Pending Investments' : (stats.score >= 80 ? 'Excellent' : 'Action Required') }}
+                            </h2>
+                            <p class="text-emerald-p" [ngStyle]="{'color': stats.score === 0 ? '#2563eb' : (stats.score >= 80 ? '#15803d' : '#9a3412')}">
+                                <ng-container *ngIf="stats.score === 0">Add assets to the portfolio to generate a compliance risk assessment.</ng-container>
+                                <ng-container *ngIf="stats.score !== 0">Client portfolio has {{ stats.actionRequired }} pending item(s). Schedule a review to address potential non-compliance.</ng-container>
+                            </p>
+                            <button class="btn-emerald mt-3" [ngStyle]="{'background': stats.score === 0 ? '#3b82f6' : '#10b981'}" (click)="scheduleReview()">Schedule Review</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
 </div>

@@ -1,7 +1,7 @@
-import { Injectable, inject, PLATFORM_ID } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
-import { Observable, tap, EMPTY } from 'rxjs'; // Added EMPTY
+import { Observable, tap, EMPTY } from 'rxjs';
 import { PayloadService } from '../services/PayLoadService';
 
 @Injectable({
@@ -12,7 +12,10 @@ export class AuthService {
   private payloadservice = inject(PayloadService);
   private platformId = inject(PLATFORM_ID);
 
-  private baseUrl = 'http://ltin656690.cts.com:9090/auth';
+  private baseUrl = 'http://ltin656288.cts.com:9090/auth';
+
+  // NEW: Holds the email across the Forgot Password -> OTP -> Reset flow
+  recoveryEmail = signal<string | null>(null);
 
   register(userData: any): Observable<string> {
     const payload = this.payloadservice.RegisterPayload(userData);
@@ -34,14 +37,14 @@ export class AuthService {
       );
   }
 
-  // --- NEW CHANGE START ---
   getCurrentAdvisor(): Observable<any> {
     if (!isPlatformBrowser(this.platformId)) {
-      return EMPTY; // Return nothing if on server
+      return EMPTY;
     }
     return this.http.get<any>(`${this.baseUrl}/me`);
   }
-  // --- NEW CHANGE END ---
+
+  // --- Real API Calls for Forgot Password Flow ---
 
   forgotPassword(email: string): Observable<string> {
     return this.http.post(`${this.baseUrl}/forgot-password`, { email }, { responseType: 'text' });
@@ -55,10 +58,13 @@ export class AuthService {
     return this.http.post(`${this.baseUrl}/reset-password`, { email, newPassword }, { responseType: 'text' });
   }
 
+  // --- Utility Methods ---
+
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.clear();
       sessionStorage.clear();
+      this.recoveryEmail.set(null); // Clear stored email
     }
   }
 

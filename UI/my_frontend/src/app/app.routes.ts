@@ -8,25 +8,42 @@ import { HomeComponent } from './home.component/home.component';
 import { PortfolioComponent } from './DashBoard/Portfolio/portfolio.component/portfolio.component';
 import { AnalyticsComponent } from './DashBoard/Analytics-segment/analytics.component/analytics.component';
 import { AdvisoryComponent } from './DashBoard/advisory.component/advisory.component';
-import { ComplianceComponent } from './DashBoard/Compilance/compilance.component/compilance.component';
+
 import { ForgotPasswordComponent } from './Authentication/forgot-password.component/forgot-password.component';
 import { EmailVerificationComponent } from './Authentication/forgot-password.component/email-verification.component/email-verification.component';
 import { ResetPasswordComponent } from './Authentication/forgot-password.component/reset-password.component/reset-password.component';
 import { Registration } from './Authentication/registration.component/registration.component';
 import { OverviewComponent } from './DashBoard/overview.component/overview.component';
-import { authGuard } from './auth-guard'; // Ensure the path matches where you saved the guard
+import { authGuard } from './auth-guard';
+// FIX: Import the new recovery guard
+import { recoveryGuard } from './guards/recovery-guard';
+import { ComplianceComponent } from './DashBoard/Compilance/compilance.component/compilance.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: "login", component: Login },
     { path: "register", component: Registration },
+
+    // --- Forgot Password Flow ---
     { path: "forgot-password", component: ForgotPasswordComponent },
-    { path: "email-verification", component: EmailVerificationComponent },
-    { path: "reset-password", component: ResetPasswordComponent },
+
     {
-        path: "admin", 
+        path: "email-verification",
+        component: EmailVerificationComponent,
+        canActivate: [recoveryGuard] // <-- Protected: Kicks user back if no email found
+    },
+
+    {
+        path: "reset-password",
+        component: ResetPasswordComponent,
+        canActivate: [recoveryGuard] // <-- Protected: Kicks user back if no email found
+    },
+    // ---------------------------
+
+    {
+        path: "admin",
         component: LayoutComponent,
-        canActivate: [authGuard], // <-- The guard is applied here
+        canActivate: [authGuard],
         children: [
             { path: "overview", component: OverviewComponent },
             { path: "profile", component: ProfileComponent },

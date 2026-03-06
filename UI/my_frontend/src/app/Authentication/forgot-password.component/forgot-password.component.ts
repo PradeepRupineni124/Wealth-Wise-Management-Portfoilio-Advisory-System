@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { AuthService } from '../auth-service';
 
 @Component({
   selector: 'app-forgot-password',
@@ -18,6 +19,7 @@ export class ForgotPasswordComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private messageService = inject(MessageService);
+  private authService = inject(AuthService); // Inject AuthService
 
   loading = signal(false);
 
@@ -40,23 +42,36 @@ export class ForgotPasswordComponent {
       return;
     }
 
+    const email = this.emailForm.get('email')?.value;
     this.loading.set(true);
 
-    // Simulate API Call
-    setTimeout(() => {
-      this.loading.set(false);
-      
-      this.messageService.add({ 
-        severity: 'success', 
-        summary: 'Code Sent', 
-        detail: 'Check your inbox for the verification code.' 
-      });
+    // Call Real Backend API
+    this.authService.forgotPassword(email!).subscribe({
+      next: (response) => {
+        this.loading.set(false);
 
-      // Delay navigation so Toast is visible
-      setTimeout(() => {
-        this.router.navigate(['/email-verification']); 
-      }, 1500);
-      
-    }, 1000);
+        // 1. Store email in service for the next step
+        this.authService.recoveryEmail.set(email!);
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Code Sent',
+          detail: 'Check your inbox for the verification code.'
+        });
+
+        // 2. Navigate to OTP screen
+        setTimeout(() => {
+          this.router.navigate(['/email-verification']);
+        }, 1000);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: err.error?.message || 'Failed to send OTP. User may not exist.'
+        });
+      }
+    });
   }
 }

@@ -61,6 +61,15 @@ public class GatewayConfig {
                         )
                         // Make sure this exactly matches how Eureka registers your portfolio service
                         .uri("lb://portfolio-service"))
+                // 4. COMPLIANCE SERVICE ROUTE
+                .route("compliance_service_route", r -> r.path("/api/compliance/**")
+                        .filters(f -> f
+                                .filter(authFilter.apply(new JwtAuthenticationFilter.Config()))
+                                .filter((exchange, chain) -> {
+                                    log.info("Routing request to Compliance Service: {}", exchange.getRequest().getURI());
+                                    return chain.filter(exchange);
+                                }))
+                        .uri("lb://compliance-service"))
                 .route("overview_route", r -> r.path("/overview/**")
                         .filters(f -> f
                                 .filter((exchange, chain) -> {

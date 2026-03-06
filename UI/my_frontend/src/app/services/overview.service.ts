@@ -8,7 +8,7 @@ export class OverviewService {
   private http = inject(HttpClient);
   
   // Connects to Gateway (9090), which routes to OVERVIEW-SERVICE
-  private baseUrl = 'http://ltin656690.cts.com:9090/overview'; 
+  private baseUrl = 'http://ltin656288.cts.com:9090/overview'; 
 
   private selectedClientSource = new BehaviorSubject<any>({ name: 'Loading...', id: null });
   selectedClient$ = this.selectedClientSource.asObservable();

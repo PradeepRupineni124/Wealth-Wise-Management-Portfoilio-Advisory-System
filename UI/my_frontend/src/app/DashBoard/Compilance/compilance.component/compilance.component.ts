@@ -1,244 +1,304 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+
+// PrimeNG Imports
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ButtonModule } from 'primeng/button';
+import { ToastModule } from 'primeng/toast';
+import { SkeletonModule } from 'primeng/skeleton';
+import { MessageService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
+
+// PDF Imports
+import { jsPDF } from 'jspdf';
+import autoTable from 'jspdf-autotable';
+
+// Custom Components & Services
 import { StatCardComponent } from '../stat-card-v/stat-card-v.component';
 import { ClientState } from '../../../services/client-state';
+import { ComplianceService, ComplianceAuditLog } from '../../../services/compliance.service';
+import { ComplianceDetailModalComponent } from '../../../models/compliance-detail-modal.component';
 
 @Component({
   selector: 'app-compilance',
   standalone: true,
-  imports: [CommonModule, TableModule, TagModule, ButtonModule, StatCardComponent],
+  imports: [
+    CommonModule,
+    TableModule,
+    TagModule,
+    ButtonModule,
+    SkeletonModule,
+    ToastModule,
+    StatCardComponent
+  ],
   templateUrl: './compilance.component.html',
-  styleUrls: ['./compilance.component.css']
+  styleUrls: ['./compilance.component.css'],
+  providers: [MessageService, DialogService]
 })
 export class ComplianceComponent implements OnInit, OnDestroy {
 
   currentClientName: string = 'Client';
+  currentClientId: number | null = null;
+  loading: boolean = true;
 
+  // Dashboard Stats (Defaults to 0 for the Empty State)
   stats = {
     score: 0,
     compliant: 0,
     actionRequired: 0,
     reports: 0,
-    scoreColor: 'green' as 'green' | 'orange' | 'blue' | 'red',
-    scoreTextColor: '#0f172a'
+    scoreColor: 'blue' as 'green' | 'orange' | 'blue' | 'red',
+    scoreTextColor: '#3b82f6'
   };
 
   riskLimits: any[] = [];
-  auditLogs: any[] = [];
-  private clientSubscription!: Subscription;
+  auditLogs: ComplianceAuditLog[] = [];
 
-
-  allData: any = {
-    
-    1: {
-      stats: { score: 92, compliant: 4, actionRequired: 1, reports: 28 },
-      riskLimits: [
-        { label: 'Single Asset Exposure', val: 85, display: '8.5% / 10%', status: 'Near Limit', color: '#f59e0b' },
-        { label: 'Sector Concentration', val: 88, display: '22% / 25%', status: 'Near Limit', color: '#f59e0b' },
-        { label: 'Leverage Ratio', val: 60, display: '1.2x / 2x', status: 'Safe', color: '#10b981' },
-        { label: 'Liquidity Coverage', val: 100, display: '125% / 100%', status: 'Safe', color: '#ef4444', extra: 'Over Limit' }
-      ],
-      auditLogs: [
-        { type: 'Portfolio Review', reg: 'SEC Rule 15c3-3', status: 'Compliant', findings: 'All client assets properly segregated', date: '2026-01-05', next: '2026-04-05' },
-        { type: 'Risk Assessment', reg: 'Basel III', status: 'Compliant', findings: 'Risk-weighted assets within regulatory limits', date: '2026-01-03', next: '2026-02-03' },
-        { type: 'KYC Verification', reg: 'AML/CTF', status: 'Action Required', findings: 'Annual client verification due in 7 days', date: '2025-12-28', next: '2026-01-13' },
-        { type: 'Investment Limits', reg: 'FINRA Rule 2111', status: 'Compliant', findings: 'All investments aligned with client suitability', date: '2025-12-20', next: '2026-03-20' },
-        { type: 'Disclosure Requirements', reg: 'Form ADV Part 2', status: 'Compliant', findings: 'All material changes properly disclosed', date: '2025-12-15', next: '2026-12-15' }
-      ]
+  // Detailed Regulatory Content for PDFs
+  private regulatoryContent: any = {
+    'sec-rules': {
+      title: 'SEC Amends Adviser Rules',
+      date: 'Jan 4, 2026',
+      content: `EXECUTIVE SUMMARY:\nThe Securities and Exchange Commission (SEC) has officially adopted sweeping new amendments to the Investment Advisers Act of 1940. These changes represent the most significant regulatory overhaul for registered investment advisers (RIAs) in the past decade, focusing heavily on enhanced custody rule requirements, new safeguarding standards for crypto assets, and mandatory quarterly reporting.\n\n1. ENHANCED CUSTODY AND SAFEGUARDING RULE:\nThe traditional "Custody Rule" has been expanded and rebranded as the "Safeguarding Rule." It now mandates that RIAs maintain client assets with a qualified custodian, extending beyond traditional funds and securities to include all assets.\n\n2. QUARTERLY STATEMENT RULE:\nRegistered private fund advisers are now required to distribute a quarterly statement to private fund investors detailing information regarding fund fees, expenses, and performance.\n\n3. MANDATORY COMPLIANCE REVIEWS:\nFirms must now document their annual compliance rule reviews entirely in writing. Verbal reviews or summarized high-level notes are no longer sufficient.\n\nACTION ITEMS FOR WEALTH MANAGERS:\n- Conduct an immediate inventory of all client assets.\n- Restructure fee billing and performance reporting systems.\n- Update the Form ADV Part 2A (Brochure) to reflect these new structural changes.`
     },
-
-    
-    2: {
-      stats: { score: 100, compliant: 5, actionRequired: 0, reports: 12 },
-      riskLimits: [
-        { label: 'Single Asset Exposure', val: 40, display: '4% / 10%', status: 'Safe', color: '#10b981' },
-        { label: 'Sector Concentration', val: 50, display: '12% / 25%', status: 'Safe', color: '#10b981' },
-        { label: 'Leverage Ratio', val: 20, display: '0.4x / 2x', status: 'Safe', color: '#10b981' },
-        { label: 'Liquidity Coverage', val: 95, display: '110% / 100%', status: 'Safe', color: '#10b981' }
-      ],
-      auditLogs: [
-        { type: 'Risk Assessment', reg: 'Basel III', status: 'Compliant', findings: 'No issues found', date: '2026-01-10', next: '2026-02-10' },
-        { type: 'Tax Compliance', reg: 'IRS 1099', status: 'Compliant', findings: 'Tax forms generated', date: '2026-01-01', next: '2027-01-01' },
-        { type: 'Portfolio Review', reg: 'SEC Rule 15c3-3', status: 'Compliant', findings: 'Portfolio balanced perfectly', date: '2025-12-25', next: '2026-03-25' },
-        { type: 'GDPR Data Check', reg: 'GDPR Art 30', status: 'Compliant', findings: 'Data processing records updated', date: '2025-12-18', next: '2026-12-18' },
-        { type: 'Investment Limits', reg: 'FINRA Rule 2111', status: 'Compliant', findings: 'Investments within agreed limits', date: '2025-12-10', next: '2026-03-10' }
-      ]
-    },
-
-    
-    3: {
-      stats: { score: 65, compliant: 2, actionRequired: 3, reports: 45 },
-      riskLimits: [
-        { label: 'Single Asset Exposure', val: 95, display: '9.5% / 10%', status: 'Critical', color: '#ef4444' },
-        { label: 'Sector Concentration', val: 92, display: '24% / 25%', status: 'Critical', color: '#ef4444' },
-        { label: 'Leverage Ratio', val: 50, display: '1.0x / 2x', status: 'Safe', color: '#10b981' },
-        { label: 'Liquidity Coverage', val: 40, display: '80% / 100%', status: 'Critical', color: '#ef4444' }
-      ],
-      auditLogs: [
-        { type: 'AML Alert', reg: 'AML/CTF', status: 'Non-Compliant', findings: 'Suspicious transaction flagged', date: '2026-01-14', next: 'Immediate' },
-        { type: 'Portfolio Review', reg: 'SEC Rule 15c3-3', status: 'Action Required', findings: 'Rebalancing needed immediately', date: '2026-01-12', next: '2026-01-19' },
-        { type: 'Margin Call Check', reg: 'Reg T', status: 'Action Required', findings: 'Maintenance margin below 25%', date: '2026-01-10', next: '2026-01-11' },
-        { type: 'KYC Verification', reg: 'AML/CTF', status: 'Compliant', findings: 'Documents verified', date: '2026-01-05', next: '2027-01-05' },
-        { type: 'Investment Limits', reg: 'FINRA Rule 2111', status: 'Non-Compliant', findings: 'High-risk asset allocation exceeded', date: '2026-01-02', next: 'Immediate' }
-      ]
-    },
-
-    
-    4: {
-      stats: { score: 88, compliant: 5, actionRequired: 0, reports: 18 },
-      riskLimits: [
-        { label: 'Single Asset Exposure', val: 55, display: '5.5% / 10%', status: 'Safe', color: '#10b981' },
-        { label: 'Sector Concentration', val: 60, display: '15% / 25%', status: 'Safe', color: '#10b981' },
-        { label: 'Leverage Ratio', val: 30, display: '0.6x / 2x', status: 'Safe', color: '#10b981' },
-        { label: 'Liquidity Coverage', val: 90, display: '105% / 100%', status: 'Safe', color: '#10b981' }
-      ],
-      auditLogs: [
-        { type: 'Quarterly Audit', reg: 'Internal', status: 'Compliant', findings: 'Routine check passed', date: '2026-01-08', next: '2026-04-08' },
-        { type: 'Investment Limits', reg: 'FINRA Rule 2111', status: 'Compliant', findings: 'All limits respected', date: '2026-01-02', next: '2026-04-02' },
-        { type: 'Data Privacy', reg: 'CCPA', status: 'Compliant', findings: 'Privacy notices updated', date: '2025-12-30', next: '2026-12-30' },
-        { type: 'KYC Verification', reg: 'AML/CTF', status: 'Compliant', findings: 'ID Documents Valid', date: '2025-12-20', next: '2026-12-20' },
-        { type: 'Fee Disclosure', reg: 'Form ADV', status: 'Compliant', findings: 'Fees disclosed to client', date: '2025-12-15', next: '2026-12-15' }
-      ]
-    },
-
-    
-    5: {
-      stats: { score: 78, compliant: 3, actionRequired: 2, reports: 30 },
-      riskLimits: [
-        { label: 'Single Asset Exposure', val: 80, display: '8% / 10%', status: 'Near Limit', color: '#f59e0b' },
-        { label: 'Sector Concentration', val: 85, display: '21% / 25%', status: 'Near Limit', color: '#f59e0b' },
-        { label: 'Leverage Ratio', val: 40, display: '0.8x / 2x', status: 'Safe', color: '#10b981' },
-        { label: 'Liquidity Coverage', val: 100, display: '100% / 100%', status: 'Safe', color: '#10b981' }
-      ],
-      auditLogs: [
-        { type: 'Portfolio Review', reg: 'SEC Rule 15c3-3', status: 'Action Required', findings: 'Minor rebalancing suggested', date: '2026-01-11', next: '2026-01-18' },
-        { type: 'KYC Verification', reg: 'AML/CTF', status: 'Action Required', findings: 'Address proof outdated', date: '2026-01-05', next: '2026-02-05' },
-        { type: 'Risk Assessment', reg: 'Basel III', status: 'Compliant', findings: 'Within acceptable limits', date: '2025-12-29', next: '2026-03-29' },
-        { type: 'Tax Filing', reg: 'IRS', status: 'Compliant', findings: 'Filing preparation complete', date: '2025-12-20', next: '2026-04-15' },
-        { type: 'Ethical Standards', reg: 'Internal', status: 'Compliant', findings: 'No conflicts of interest', date: '2025-12-10', next: '2026-12-10' }
-      ]
-    },
-
-   
-    6: {
-      stats: { score: 55, compliant: 1, actionRequired: 4, reports: 50 },
-      riskLimits: [
-        { label: 'Single Asset Exposure', val: 98, display: '9.8% / 10%', status: 'Critical', color: '#ef4444' },
-        { label: 'Sector Concentration', val: 95, display: '23.8% / 25%', status: 'Critical', color: '#ef4444' },
-        { label: 'Leverage Ratio', val: 90, display: '1.8x / 2x', status: 'Critical', color: '#ef4444' },
-        { label: 'Liquidity Coverage', val: 20, display: '50% / 100%', status: 'Critical', color: '#ef4444' }
-      ],
-      auditLogs: [
-        { type: 'Margin Call', reg: 'Reg T', status: 'Non-Compliant', findings: 'Margin deficit detected', date: '2026-01-15', next: 'Immediate' },
-        { type: 'AML Flag', reg: 'AML/CTF', status: 'Non-Compliant', findings: 'High volume cash transfer', date: '2026-01-14', next: 'Immediate' },
-        { type: 'Suitability Check', reg: 'FINRA Rule 2111', status: 'Action Required', findings: 'Profile mismatch', date: '2026-01-10', next: '2026-01-17' },
-        { type: 'Portfolio Review', reg: 'SEC Rule 15c3-3', status: 'Action Required', findings: 'Concentration risk high', date: '2026-01-08', next: '2026-01-15' },
-        { type: 'Disclosure Check', reg: 'Form CRS', status: 'Compliant', findings: 'Form delivered', date: '2026-01-01', next: '2027-01-01' }
-      ]
+    'aml-rules': {
+      title: 'Updated AML & CDD Requirements',
+      date: 'Dec 28, 2025',
+      content: `EXECUTIVE SUMMARY:\nThe Financial Crimes Enforcement Network (FinCEN) has issued highly anticipated updates to the Customer Due Diligence (CDD) rule and Anti-Money Laundering (AML) requirements. These updates align financial institution mandates with the Corporate Transparency Act (CTA).\n\n1. BENEFICIAL OWNERSHIP INFORMATION (BOI):\nFinancial institutions are now required to collect, verify, and monitor Beneficial Ownership Information (BOI) for all legal entity customers at the time of account opening. The threshold drops the ownership stake definition from 25% down to 10% for high-risk jurisdictions.\n\n2. ELIMINATION OF THRESHOLD EXCEPTIONS:\nPreviously, certain pooled investment vehicles and holding companies were exempt. As of this ruling, all exceptions have been revoked.\n\n3. CONTINUOUS MONITORING IMPERATIVE:\nThe ruling shifts AML compliance from a "point-in-time" onboarding task to a continuous monitoring requirement.\n\nACTION ITEMS FOR WEALTH MANAGERS:\n- Upgrade KYC/AML software to integrate directly with the FinCEN BOI registry.\n- Initiate a historical remediation project for all existing legal entity accounts.\n- Revise the firm's Risk Assessment matrix.`
     }
   };
 
-  constructor(private clientState: ClientState) { }
+  private clientSubscription!: Subscription;
+
+  constructor(
+    private clientState: ClientState,
+    private complianceService: ComplianceService,
+    private dialogService: DialogService,
+    private messageService: MessageService,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     this.clientSubscription = this.clientState.currentClient$.subscribe(client => {
-      if (client) {
-        // Use the new Spring Boot properties
-        this.currentClientName = client.fullName; 
-        this.loadClientData(client.clientId);     
+      if (client && (client.clientId)) {
+
+        // FIX: Strictly use the Client ID. Do NOT use portfolioId here.
+        // The backend Compliance Service will fetch the portfolio ID on its own.
+        const targetId = client.clientId || client.id;
+
+        this.currentClientId = targetId;
+        this.currentClientName = client.fullName;
+
+        this.initializeComplianceDashboard(targetId);
+      } else {
+        this.loading = false;
+        this.cdr.detectChanges();
       }
     });
   }
-  loadClientData(id: number) {
-    const data = this.allData[id] || this.allData[1];
 
-   
-    this.stats = { ...data.stats };
+  initializeComplianceDashboard(targetId: number) {
+    this.loading = true;
+    this.cdr.detectChanges();
 
-    this.stats.scoreColor = this.calculateScoreColor(this.stats.score);
-
- 
-    this.stats.scoreTextColor = this.getHexColor(this.stats.score);
-
-    this.riskLimits = data.riskLimits || this.allData[1].riskLimits;
-    this.auditLogs = data.auditLogs || this.allData[1].auditLogs;
+    // 1. Run Manual Audit with auto-retry
+    this.complianceService.runManualAudit(targetId).pipe(
+      retry({ count: 2, delay: 1000 }), // Retry if backend is still saving the investment
+      catchError(err => {
+        return of(null); // Proceed silently if audit fails (e.g., empty portfolio 400 error)
+      })
+    ).subscribe(() => {
+      // 2. Fetch the data
+      this.fetchDashboardData(targetId);
+    });
   }
 
-  
+  private fetchDashboardData(targetId: number) {
+    forkJoin({
+      summary: this.complianceService.getComplianceSummary(targetId).pipe(
+        catchError(err => {
+          // If backend throws 400 Bad Request, intercept it and return 0s
+          return of({ complianceScore: 0, activeChecks: 0, actionRequired: 0, reportsGenerated: 0, isEmptyFallback: true });
+        })
+      ),
+      risk: this.complianceService.getRiskMetrics(targetId).pipe(
+        catchError(err => {
+          // Return safe 0s for the risk limits
+          return of({ singleAssetExposure: 0, sectorConcentration: 0, leverageRatio: 0, liquidityCoverage: 0 });
+        })
+      ),
+      logs: this.complianceService.getAuditLogs(targetId).pipe(
+        catchError(err => {
+          return of([]); // Return empty logs array
+        })
+      )
+    }).subscribe({
+      next: (results) => {
+        const summaryData: any = results.summary;
+
+        // Determine if we hit the "Empty Portfolio" state
+        const isPortfolioEmpty = summaryData.isEmptyFallback || (summaryData.complianceScore === 0 && summaryData.activeChecks === 0);
+
+        if (isPortfolioEmpty) {
+          // Display the friendly UX message
+          this.messageService.add({
+            severity: 'info',
+            summary: 'No Investments Found',
+            detail: 'Please add investments in the Portfolio to view compliance metrics.',
+            life: 5000
+          });
+        }
+
+        // Map Stats safely (Defaults to 0)
+        this.stats = {
+          score: summaryData.complianceScore || 0,
+          compliant: summaryData.activeChecks || 0,
+          actionRequired: summaryData.actionRequired || 0,
+          reports: summaryData.reportsGenerated || 0,
+          scoreColor: this.calculateScoreColor(summaryData.complianceScore || 0),
+          scoreTextColor: this.getHexColor(summaryData.complianceScore || 0)
+        };
+
+        // Map Tables
+        this.riskLimits = this.mapRiskMetrics(results.risk);
+        this.auditLogs = results.logs;
+
+        setTimeout(() => {
+          this.loading = false;
+          this.cdr.detectChanges();
+        }, 500);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.cdr.detectChanges();
+        this.messageService.add({ severity: 'error', summary: 'System Error', detail: 'Could not connect to compliance service.' });
+      }
+    });
+  }
+
+  // ==========================================
+  // HELPERS & UI LOGIC
+  // ==========================================
+
+  private mapRiskMetrics(metrics: any): any[] {
+    return [
+      {
+        label: 'Single Asset Exposure',
+        val: metrics.singleAssetExposure || 0,
+        display: `${metrics.singleAssetExposure || 0}% / 10%`,
+        status: (metrics.singleAssetExposure || 0) > 8 ? 'Near Limit' : 'Safe',
+        color: (metrics.singleAssetExposure || 0) > 8 ? '#f59e0b' : '#10b981'
+      },
+      {
+        label: 'Sector Concentration',
+        val: metrics.sectorConcentration || 0,
+        display: `${metrics.sectorConcentration || 0}% / 25%`,
+        status: (metrics.sectorConcentration || 0) > 20 ? 'Near Limit' : 'Safe',
+        color: (metrics.sectorConcentration || 0) > 20 ? '#f59e0b' : '#10b981'
+      },
+      {
+        label: 'Leverage Ratio',
+        val: ((metrics.leverageRatio || 0) / 2) * 100,
+        display: `${metrics.leverageRatio || 0}x / 2x`,
+        status: (metrics.leverageRatio || 0) > 1.5 ? 'Critical' : 'Safe',
+        color: (metrics.leverageRatio || 0) > 1.5 ? '#ef4444' : '#10b981'
+      },
+      {
+        label: 'Liquidity Coverage (Cash)',
+        val: metrics.liquidityCoverage || 0,
+        display: `${metrics.liquidityCoverage || 0}% / 5%`,
+        status: (metrics.liquidityCoverage || 0) < 5 ? 'Critical' : 'Safe',
+        color: (metrics.liquidityCoverage || 0) < 5 ? '#ef4444' : '#10b981'
+      }
+    ];
+  }
+
   calculateScoreColor(score: number): 'green' | 'orange' | 'blue' | 'red' {
-    if (score >= 80) return 'green';
-    if (score >= 60) return 'orange';
-    return 'red';
+    if (score === 0) return 'blue'; // Empty portfolio shows neutral blue
+    return score >= 80 ? 'green' : score >= 60 ? 'orange' : 'red';
   }
-
 
   getHexColor(score: number): string {
-    if (score >= 80) return '#16a34a'; 
-    if (score >= 60) return '#d97706'; 
-    return '#dc2626'; 
+    if (score === 0) return '#3b82f6';
+    return score >= 80 ? '#16a34a' : score >= 60 ? '#d97706' : '#dc2626';
   }
 
-  getSeverity(status: string) {
-    if (status === 'Compliant') return 'success';
-    if (status === 'Action Required') return 'warn';
-    if (status === 'Non-Compliant') return 'danger';
-    return 'info';
+  getSeverity(status: boolean) {
+    return status ? 'success' : 'warn';
   }
 
-  
+  // ==========================================
+  // PDF EXPORTS
+  // ==========================================
 
- 
-  generateReport() {
-    const headers = ['Review Type', 'Regulation', 'Status', 'Findings', 'Review Date', 'Next Review'];
-    const rows = this.auditLogs.map(log => [
-      log.type, log.reg, log.status, `"${log.findings}"`, log.date, log.next
-    ]);
-    this.downloadCSV(headers, rows, `Compliance_Report_${this.currentClientName}.csv`);
-  }
-
- 
   exportRiskReport() {
-    const headers = ['Risk Type', 'Current Value (%)', 'Limit / Target', 'Status', 'Extra Note'];
-    const rows = this.riskLimits.map(item => [
-      item.label, item.val, item.display, item.status, item.extra || ''
-    ]);
-    this.downloadCSV(headers, rows, `Risk_Exposure_Report_${this.currentClientName}.csv`);
+    const doc = new jsPDF();
+    doc.setFontSize(18); doc.setTextColor(15, 23, 42); doc.text('Risk Exposure Report', 14, 22);
+    doc.setFontSize(11); doc.setTextColor(100, 116, 139); doc.text(`Client: ${this.currentClientName}`, 14, 30); doc.text(`Date Generated: ${new Date().toLocaleDateString()}`, 14, 36);
+    const headers = [['Risk Factor', 'Current vs Limit', 'Status']];
+    const data = this.riskLimits.map(item => [item.label, item.display, item.status]);
+    autoTable(doc, { startY: 45, head: headers, body: data, theme: 'grid', headStyles: { fillColor: [15, 23, 42], textColor: 255 }, alternateRowStyles: { fillColor: [248, 250, 252] }, styles: { fontSize: 10, cellPadding: 5 } });
+    doc.save(`Risk_Report_${this.currentClientName}.pdf`);
+    this.incrementReportCount();
   }
 
-  
+  generateReport() {
+    const doc = new jsPDF('landscape');
+    doc.setFontSize(18); doc.setTextColor(15, 23, 42); doc.text('Compliance Audit Log', 14, 22);
+    doc.setFontSize(11); doc.setTextColor(100, 116, 139); doc.text(`Client: ${this.currentClientName}`, 14, 30); doc.text(`Overall Compliance Score: ${this.stats.score}%`, 14, 36); doc.text(`Date Generated: ${new Date().toLocaleDateString()}`, 14, 42);
+    const headers = [['Review Type', 'Regulation', 'Status', 'Findings', 'Review Date', 'Next Review']];
+    const data = this.auditLogs.map(log => [log.reviewType, log.regulation, log.status ? 'Compliant' : 'Action Required', log.findings, log.reviewDate, log.nextReview]);
+    autoTable(doc, { startY: 50, head: headers, body: data, theme: 'striped', headStyles: { fillColor: [16, 185, 129], textColor: 255 }, styles: { fontSize: 9, cellPadding: 4, overflow: 'linebreak' }, columnStyles: { 3: { cellWidth: 90 } } });
+    doc.save(`Compliance_Audit_${this.currentClientName}.pdf`);
+    this.incrementReportCount();
+  }
+
+  generateRegulationPdf(ruleId: string) {
+    const rule = this.regulatoryContent[ruleId];
+    if (!rule) return;
+    const doc = new jsPDF();
+    doc.setFontSize(16); doc.setTextColor(15, 23, 42); doc.text('Regulatory Intelligence Update', 14, 20);
+    doc.setFontSize(14); doc.setTextColor(37, 99, 235); doc.text(rule.title, 14, 32);
+    doc.setFontSize(10); doc.setTextColor(100, 116, 139); doc.text(`Posted Date: ${rule.date}`, 14, 38); doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 43);
+    doc.setDrawColor(226, 232, 240); doc.line(14, 48, 196, 48);
+    doc.setFontSize(10); doc.setTextColor(51, 65, 85);
+    const splitText = doc.splitTextToSize(rule.content, 180);
+    let yPos = 58;
+    for (let i = 0; i < splitText.length; i++) {
+      if (yPos > 275) { doc.addPage(); yPos = 20; }
+      doc.text(splitText[i], 14, yPos);
+      yPos += 6;
+    }
+
+    const totalPages = doc.getNumberOfPages();
+    doc.setFontSize(8); doc.setTextColor(148, 163, 184);
+    for (let i = 1; i <= totalPages; i++) {
+      doc.setPage(i);
+      doc.text(`WealthWise Compliance Module - Internal Use Only | Page ${i} of ${totalPages}`, 14, 290);
+    }
+
+    doc.save(`${rule.title.replace(/\s+/g, '_')}.pdf`);
+  }
+
+  private incrementReportCount() {
+    this.stats.reports = this.stats.reports + 1;
+    this.messageService.add({ severity: 'success', summary: 'Report Generated', detail: 'PDF downloaded and count updated.' });
+  }
+
   scheduleReview() {
-    const nextWeek = new Date();
-    nextWeek.setDate(nextWeek.getDate() + 7);
-    const startDate = nextWeek.toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15) + 'Z';
-    const endDate = new Date(nextWeek.getTime() + 60 * 60 * 1000).toISOString().replace(/-|:|\.\d\d\d/g, "").slice(0, 15) + 'Z';
-
+    const nextWeek = new Date(); nextWeek.setDate(nextWeek.getDate() + 7);
     const title = `Compliance Review: ${this.currentClientName}`;
-    const details = `Quarterly compliance check and risk limit review for ${this.currentClientName}. Discuss pending items.`;
-    const location = 'Online / Office';
-
-    const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}`;
-    window.open(url, '_blank');
+    window.open(`https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}`, '_blank');
   }
 
- 
-  private downloadCSV(headers: string[], rows: any[], filename: string) {
-    const csvContent = [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename.replace(' ', '_');
-    a.click();
-    window.URL.revokeObjectURL(url);
+  showLogDetails(log: ComplianceAuditLog) {
+    this.dialogService.open(ComplianceDetailModalComponent, { header: `${log.reviewType} - Audit Findings`, width: '60%', data: { auditLog: log } });
   }
 
   ngOnDestroy() {
-    if (this.clientSubscription) {
-      this.clientSubscription.unsubscribe();
-    }
+    if (this.clientSubscription) this.clientSubscription.unsubscribe();
   }
 }
