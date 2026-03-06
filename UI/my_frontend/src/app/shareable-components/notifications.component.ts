@@ -27,19 +27,23 @@ export class NotificationsComponent {
   @Input() notifications: Notification[] = [];
 
   getStyles(type: string) {
-    switch(type) {
+    // 1. Convert to lowercase so "WARNING" from Java matches "warning" in Angular
+    switch(type?.toLowerCase()) {
         case 'success': return 'bg-green-50 border-green-200 text-green-700';
         case 'info': return 'bg-blue-50 border-blue-200 text-blue-700';
-        case 'warning': return 'bg-yellow-50 border-yellow-200 text-yellow-700'; // Ensure yellow matches manual CSS
-        default: return '';
+        case 'warning': return 'bg-yellow-50 border-yellow-200 text-yellow-700'; 
+        // 2. Add the DANGER case for High Priority red alerts!
+        case 'danger': return 'bg-red-50 border-red-200 text-red-700'; 
+        default: return 'bg-gray-50 border-gray-200 text-gray-700';
     }
   }
 
   getIcon(type: string) {
-      switch(type) {
+      switch(type?.toLowerCase()) {
           case 'success': return 'pi pi-check-circle text-xl';
           case 'info': return 'pi pi-info-circle text-xl';
-          case 'warning': return 'pi pi-exclamation-circle text-xl';
+          case 'warning': return 'pi pi-exclamation-triangle text-xl'; // Triangle looks better for warnings!
+          case 'danger': return 'pi pi-exclamation-circle text-xl'; // Added danger icon
           default: return 'pi pi-bell text-xl';
       }
   }

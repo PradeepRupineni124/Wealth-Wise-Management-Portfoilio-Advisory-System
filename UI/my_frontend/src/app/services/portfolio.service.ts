@@ -9,7 +9,7 @@ import { catchError, switchMap } from 'rxjs/operators';
 })
 export class PortfolioService {
   // Pointing to your API Gateway!
-  private baseUrl = 'http://ltin656601.cts.com:9090/api';
+  private baseUrl = 'http://ltin656932.cts.com:9090/api';
 
   constructor(private http: HttpClient) {}
 

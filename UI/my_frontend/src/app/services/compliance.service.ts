@@ -22,7 +22,7 @@ export interface ComplianceAuditLog {
 export class ComplianceService {
 
   // Hardcoded Gateway URL as per your preference
-  private gatewayUrl = 'http://ltin656601.cts.com:9090/api/compliance';
+  private gatewayUrl = 'http://ltin656932.cts.com:9090/api/compliance';
 
   // State management
   private loadingSubject = new BehaviorSubject<boolean>(false);

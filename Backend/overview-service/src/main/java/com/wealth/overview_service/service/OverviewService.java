@@ -54,8 +54,9 @@ public class OverviewService {
         }
 
         // --- 2. FETCH PORTFOLIO DATA (Existing Code) ---
+        PortfolioSummaryResponse summary = null;
         try {
-            PortfolioSummaryResponse summary = integrationService.getPortfolioSummarySafely(clientId);
+             summary = integrationService.getPortfolioSummarySafely(clientId);
 
             if (summary != null) {
                 // --- A. Grab the Top Cards ---
@@ -128,10 +129,25 @@ public class OverviewService {
             log.error("Failed to fetch Portfolio Data: {}", e.getMessage());
             overview.setAssetAllocation(new ArrayList<>());
             overview.setRecentActivities(new ArrayList<>());
-            overview.setRiskScore(0.0); // Safe fallback
+            overview.setRiskScore(5.0); // Safe fallback
         }
 
-        overview.setNotifications(new ArrayList<>());
+        List<com.wealth.overview_service.dto.NotificationDto> allNotifications = new ArrayList<>();
+
+        // Optional: Add an internal success notification
+        allNotifications.add(new com.wealth.overview_service.dto.NotificationDto("1", "Portfolio Rebalanced", "Your portfolio has been automatically rebalanced according to your risk profile.", "Today", "SUCCESS"));
+
+        // A. Fetch Advisory Alerts (Needs Portfolio ID)
+        if (summary != null && summary.getPortfolioId() != null) {
+            allNotifications.addAll(integrationService.getAdvisoryNotificationsSafely(summary.getPortfolioId()));
+        }
+
+        // B. Fetch Compliance Alerts (Needs Client ID)
+        allNotifications.addAll(integrationService.getComplianceNotificationsSafely(clientId));
+
+        // Finally, attach them to the overview object
+        overview.setNotifications(allNotifications);
+
         return overview;
     }
 

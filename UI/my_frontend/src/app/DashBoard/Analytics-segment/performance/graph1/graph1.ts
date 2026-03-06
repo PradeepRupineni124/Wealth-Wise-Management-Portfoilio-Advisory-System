@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule } from '@angular/forms';
-
-import { AllocationService,PerformanceData } from '../../../../services/allocation.service'; // <--- CHECK PATH
-
+ 
+import { AllocationService, PerformanceData } from '../../../../services/allocation.service';
+ 
 @Component({
   selector: 'app-graph1',
   standalone: true,
@@ -14,13 +14,12 @@ import { AllocationService,PerformanceData } from '../../../../services/allocati
   styleUrls: ['./graph1.css']
 })
 export class Graph1Component implements OnInit {
-  
  
   private allocationService = inject(AllocationService);
-
+ 
   data: any;
   options: any;
-  
+ 
   timeOptions = [
     { label: '1M', value: '1M' },
     { label: '3M', value: '3M' },
@@ -29,19 +28,15 @@ export class Graph1Component implements OnInit {
     { label: 'All', value: 'All' }
   ];
   selectedTime: string = 'All';
-
+ 
   ngOnInit() {
     this.allocationService.getPerformanceData().subscribe((response: PerformanceData) => {
-      
-     
       this.data = {
         labels: response.labels,
         datasets: response.datasets
       };
-      
     });
-
-    
+ 
     this.options = {
       maintainAspectRatio: false,
       plugins: {
@@ -60,5 +55,12 @@ export class Graph1Component implements OnInit {
         }
       }
     };
+  }
+ 
+  // --- TRIGGERS WHEN A BUTTON IS CLICKED ---
+  onTimeChange(event: any) {
+    if (event.value) {
+      this.allocationService.filterPerformance(event.value);
+    }
   }
 }

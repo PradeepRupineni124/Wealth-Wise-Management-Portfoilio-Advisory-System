@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/finance_db
     username: root
-    password: Nithin@444
+    password: Kiran@0320
   jpa:
     hibernate:
       ddl-auto: update

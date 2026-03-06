@@ -109,24 +109,27 @@ public class AnalyticsService {
                     new AssetMetric("Cash/Equivalents", cashBalance, 1.5)
             );
 
-            // --- SECTORS & GEOGRAPHY ---
             Map<String, Double> dynamicSectors = holdings.stream()
                     .filter(h -> h.sector() != null && !h.sector().isEmpty())
                     .collect(Collectors.groupingBy(PortfolioFeignClient.HoldingDTO::sector, Collectors.summingDouble(h -> h.allocationPct() != null ? h.allocationPct().doubleValue() : 0.0)));
 
             List<Sector> sectors = dynamicSectors.entrySet().stream()
                     .map(entry -> {
-                        int roundedPct = (int) Math.round(entry.getValue());
-                        double dollarValue = currentValue * (roundedPct / 100.0);
-                        return new Sector(entry.getKey(), (double) roundedPct, dollarValue);
+                        // Just take the raw Double value directly
+                        double rawPct = entry.getValue();
+                        double dollarValue = currentValue * (rawPct / 100.0);
+                        return new Sector(entry.getKey(), rawPct, dollarValue);
                     })
                     .collect(Collectors.toList());
 
+// Sum the raw values
             double totalAllocatedPct = sectors.stream().mapToDouble(Sector::value).sum();
-            if (totalAllocatedPct < 100.0) {
-                int remainingPct = (int) Math.round(100.0 - totalAllocatedPct);
+
+// Check if it's less than 100 (using 99.99 to avoid floating point bugs)
+            if (totalAllocatedPct < 99.99) {
+                double remainingPct = 100.0 - totalAllocatedPct; // No rounding here either
                 double cashDollarValue = currentValue * (remainingPct / 100.0);
-                sectors.add(new Sector("Cash & Unclassified", (double) remainingPct, cashDollarValue));
+                sectors.add(new Sector("Cash & Unclassified", remainingPct, cashDollarValue));
             }
 
             Map<String, Double> geoAllocations = holdings.stream()
