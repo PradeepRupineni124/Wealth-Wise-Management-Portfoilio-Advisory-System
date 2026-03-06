@@ -8,8 +8,8 @@ spring:
   # --- Database Configuration ---
   datasource:
     url: jdbc:mysql://localhost:3306/finance_db
-    username: user
-    password: Venu@007
+    username: root
+    password: Nithin@444
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       maximum-pool-size: 10 # Optional pool settings

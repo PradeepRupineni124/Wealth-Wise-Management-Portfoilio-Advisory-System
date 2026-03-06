@@ -185,3 +185,34 @@
 .consultation-link:hover {
   text-decoration: underline;
 }
+
+/* History Row Styles */
+.history-row-container {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.history-flex { display: flex; gap: 1rem; align-items: center; }
+.status-icon-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.bg-success { background: #f0fdf4; color: #22c55e; }
+.bg-danger { background: #fef2f2; color: #ef4444; }
+.history-details-col { flex: 1; }
+.history-top-line, .history-bottom-line { display: flex; justify-content: space-between; }
+.history-title { font-weight: 500; color: #1e293b; font-size: 1.05rem; }
+.history-impact { font-weight: 500; }
+.text-success { color: #16a34a; }
+.history-subtitle { color: #64748b; font-size: 0.9rem; }
+.history-date { color: #94a3b8; font-size: 0.85rem; }
+
+/* Performance Summary Bar Styles */
+.advisory-performance-summary {
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 12px; padding: 20px; margin-top: 2rem;
+  display: flex; gap: 15px;
+}
+.summary-icon-box {
+  background: #10b981; color: white; width: 40px; height: 40px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}

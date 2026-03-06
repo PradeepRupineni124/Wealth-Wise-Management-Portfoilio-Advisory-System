@@ -11,23 +11,15 @@
         <module name="wealth-analytics-service" />
         <module name="compliance-service" />
       </profile>
-      <profile name="Annotation profile for Project" enabled="true">
+      <profile name="Annotation profile for advisory" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/project lombok/lombok/unknown/lombok-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="Project" />
-      </profile>
-      <profile name="Annotation profile for overview-service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
-        </processorPath>
+        <module name="advisory" />
         <module name="overview-service" />
         <module name="gateway" />
         <module name="client-service" />
@@ -40,6 +32,7 @@
       <module name="Portfolio" options="-parameters" />
       <module name="Project" options="-parameters" />
       <module name="WealthEurekaServer" options="-parameters" />
+      <module name="advisory" options="-parameters" />
       <module name="client-service" options="-parameters" />
       <module name="compliance-service" options="-parameters" />
       <module name="gateway" options="-parameters" />

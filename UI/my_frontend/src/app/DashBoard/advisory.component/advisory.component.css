@@ -161,3 +161,66 @@
     border-radius: 12px !important;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
 }
+
+/* ADVISORY PERFORMANCE SUMMARY (Green Box Footer) */
+.advisory-performance-summary {
+  background: #f0fdfa; /* Light mint background from image */
+  border: 1px solid #ccfbf1;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 2rem;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.summary-icon-box {
+  background: #059669; /* Solid green icon box */
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.summary-details { flex: 1; }
+
+.summary-main-title {
+  font-weight: 600;
+  color: #064e3b;
+  font-size: 1.15rem;
+}
+
+.summary-p {
+  color: #065f46;
+  font-size: 0.95rem;
+  margin: 6px 0 20px 0;
+}
+
+.summary-metrics {
+  display: flex;
+  gap: 4rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.m-label {
+  font-size: 0.85rem;
+  color: #065f46;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.m-val {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.text-green { color: #059669; }

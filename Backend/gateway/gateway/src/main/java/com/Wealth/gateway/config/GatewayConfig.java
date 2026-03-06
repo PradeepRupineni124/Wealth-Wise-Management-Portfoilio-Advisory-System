@@ -49,6 +49,17 @@ public class GatewayConfig {
                         // Make sure "client-service" matches the spring.application.name in your Client Service properties
                         .uri("lb://client-service"))
 
+                .route("advisory_service_route", r -> r.path("/api/recommendations/**")
+                        .filters(f -> f
+                                .filter(authFilter.apply(new JwtAuthenticationFilter.Config()))
+                                .filter((exchange, chain) -> {
+                                    log.info("Routing request to Advisory Service: {}", exchange.getRequest().getURI());
+                                    return chain.filter(exchange);
+                                })
+                        )
+                        .uri("lb://advisory")) // Matches spring.application.name: advisory
+
+
                 // 3. PORTFOLIO SERVICE ROUTE (Token REQUIRED)
                 .route("portfolio_service_route", r -> r.path("/api/portfolio/**", "/api/holdings/**", "/api/assets/**")
                         .filters(f -> f

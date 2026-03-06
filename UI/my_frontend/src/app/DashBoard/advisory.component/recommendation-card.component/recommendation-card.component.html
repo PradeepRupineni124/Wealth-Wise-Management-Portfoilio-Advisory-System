@@ -1,10 +1,29 @@
-<div class="advisory-card">
+<div *ngIf="data.status !== 'PENDING'" class="history-row-container">
+  <div class="history-flex">
+    <div class="status-icon-circle" [ngClass]="data.status === 'ACCEPTED' ? 'bg-success' : 'bg-danger'">
+      <i [class]="data.status === 'ACCEPTED' ? 'pi pi-check' : 'pi pi-times'"></i>
+    </div>
+    
+    <div class="history-details-col">
+      <div class="history-top-line">
+        <span class="history-title">{{ data.title }}</span>
+        <span class="history-impact" [ngClass]="{'text-success': data.status === 'ACCEPTED'}">
+          {{ data.status === 'ACCEPTED' ? (data.impactValue || '+$0') : 'Dismissed' }}
+        </span>
+      </div>
+      <div class="history-bottom-line">
+        <span class="history-subtitle">{{ data.actionValue }}</span>
+        <span class="history-date">2026-03-05</span> </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="data.status === 'PENDING'" class="advisory-card">
   <div class="card-header">
     <h2 class="card-title">{{ data.title }}</h2>
     <div class="badges">
       <p-tag [value]="data.priority" [severity]="data.prioritySeverity" [rounded]="true"></p-tag>
       <span class="category-badge">{{ data.type }}</span>
-      <p-tag *ngIf="data.status === 'Accepted'" value="Accepted" severity="success" [rounded]="true" icon="pi pi-check"></p-tag>
     </div>
   </div>
 
@@ -31,9 +50,8 @@
     </div>
   </div>
 
-  <div class="button-row" *ngIf="data.status !== 'Accepted'">
-    <button  label="Accept Recommendation" icon="pi pi-check" class="btn-emerald" (click)="onAccept.emit(data.id)">Accept Recommendation</button>
-    <button  icon="pi pi-times" class="btn-outline-sm" label="Reject" (click)="onReject.emit(data.id)">Reject</button>
-    <a href="#" class="consultation-link">Schedule Consultation</a>
+  <div class="button-row">
+    <button label="Accept Recommendation" icon="pi pi-check" class="btn-emerald" (click)="onAccept.emit(data.id)">Accept Recommendation</button>
+    <button icon="pi pi-times" class="btn-outline-sm" label="Reject" (click)="onReject.emit(data.id)">Reject</button>
   </div>
 </div>

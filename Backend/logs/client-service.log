@@ -2081,3 +2081,58 @@ Caused by: java.lang.RuntimeException: File not found on server
 2026-03-06T10:41:23.970+05:30  INFO 8612 --- [client-service] [http-nio-8081-exec-5] c.w.client.controller.ClientController   : API Request: GET /api/clients/2 from Advisor ID: 2
 2026-03-06T10:41:23.971+05:30 DEBUG 8612 --- [client-service] [http-nio-8081-exec-5] org.hibernate.SQL                        : select c1_0.client_id,c1_0.address,c1_0.advisor_id,c1_0.created_date,c1_0.date_of_birth,c1_0.email_address,c1_0.employer,c1_0.full_name,c1_0.investment_amount,c1_0.investment_goal,c1_0.investment_horizon,c1_0.kyc_document_ref,c1_0.kyc_status,c1_0.liquidity_needs,c1_0.occupation,c1_0.phone_number,c1_0.risk_profile from client c1_0 where c1_0.client_id=? and c1_0.advisor_id=?
 2026-03-06T10:43:03.411+05:30  INFO 8612 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-03-06T11:22:55.910+05:30  INFO 33256 --- [client-service] [main] c.w.client.ClientServiceApplication      : Starting ClientServiceApplication using Java 25 with PID 33256 (C:\Users\2463705\OneDrive - Cognizant\Documents\The Project\Wealth-Wise-Management-Portfoilio-Advisory-System\Backend\client-service\client-service\target\classes started by 2463705 in C:\Users\2463705\OneDrive - Cognizant\Documents\The Project\Wealth-Wise-Management-Portfoilio-Advisory-System\Backend)
+2026-03-06T11:22:55.914+05:30  INFO 33256 --- [client-service] [main] c.w.client.ClientServiceApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-03-06T11:22:57.486+05:30  INFO 33256 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-06T11:22:57.678+05:30  INFO 33256 --- [client-service] [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 177 ms. Found 1 JPA repository interface.
+2026-03-06T11:22:57.940+05:30  INFO 33256 --- [client-service] [main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=ec5c0d43-0339-3e3a-a9ea-0dfc89d70fb0
+2026-03-06T11:22:58.474+05:30  INFO 33256 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8081 (http)
+2026-03-06T11:22:58.490+05:30  INFO 33256 --- [client-service] [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-06T11:22:58.491+05:30  INFO 33256 --- [client-service] [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-03-06T11:22:58.596+05:30  INFO 33256 --- [client-service] [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2609 ms
+2026-03-06T11:22:58.835+05:30  INFO 33256 --- [client-service] [main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-06T11:22:58.924+05:30  INFO 33256 --- [client-service] [main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.1.Final
+2026-03-06T11:22:59.596+05:30  INFO 33256 --- [client-service] [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-06T11:22:59.628+05:30  INFO 33256 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-06T11:22:59.975+05:30  INFO 33256 --- [client-service] [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@60e80279
+2026-03-06T11:22:59.977+05:30  INFO 33256 --- [client-service] [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-06T11:23:00.076+05:30  INFO 33256 --- [client-service] [main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:mysql://localhost:3306/finance_db]
+	Database driver: MySQL Connector/J
+	Database dialect: MySQLDialect
+	Database version: 8.0.44
+	Default catalog/schema: finance_db/undefined
+	Autocommit mode: undefined/unknown
+	Isolation level: REPEATABLE_READ [default REPEATABLE_READ]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-06T11:23:01.056+05:30  INFO 33256 --- [client-service] [main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-06T11:23:01.124+05:30  INFO 33256 --- [client-service] [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-06T11:23:01.219+05:30  INFO 33256 --- [client-service] [main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-06T11:23:01.478+05:30  WARN 33256 --- [client-service] [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-06T11:23:02.049+05:30  INFO 33256 --- [client-service] [main] DiscoveryClientOptionalArgsConfiguration : Eureka HTTP Client uses RestClient.
+2026-03-06T11:23:02.093+05:30  WARN 33256 --- [client-service] [main] iguration$LoadBalancerCaffeineWarnLogger : Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2026-03-06T11:23:02.115+05:30  INFO 33256 --- [client-service] [main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2026-03-06T11:23:02.141+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2026-03-06T11:23:02.145+05:30  INFO 33256 --- [client-service] [main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2026-03-06T11:23:02.154+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2026-03-06T11:23:02.499+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2026-03-06T11:23:02.501+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2026-03-06T11:23:02.503+05:30  INFO 33256 --- [client-service] [main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2026-03-06T11:23:02.505+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1772776382504 with initial instances count: 4
+2026-03-06T11:23:02.508+05:30  INFO 33256 --- [client-service] [main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application CLIENT-SERVICE with eureka with status UP
+2026-03-06T11:23:02.509+05:30  INFO 33256 --- [client-service] [main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1772776382509, current=UP, previous=STARTING]
+2026-03-06T11:23:02.511+05:30  INFO 33256 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656601.cts.com:client-service:8081: registering service...
+2026-03-06T11:23:02.533+05:30  INFO 33256 --- [client-service] [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8081 (http) with context path '/'
+2026-03-06T11:23:02.534+05:30  INFO 33256 --- [client-service] [main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 8081
+2026-03-06T11:23:02.545+05:30  INFO 33256 --- [client-service] [main] c.w.client.ClientServiceApplication      : Started ClientServiceApplication in 7.487 seconds (process running for 8.893)
+2026-03-06T11:23:02.552+05:30  INFO 33256 --- [client-service] [DiscoveryClient-InstanceInfoReplicator-%d] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_CLIENT-SERVICE/LTIN656601.cts.com:client-service:8081 - registration status: 204
+2026-03-06T11:28:02.156+05:30  INFO 33256 --- [client-service] [AsyncResolver-bootstrap-executor-%d] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
