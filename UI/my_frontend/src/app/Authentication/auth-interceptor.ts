@@ -9,7 +9,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const platformId = inject(PLATFORM_ID);
   const isBrowser = isPlatformBrowser(platformId);
 
-  const isBackendUrl = req.url.includes('ltin656932.cts.com:9090');
+  const isBackendUrl = req.url.includes('ltin656497.cts.com:9090');
 
   // --- NEW CHANGE START ---
   // If we are on the server and calling the backend, stop the request immediately.

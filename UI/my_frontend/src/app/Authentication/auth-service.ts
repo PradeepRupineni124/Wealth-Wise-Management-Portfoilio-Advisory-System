@@ -12,7 +12,7 @@ export class AuthService {
   private payloadservice = inject(PayloadService);
   private platformId = inject(PLATFORM_ID);
 
-  private baseUrl = 'http://ltin656932.cts.com:9090/auth';
+  private baseUrl = 'http://ltin656497.cts.com:9090/auth';
 
   // NEW: Holds the email across the Forgot Password -> OTP -> Reset flow
   recoveryEmail = signal<string | null>(null);

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ClientApi {
   // 📍 THIS IS THE ONLY PLACE YOUR BACKEND URL LIVES
-  private baseUrl = 'http://ltin656932.cts.com:9090/api/clients'; 
+  private baseUrl = 'http://ltin656497.cts.com:9090/api/clients'; 
 
   constructor(private http: HttpClient) {}
 
