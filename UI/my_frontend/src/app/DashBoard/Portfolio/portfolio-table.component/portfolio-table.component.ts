@@ -16,7 +16,6 @@ ModuleRegistry.registerModules([AllCommunityModule]);
 export class PortfolioTableComponent {
   @Input() rowData: any[] = [];
   
-  // NEW: Emit an event when a cell is edited so the parent can call the backend!
   @Output() quantityChanged = new EventEmitter<{holdingId: number, newQty: number, oldQty: number}>();
   
   private gridApi!: GridApi;
@@ -31,7 +30,7 @@ export class PortfolioTableComponent {
     filter: false 
   };
 
-  colDefs: ColDef[] = [
+ colDefs: ColDef[] = [
     { field: 'symbol', headerName: 'Symbol', flex: 1, minWidth: 100, cellStyle: { fontWeight: '700' } },
     { field: 'name', headerName: 'Name', flex: 1.5, minWidth: 150 },
     { 
@@ -50,9 +49,9 @@ export class PortfolioTableComponent {
       flex: 1, 
       minWidth: 100, 
       type: 'numericColumn',
-      editable: true, 
+      editable: (params: any) => params.data.type !== 'Liquidity Asset', 
       cellEditor: 'agNumberCellEditor', 
-      // The cellStyle line has been completely removed!
+      cellClass: 'editable-quantity-cell', // <--- THE FIX: Re-added the class for clean CSS!
       valueFormatter: p => p.value != null ? p.value.toString() : '-' 
     },
     { 
@@ -79,14 +78,6 @@ export class PortfolioTableComponent {
       type: 'numericColumn',
       cellStyle: { fontWeight: '700' }, 
       valueFormatter: p => p.value != null ? '$' + p.value.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) : '$0' 
-    },
-    { 
-      field: 'liquidityAssets', 
-      headerName: 'Liquidity Assets', 
-      flex: 1.2, 
-      minWidth: 130, 
-      type: 'numericColumn',
-      valueFormatter: p => p.value != null ? '$' + p.value.toLocaleString(undefined, {minimumFractionDigits: 0, maximumFractionDigits: 0}) : '-' 
     },
     { 
       field: 'returnPct', 
@@ -143,13 +134,11 @@ export class PortfolioTableComponent {
     }
   }
 
-  // NEW: Catches the edit event and emits it to the parent
   onCellValueChanged(event: any) {
     if (event.colDef.field === 'qty') {
       const newValue = Number(event.newValue);
       const oldValue = Number(event.oldValue);
       
-      // Ensure the value actually changed and is a valid number
       if (newValue !== oldValue && !isNaN(newValue) && event.data.holdingId) {
          this.quantityChanged.emit({
             holdingId: event.data.holdingId,

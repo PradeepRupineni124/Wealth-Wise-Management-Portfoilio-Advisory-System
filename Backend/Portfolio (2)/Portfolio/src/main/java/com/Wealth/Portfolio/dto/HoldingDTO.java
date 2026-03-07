@@ -19,10 +19,6 @@ public class HoldingDTO {
     private BigDecimal marketValue;
     private BigDecimal returnPct;
     private BigDecimal allocationPct;
-
-    // --- NEW FIELD: Add this for the frontend column! ---
-    private BigDecimal liquidityAssets;
-
     private String geography;
     private LocalDateTime addedDate;
 }

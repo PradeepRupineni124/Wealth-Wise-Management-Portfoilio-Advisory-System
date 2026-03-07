@@ -19,7 +19,7 @@ export interface Report { title: string; description: string; date: string; icon
   providedIn: 'root',
 })
 export class AllocationService {
-  private readonly API_BASE = 'http://ltin656497.cts.com:9090/api/analytics';
+  private readonly API_BASE = 'http://ltin656690.cts.com:9090/api/analytics';
  
   private clientTrigger$ = new BehaviorSubject<number | null>(null);
   public activeClient$ = this.clientTrigger$.asObservable();

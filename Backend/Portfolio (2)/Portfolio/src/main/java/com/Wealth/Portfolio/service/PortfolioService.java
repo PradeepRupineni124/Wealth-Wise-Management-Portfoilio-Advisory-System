@@ -177,8 +177,6 @@ public class PortfolioService {
                     .marketValue(marketValue)
                     .returnPct(returnPct)
                     .allocationPct(allocationPct)
-                    // --- 1. THE FIX: Ensures the Cash column works perfectly! ---
-                    .liquidityAssets(portfolio.getCashBalance())
                     .geography(holding.getAsset().getGeography())
                     .addedDate(holding.getAddedDate())
                     .build();

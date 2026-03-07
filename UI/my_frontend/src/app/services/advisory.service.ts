@@ -10,8 +10,8 @@ export class AdvisoryService {
   
   // Point to the Gateway Port (9090)
   // The path /api/recommendations/ matches the route in GatewayConfig
-  private baseUrl = 'http://ltin656497.cts.com:9090/api/recommendations';
-  private portfolioBaseUrl = 'http://ltin656497.cts.com:9090/api/portfolio';
+  private baseUrl = 'http://ltin656690.cts.com:9090/api/recommendations';
+  private portfolioBaseUrl = 'http://ltin656690.cts.com:9090/api/portfolio';
 
   getRecommendations(portfolioId: number): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/${portfolioId}`);
