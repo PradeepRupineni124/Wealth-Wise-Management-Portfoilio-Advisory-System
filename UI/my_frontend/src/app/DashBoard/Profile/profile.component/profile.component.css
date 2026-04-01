@@ -1,0 +1,121 @@
+/* --- PAGE LAYOUT --- */
+.page-wrapper {
+  padding: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  /* REMOVED background-color and color so it uses your default page background */
+}
+
+/* --- HEADER SECTION --- */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; 
+  margin-bottom: 32px;
+}
+
+.header-text h1 {
+  font-size: 32px;
+  font-weight: 800;
+  /* Updated: Deep Teal text */
+  color: var(--p-surface-text);
+  margin: 0 0 8px 0;
+}
+
+.header-text p {
+  font-size: 16px;
+  /* Updated: Gray 600 text */
+  color: var(--p-surface-secondary-text);
+  margin: 0;
+}
+
+/* --- BUTTON FIX --- */
+::ng-deep .custom-edit-btn {
+  /* Updated: Emerald 600 */
+  background-color: var(--p-primary-color) !important; 
+  /* Updated: White contrast */
+  color: var(--p-primary-contrast-color) !important;
+  border: none !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  transition: background 0.2s !important;
+}
+
+::ng-deep .custom-edit-btn:hover {
+  /* Updated: Emerald 700 */
+  background-color: var(--p-primary-700) !important;
+}
+
+/* Fix for the "Cancel" button text color */
+::ng-deep .p-button.p-button-outlined.p-button-secondary {
+  /* Updated: Gray 600 */
+  color: var(--p-surface-secondary-text) !important;
+  /* Updated: Teal 200 (Default Border) */
+  border-color: var(--p-surface-border) !important;
+}
+
+.content-container {
+  width: 100%;
+}
+
+.tabs-container {
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* --- EMPTY PROFILE STATE --- */
+.empty-profile-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 65vh; /* Takes up most of the page */
+  background-color: #ffffff;
+  border: 2px dashed #cbd5e1;
+  border-radius: 20px;
+  text-align: center;
+  padding: 2rem;
+  margin-top: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.empty-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  background: #f8fafc;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.empty-icon-wrapper i {
+  font-size: 2.5rem;
+  color: #94a3b8;
+}
+
+.empty-profile-state h2 {
+  margin: 0 0 0.5rem 0;
+  color: #0f172a;
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.empty-profile-state p {
+  color: #64748b;
+  max-width: 400px;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 1rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

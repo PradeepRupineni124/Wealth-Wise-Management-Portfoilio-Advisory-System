@@ -1,0 +1,18 @@
+<div class="graph-card">
+  <div class="flex justify-content-between align-items-center mb-4">
+    <div>
+      <h3 class="text-900 font-bold m-0">Portfolio vs Benchmark</h3>
+      <p class="text-600 text-sm m-0">Monthly returns comparison</p>
+    </div>
+    <p-selectButton
+    [options]="timeOptions"
+    [(ngModel)]="selectedTime"
+    (onChange)="onTimeChange($event)"
+    [allowEmpty]="false">
+</p-selectButton>
+  </div>
+ 
+  <div class="chart-container">
+    <p-chart type="line" [data]="data" [options]="options" height="350px"></p-chart>
+  </div>
+</div>

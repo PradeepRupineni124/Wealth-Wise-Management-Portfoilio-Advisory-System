@@ -1,0 +1,118 @@
+/* Core Layout Structure */
+.shell-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: var(--p-surface-50);
+}
+
+.shell-body {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden; /* Contains sidebar and main content scroll */
+}
+
+/* Header & Brand */
+:host ::ng-deep .dashboard-menubar {
+    border: none;
+    border-bottom: 1px solid var(--p-surface-200);
+    border-radius: 0;
+    background-color: var(--p-surface-0);
+    padding: 0 1.5rem;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.brand-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.brand-logo {
+    height: 40px;
+    width: auto;
+}
+
+.brand-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--p-primary-color);
+    letter-spacing: -0.02em;
+}
+
+/* Sidebar Styling */
+.shell-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    border-right: 1px solid var(--p-surface-200);
+    background-color: var(--p-surface-0);
+}
+
+/* Main Content Area */
+.shell-main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: var(--p-surface-50);
+}
+
+.content-context-bar {
+    padding: 1rem 2rem 0.5rem 2rem;
+    font-weight: 600;
+}
+
+.context-label { color: var(--p-surface-500); margin-right: 5px; }
+.context-value { color: var(--p-primary-color); }
+
+.router-view {
+    padding: 1.5rem 2rem;
+}
+
+/* Header Actions & Profile */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.v-separator {
+    width: 1px;
+    height: 24px;
+    background-color: var(--p-surface-200);
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.2;
+}
+
+.profile-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--p-surface-900);
+}
+
+.profile-role {
+    font-size: 0.7rem;
+    color: var(--p-surface-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+:host ::ng-deep .profile-avatar {
+    width: 38px;
+    height: 38px;
+}

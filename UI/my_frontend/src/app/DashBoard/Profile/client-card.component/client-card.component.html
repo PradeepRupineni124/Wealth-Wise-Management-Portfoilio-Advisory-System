@@ -1,0 +1,23 @@
+<div class="card-container">
+  <div class="avatar">
+    {{ getInitials() }}
+  </div>
+
+  <div class="content">
+    <h2 class="name">{{ name || 'Unknown Client' }}</h2>
+    <p class="sub-text">Client • CL-{{ clientId || '000' }}</p>
+
+    <div class="badge-group">
+      <span class="badge badge-green">Risk Profile: {{ formatText(riskProfile) }}</span>
+      <span class="badge badge-blue">Goal: {{ formatText(goal) }}</span>
+      
+      @if (kycStatus === 'VERIFIED') {
+        <span class="badge badge-purple">Verified Client</span>
+      } @else if (kycStatus === 'PENDING') {
+        <span class="badge badge-yellow">Pending Verification</span>
+      } @else {
+        <span class="badge badge-gray">Not Verified</span>
+      }
+    </div>
+  </div>
+</div>

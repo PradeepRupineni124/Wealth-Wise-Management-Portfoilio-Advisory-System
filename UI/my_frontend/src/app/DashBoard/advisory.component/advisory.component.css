@@ -1,0 +1,226 @@
+
+
+.advisory-container {
+  padding: 1.5rem; 
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem; 
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.page-subtitle {
+  color: #64748b;
+  margin-top: 0.25rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); 
+  gap: 1rem; 
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: white;
+  padding: 1rem; 
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.icon-box {
+  width: 40px; 
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-label {
+  color: #64748b;
+  font-size: 0.8rem;
+  margin-bottom: 2px;
+}
+
+.stat-value {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1.125rem; 
+}
+
+
+.bg-orange-50 { background-color: #fff7ed; }
+.text-orange-500 { color: #f97316; }
+.bg-green-50 { background-color: #f0fdf4; }
+.text-green-500 { color: #22c55e; }
+.bg-blue-50 { background-color: #eff6ff; }
+.text-blue-500 { color: #3b82f6; }
+.bg-purple-50 { background-color: #faf5ff; }
+.text-purple-500 { color: #a855f7; }
+
+.tab-content {
+  margin-top: 1.25rem;
+}
+
+.history-container {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  margin-top: 1.25rem;
+  overflow: hidden;
+}
+
+.history-header {
+  padding: 1.25rem; 
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.history-header h2 { margin: 0 0 0.25rem 0; font-size: 1rem; }
+.history-header p { margin: 0; color: #64748b; font-size: 0.85rem; }
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.h-left { display: flex; align-items: center; gap: 0.875rem; }
+
+.check-icon-box {
+  width: 32px; height: 32px; 
+  background: #f0fdf4;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #22c55e;
+  font-size: 0.9rem;
+}
+
+.h-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+.h-desc { font-size: 0.8rem; color: #64748b; }
+
+.h-right { text-align: right; }
+.h-val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #10b981; 
+}
+.h-meta { font-size: 0.75rem; color: #94a3b8; }
+
+
+.summary-box {
+  margin: 1.25rem;
+  background: #f0fdf4;
+  padding: 1.25rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.summary-icon {
+  background: #22c55e;
+  color: white;
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+
+.summary-text { flex: 1; font-size: 0.85rem; color: #14532d; line-height: 1.4; }
+
+.summary-stats { display: flex; gap: 1.5rem; }
+.summary-stats small { color: #166534; font-size: 0.75rem; }
+.s-val { font-weight: 700; font-size: 1.1rem; color: #14532d; }
+
+
+::ng-deep .p-toast {
+    top: 80px !important; 
+    right: 20px !important;
+}
+
+::ng-deep .p-toast-message {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1) !important;
+}
+
+/* ADVISORY PERFORMANCE SUMMARY (Green Box Footer) */
+.advisory-performance-summary {
+  background: #f0fdfa; /* Light mint background from image */
+  border: 1px solid #ccfbf1;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 2rem;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.summary-icon-box {
+  background: #059669; /* Solid green icon box */
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.summary-details { flex: 1; }
+
+.summary-main-title {
+  font-weight: 600;
+  color: #064e3b;
+  font-size: 1.15rem;
+}
+
+.summary-p {
+  color: #065f46;
+  font-size: 0.95rem;
+  margin: 6px 0 20px 0;
+}
+
+.summary-metrics {
+  display: flex;
+  gap: 4rem;
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.m-label {
+  font-size: 0.85rem;
+  color: #065f46;
+  opacity: 0.8;
+  margin-bottom: 4px;
+}
+
+.m-val {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.text-green { color: #059669; }

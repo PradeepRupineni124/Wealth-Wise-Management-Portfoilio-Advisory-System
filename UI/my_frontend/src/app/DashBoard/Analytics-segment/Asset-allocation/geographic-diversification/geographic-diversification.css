@@ -1,0 +1,48 @@
+
+.region-grid {
+    display: flex !important;       
+    flex-direction: row !important; 
+    flex-wrap: nowrap !important;   
+    justify-content: space-between;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+
+.region-metric-card {
+    flex: 1 1 0px;                  
+    width: 100%;                    
+    min-width: 0;                  
+    
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    border-radius: 12px;
+}
+
+.region-name {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: #64748b;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;            
+}
+
+.region-value {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+}
+
+
+.bg-blue { background-color: #f0f9ff; }
+.bg-green { background-color: #f0fdf4; }
+.bg-yellow { background-color: #fefce8; }
+.bg-purple { background-color: #faf5ff; }
+
+@media (max-width: 600px) {
+    .region-grid {
+        flex-direction: column !important;
+    }
+}

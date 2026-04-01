@@ -1,0 +1,95 @@
+
+.risk-container {
+    background: #ffffff;
+    border-radius: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 50px; 
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+}
+
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 1.5rem; 
+}
+
+
+.metric-card {
+    background-color: #f8fafc; 
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 140px; 
+}
+
+
+.metric-name {
+    font-size: 0.875rem; 
+    font-weight: 500;
+    color: #64748b;      
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.values-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 3rem;             
+}
+
+.value-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.label {
+    font-size: 0.75rem;
+    color: #94a3b8;   
+    font-weight: 400;
+}
+
+.number {
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+}
+
+
+.main-value {
+    font-size: 1.75rem; 
+    font-weight: 700;
+    color: #0f172a;     
+    letter-spacing: -0.03em;
+}
+
+
+.sub-value {
+    font-size: 1.125rem; 
+    font-weight: 500;
+    color: #64748b;      
+    padding-bottom: 0.15rem; 
+}
+
+
+@media (max-width: 768px) {
+    .metrics-grid {
+        grid-template-columns: 1fr; 
+    }
+    
+    .values-row {
+        gap: 1.5rem; 
+    }
+}

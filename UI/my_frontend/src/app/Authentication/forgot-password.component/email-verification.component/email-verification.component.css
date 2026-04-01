@@ -1,0 +1,118 @@
+.wealth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--p-primary-50) 0%, var(--p-surface-0) 100%);
+    font-family: var(--font-family, 'Inter', sans-serif);
+    padding: 1rem;
+}
+
+.wealth-card {
+    width: 100%;
+    max-width: 420px;
+}
+
+::ng-deep .wealth-card .p-card {
+    background: var(--p-surface-card);
+    border: 1px solid var(--p-surface-border);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    border-radius: 16px;
+}
+
+::ng-deep .wealth-card .p-card-body {
+    padding: 2.5rem 2rem;
+}
+
+.back-nav {
+    margin-bottom: 1.5rem;
+}
+
+.back-link {
+    color: var(--p-primary-600);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.back-link:hover { text-decoration: underline; color: var(--p-primary-800); }
+
+.wealth-title {
+    text-align: center;
+    color: var(--p-primary-700);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: -0.025em;
+}
+
+.wealth-desc {
+    text-align: center;
+    color: var(--p-text-muted-color);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+.otp-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+/* Center the OTP input boxes */
+::ng-deep .p-inputotp {
+    justify-content: center;
+}
+
+::ng-deep .p-inputotp-input {
+    width: 3rem !important;
+    height: 3.5rem !important;
+    font-size: 1.5rem !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--p-surface-300);
+}
+::ng-deep .p-inputotp-input:focus {
+    border-color: var(--p-primary-500);
+    box-shadow: 0 0 0 2px var(--p-primary-100);
+}
+
+.error-placeholder {
+    min-height: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+.p-error {
+    color: var(--p-red-500);
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.resend-section {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--p-text-muted-color);
+    margin-bottom: 1.5rem;
+}
+
+.resend-link {
+    color: var(--p-primary-600);
+    font-weight: 700;
+    cursor: pointer;
+    margin-left: 5px;
+}
+.resend-link:hover { text-decoration: underline; color: var(--p-primary-800); }
+
+.button-row { width: 100%; }
+
+::ng-deep .wealth-btn {
+    width: 100%;
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    padding: 0.75rem 0 !important;
+    border-radius: 8px !important;
+}

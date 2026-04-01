@@ -1,0 +1,57 @@
+<div *ngIf="data.status !== 'PENDING'" class="history-row-container">
+  <div class="history-flex">
+    <div class="status-icon-circle" [ngClass]="data.status === 'ACCEPTED' ? 'bg-success' : 'bg-danger'">
+      <i [class]="data.status === 'ACCEPTED' ? 'pi pi-check' : 'pi pi-times'"></i>
+    </div>
+    
+    <div class="history-details-col">
+      <div class="history-top-line">
+        <span class="history-title">{{ data.title }}</span>
+        <span class="history-impact" [ngClass]="{'text-success': data.status === 'ACCEPTED'}">
+          {{ data.status === 'ACCEPTED' ? (data.impactValue || '+$0') : 'Dismissed' }}
+        </span>
+      </div>
+      <div class="history-bottom-line">
+        <span class="history-subtitle">{{ data.actionValue }}</span>
+        <span class="history-date">2026-03-05</span> </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="data.status === 'PENDING'" class="advisory-card">
+  <div class="card-header">
+    <h2 class="card-title">{{ data.title }}</h2>
+    <div class="badges">
+      <p-tag [value]="data.priority" [severity]="data.prioritySeverity" [rounded]="true"></p-tag>
+      <span class="category-badge">{{ data.type }}</span>
+    </div>
+  </div>
+
+  <p class="card-desc">{{ data.description }}</p>
+
+  <div class="action-impact-grid">
+    <div class="action-col">
+      <div class="label">{{ data.actionTitle }}</div>
+      <div class="value-dark">{{ data.actionValue }}</div>
+    </div>
+    <div class="impact-col">
+      <div class="label">Potential Impact</div>
+      <div [class]="data.impactValue.includes('+') ? 'value-green' : 'value-dark'">
+        {{ data.impactValue }}
+      </div>
+    </div>
+  </div>
+
+  <div class="rationale-box">
+    <i class="pi pi-exclamation-circle rationale-icon"></i>
+    <div>
+      <div class="rationale-title">Advisory Rationale</div>
+      <div class="rationale-text">{{ data.rationale }}</div>
+    </div>
+  </div>
+
+  <div class="button-row">
+    <button label="Accept Recommendation" icon="pi pi-check" class="btn-emerald" (click)="onAccept.emit(data.id)">Accept Recommendation</button>
+    <button icon="pi pi-times" class="btn-outline-sm" label="Reject" (click)="onReject.emit(data.id)">Reject</button>
+  </div>
+</div>

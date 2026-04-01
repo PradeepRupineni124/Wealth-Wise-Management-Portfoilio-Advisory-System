@@ -1,0 +1,167 @@
+<div class="split-layout">
+  
+  <div class="left-panel">
+    <div class="content-wrapper">
+
+
+      <div class="brand">
+        <img src="Wealth_full.png" alt="WealthWise Logo" class="brand-logo">
+      </div>
+      
+      <!-- <div class="brand">
+        <div class="logo-icon">
+          <i class="pi pi-chart-line"></i>
+        </div>
+        <span class="brand-text">WealthWise</span>
+      </div> -->
+
+      <div class="hero-text">
+        <h1>Start Your <br> <span class="highlight">Wealth Journey Today</span></h1>
+        <p class="subtitle">
+          Join thousands of high-net-worth individuals who trust WealthWise for intelligent portfolio management and personalized investment advisory.
+        </p>
+      </div>
+
+      <div class="stats-grid">
+        <p-card styleClass="stat-card">
+          <h3 class="stat-value">10,000+</h3>
+          <p class="stat-label">Active Investors</p>
+        </p-card>
+
+        <p-card styleClass="stat-card">
+          <h3 class="stat-value">$5B+</h3>
+          <p class="stat-label">AUM</p>
+        </p-card>
+
+        <p-card styleClass="stat-card">
+          <h3 class="stat-value">18.2%</h3>
+          <p class="stat-label">Avg. Return</p>
+        </p-card>
+
+        <p-card styleClass="stat-card">
+          <h3 class="stat-value">24/7</h3>
+          <p class="stat-label">Monitoring</p>
+        </p-card>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="right-panel">
+    
+    <div class="register_wrapper">
+      
+      <p-card styleClass="register-card-custom" class="register_card">
+        
+        <ng-template pTemplate="header">
+          <div class="card-header">
+            <i class="pi pi-user-plus account-icon"></i>
+            <h2>Register Your Account</h2>
+          </div>
+        </ng-template>
+
+        <form [formGroup]="registerForm" (ngSubmit)="submit()" class="form_group">
+          <div class="form-column">
+
+            <div class="field-container">
+              <p-floatLabel variant="on">
+                <input
+                  pInputText
+                  id="fullName"
+                  type="text"
+                  formControlName="fullName"
+                  [invalid]="isInvalid('fullName')" />
+                <label for="fullName">Full Name</label>
+              </p-floatLabel>
+
+              <div class="error-placeholder">
+                @if (isInvalid('fullName')) {
+                  <p-message severity="error" size="small" variant="simple">
+                    Full Name is required.
+                  </p-message>
+                }
+              </div>
+            </div>
+
+            <div class="field-container">
+              <p-floatLabel variant="on">
+                <input
+                  pInputText
+                  id="email"
+                  type="email"
+                  formControlName="email"
+                  [invalid]="isInvalid('email')" />
+                <label for="email">Email</label>
+              </p-floatLabel>
+
+              <div class="error-placeholder">
+                @if (isInvalid('email')) {
+                  <p-message severity="error" size="small" variant="simple">
+                    @if (registerForm.get('email')?.errors?.['required']) { Email is required. }
+                    @if (registerForm.get('email')?.errors?.['email']) { Invalid email format. }
+                  </p-message>
+                }
+              </div>
+            </div>
+
+            <div class="field-container">
+              <p-floatLabel variant="on">
+                <p-password
+                  inputId="password"
+                  formControlName="password"
+                  [toggleMask]="true"
+                  [feedback]="true"
+                  [invalid]="isInvalid('password')">
+                </p-password>
+                <label for="password">Password</label>
+              </p-floatLabel>
+
+              <div class="error-placeholder">
+                @if (isInvalid('password')) {
+                  <p-message severity="error" size="small" variant="simple">
+                    Must contain 1 uppercase & 1 number.
+                  </p-message>
+                }
+              </div>
+            </div>
+
+            <div class="field-container">
+              <p-floatLabel variant="on">
+                <p-password
+                  inputId="confirmPassword"
+                  formControlName="confirmPassword"
+                  [toggleMask]="true"
+                  [feedback]="false"
+                  [invalid]="isInvalid('confirmPassword')">
+                </p-password>
+                <label for="confirmPassword">Confirm Password</label>
+              </p-floatLabel>
+
+              <div class="error-placeholder">
+                @if (registerForm.hasError('mismatch')) {
+                  <p-message severity="error" size="small" variant="simple">
+                    Passwords do not match.
+                  </p-message>
+                }
+              </div>
+            </div>
+
+            <p-button
+              label="Create Account"
+              styleClass="register-btn"
+              type="submit">
+            </p-button>
+
+            <p class="login-text">
+              Already have an account?
+              <span routerLink="/login">Sign in</span>
+            </p>
+
+          </div>
+        </form>
+      </p-card>
+    </div>
+
+  </div>
+</div>
+<p-toast></p-toast>

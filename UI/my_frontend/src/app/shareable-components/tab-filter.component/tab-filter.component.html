@@ -1,0 +1,11 @@
+<div class="pill-track">
+  @for (tab of tabs; track tab) {
+    <button 
+      type="button"
+      class="pill-item" 
+      [class.active]="activeTab === tab"
+      (click)="selectTab(tab)">
+      {{ tab }}
+    </button>
+  }
+</div>

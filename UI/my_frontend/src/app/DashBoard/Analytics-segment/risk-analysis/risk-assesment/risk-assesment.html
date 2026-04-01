@@ -1,0 +1,16 @@
+<div class="assessment-card">
+  <h3 class="card-title">Risk Assessment</h3>
+
+  <div class="level-header">
+    <span class="level-label">Overall Risk Level</span>
+    <span class="level-value">{{ riskData.level }}</span>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-fill" [style.width.%]="riskData.score"></div>
+  </div>
+
+  <p class="assessment-text">
+    {{ riskData.description }}
+  </p>
+</div>

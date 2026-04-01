@@ -1,0 +1,174 @@
+<p-toast></p-toast>
+
+<div class="kyc-wrapper">
+  
+  <header class="kyc-header">
+    <div class="header-titles">
+      <div class="flex align-items-center gap-3">
+        <h2 class="title">KYC Verification</h2>
+        @if (!loading) {
+          <p-tag 
+            [value]="displayStatus" 
+            [severity]="severity" 
+            [rounded]="true"
+            styleClass="status-pill">
+          </p-tag>
+        }
+      </div>
+      <p class="subtitle mt-1">Manage your identity documents and verification status.</p>
+    </div>
+  </header>
+
+  <hr class="kyc-divider">
+
+  @if (loading) {
+    <div class="kyc-skeleton">
+      <p-skeleton width="100%" height="120px" borderRadius="16px"></p-skeleton>
+    </div>
+  }
+
+  @if (!loading && !kycData && !isEditingLocal) {
+    <div class="kyc-empty-state" (click)="enableEdit()">
+      <div class="empty-icon-wrapper">
+        <i class="pi pi-file-arrow-up"></i>
+      </div>
+      <h3 class="empty-title">No Document Uploaded</h3>
+      <p class="empty-subtitle">Please upload a valid government-issued ID, Passport, or License to complete your verification.</p>
+      
+      <p-button 
+        label="Upload Document" 
+        icon="pi pi-upload" 
+        [rounded]="true">
+      </p-button>
+    </div>
+  }
+
+  @if (!loading && kycData && !isEditingLocal) {
+    <div class="kyc-document-card">
+      <div class="card-content">
+        <div class="file-icon-box" [ngClass]="isPdf ? 'pdf-icon' : 'img-icon'">
+          <i class="pi" [ngClass]="isPdf ? 'pi-file-pdf' : 'pi-image'"></i>
+        </div>
+        <div class="file-details">
+          <h4 class="file-name">{{ kycData.fileName || 'Identity Document' }}</h4>
+          <p class="file-meta">
+            <i class="pi pi-calendar-clock mr-1"></i> Uploaded: {{ kycData.uploadDate }} 
+            <span class="dot">•</span> 
+            Status: <span class="font-semibold" [ngClass]="'text-' + severity + '-600'">{{ kycData.status }}</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <p-button 
+          label="Preview" 
+          icon="pi pi-eye" 
+          severity="secondary" 
+          [outlined]="true"
+          [rounded]="true"
+          (onClick)="onViewDocument()">
+        </p-button>
+        
+        <p-button 
+          label="Update" 
+          icon="pi pi-refresh" 
+          [outlined]="true"
+          [rounded]="true"
+          (onClick)="enableEdit()">
+        </p-button>
+      </div>
+    </div>
+  }
+
+  @if (!loading && isEditingLocal) {
+    <div class="kyc-upload-zone">
+      
+      <div class="sleek-alert">
+        <div class="alert-icon"><i class="pi pi-info-circle"></i></div>
+        <div class="alert-text">Please upload a clear, legible copy of the document. Max size: <strong>5MB</strong>.</div>
+      </div>
+
+      <p-fileUpload 
+        mode="advanced" 
+        name="kycDocs" 
+        [customUpload]="true"
+        (uploadHandler)="onFileSelect($event)"
+        [auto]="true"
+        chooseLabel="Browse Files"
+        accept="image/*,application/pdf" 
+        [maxFileSize]="5000000"
+        [showUploadButton]="false"
+        [showCancelButton]="false"
+        styleClass="seamless-dropzone">
+          <ng-template pTemplate="content">
+             <div class="dropzone-content">
+               <div class="drop-icon">
+                 <i class="pi pi-cloud-upload"></i>
+               </div>
+               <h4 class="drop-title">Drag and drop your file here</h4>
+               <p class="drop-subtitle">Files supported: JPG, PNG, PDF</p>
+               <div class="or-divider"><span>OR</span></div>
+             </div>
+          </ng-template>
+      </p-fileUpload>
+
+      @if (pendingFile) {
+        <div class="pending-file-banner">
+          <div class="banner-left">
+            <i class="pi pi-check-circle"></i>
+            <div class="file-info-text">
+              <span class="file-name-bold">{{ pendingFile.name }}</span>
+              <span class="file-ready-text">is ready to be saved</span>
+            </div>
+          </div>
+          <span class="file-size-badge">{{ (pendingFile.size / 1024 / 1024) | number:'1.2-2' }} MB</span>
+        </div>
+      }
+
+      <div class="action-footer">
+        <p-button 
+          label="Cancel" 
+          severity="secondary" 
+          [text]="true"
+          [rounded]="true"
+          icon="pi pi-times"
+          (onClick)="cancelEdit()">
+        </p-button>
+        <p-button 
+          label="Save Document" 
+          icon="pi pi-check" 
+          [rounded]="true"
+          (onClick)="saveDocument()" 
+          [disabled]="!pendingFile">
+        </p-button>
+      </div>
+    </div>
+  }
+
+</div>
+
+<p-dialog 
+  header="Document Preview" 
+  [(visible)]="displayViewer" 
+  [modal]="true" 
+  [style]="{width: '60vw', height: '80vh'}" 
+  [draggable]="false" 
+  [resizable]="false"
+  [dismissableMask]="true"
+  styleClass="modern-modal">
+    
+    <div class="preview-content">
+      @if (securePreviewUrl) {
+         @if (isPdf) {
+           <iframe [src]="securePreviewUrl" class="pdf-viewer"></iframe>
+         } @else {
+            <img [src]="securePreviewUrl" alt="KYC Document" class="image-viewer">
+         }
+      } @else {
+         <div class="loading-state">
+           <i class="pi pi-spin pi-spinner"></i>
+           <p>Loading document securely...</p>
+         </div>
+      }
+    </div>
+</p-dialog>

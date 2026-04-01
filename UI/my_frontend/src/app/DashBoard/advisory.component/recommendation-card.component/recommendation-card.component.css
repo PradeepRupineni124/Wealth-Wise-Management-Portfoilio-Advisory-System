@@ -1,0 +1,218 @@
+.advisory-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem; 
+  margin-bottom: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 0.5rem;
+}
+
+.card-title {
+  font-size: 1.1rem; 
+  font-weight: 700;
+  margin: 0;
+  color: #0f172a;
+}
+
+.badges {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+
+::ng-deep .p-tag {
+  font-size: 0.7rem !important;
+  padding: 0.2rem 0.6rem !important;
+}
+
+.category-badge {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.card-desc {
+  color: #475569;
+  line-height: 1.5;
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  font-size: 0.875rem; 
+}
+
+
+.action-impact-grid {
+  display: flex;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.action-col {
+  flex: 2;
+  border-right: 1px solid #e2e8f0;
+  padding-right: 1rem;
+}
+
+.impact-col {
+  flex: 1;
+  padding-left: 1rem;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.value-dark {
+  font-weight: 700;
+  color: #0f172a;
+  font-size: 0.9rem;
+}
+
+.value-green {
+  font-weight: 700;
+  color: #10b981; 
+  font-size: 0.9rem;
+}
+
+
+.rationale-box {
+  display: flex;
+  background: #eff6ff;
+  border: 1px solid #dbeafe;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.25rem;
+  gap: 10px;
+}
+
+.rationale-icon {
+  color: #3b82f6;
+  margin-top: 2px;
+  font-size: 0.9rem;
+}
+
+.rationale-title {
+  color: #1e3a8a;
+  font-weight: 700;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.rationale-text {
+  color: #2563eb;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+
+.button-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+
+.btn-emerald {
+    background: #059669;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-emerald:hover {
+    background: #047857;
+    transform: translateY(-1px);
+}
+
+.btn-outline-sm {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-outline-sm:hover {
+    border-color: #94a3b8;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.btn-outline-sm .pi {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.consultation-link {
+  color: #0f172a;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-left: 8px;
+}
+
+.consultation-link:hover {
+  text-decoration: underline;
+}
+
+/* History Row Styles */
+.history-row-container {
+  padding: 1.5rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.history-flex { display: flex; gap: 1rem; align-items: center; }
+.status-icon-circle {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.bg-success { background: #f0fdf4; color: #22c55e; }
+.bg-danger { background: #fef2f2; color: #ef4444; }
+.history-details-col { flex: 1; }
+.history-top-line, .history-bottom-line { display: flex; justify-content: space-between; }
+.history-title { font-weight: 500; color: #1e293b; font-size: 1.05rem; }
+.history-impact { font-weight: 500; }
+.text-success { color: #16a34a; }
+.history-subtitle { color: #64748b; font-size: 0.9rem; }
+.history-date { color: #94a3b8; font-size: 0.85rem; }
+
+/* Performance Summary Bar Styles */
+.advisory-performance-summary {
+  background: #f0fdf4; border: 1px solid #bbf7d0;
+  border-radius: 12px; padding: 20px; margin-top: 2rem;
+  display: flex; gap: 15px;
+}
+.summary-icon-box {
+  background: #10b981; color: white; width: 40px; height: 40px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+}

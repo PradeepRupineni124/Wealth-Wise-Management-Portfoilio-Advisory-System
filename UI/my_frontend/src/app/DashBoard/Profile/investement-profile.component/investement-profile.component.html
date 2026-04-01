@@ -1,0 +1,53 @@
+<div class="profile-container">
+  
+  <div class="details-card mb-4">
+    <h3 class="section-title">Investment Preferences</h3>
+    <form [formGroup]="investForm" class="grid-form" ngSkipHydration>
+      
+      <div class="form-field">
+        <label>Risk Profile</label>
+        <p-select [options]="riskOptions" formControlName="riskProfile" optionLabel="label" optionValue="value" class="w-full" appendTo="body"></p-select>
+      </div>
+
+      <div class="form-field">
+        <label>Primary Investment Goal</label>
+        <p-select [options]="goalOptions" formControlName="goal" optionLabel="label" optionValue="value" class="w-full" appendTo="body"></p-select>
+      </div>
+
+      <div class="form-field">
+        <label>Investment Horizon</label>
+        <p-select [options]="horizonOptions" formControlName="horizon" optionLabel="label" optionValue="value" class="w-full" appendTo="body"></p-select>
+      </div>
+
+      <div class="form-field">
+        <label>Liquidity Needs</label>
+        <p-select [options]="liquidityOptions" formControlName="liquidity" optionLabel="label" optionValue="value" class="w-full" appendTo="body"></p-select>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="details-card" id="d-card">
+    <h3 class="section-title">Investment Profile Summary</h3>
+    
+    <div class="summary-grid">
+      
+      <div class="summary-box">
+        <span class="summary-label">Recommended Allocation</span>
+        <p class="summary-value text-dark">{{ summary().allocation }}</p>
+      </div>
+
+      <div class="summary-box">
+        <span class="summary-label">Risk Tolerance Score</span>
+        <p class="summary-value text-dark">{{ summary().score }}</p>
+      </div>
+
+      <div class="summary-box">
+        <span class="summary-label">Expected Annual Return</span>
+        <p class="summary-value text-green">{{ summary().return }}</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>

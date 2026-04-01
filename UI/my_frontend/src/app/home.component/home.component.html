@@ -1,0 +1,144 @@
+<p-menubar [model]="items" class ="custom-menubar">
+  <ng-template pTemplate="start">
+    <div class="logo-container" routerLink="/">
+      <img src = "Wealth_full.png" style="width: 200px;" class=" logo-icon"/>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="end">
+    
+    <div class="nav-actions">
+      <button class="btn secondary" routerLink="/login">Sign In</button>
+      <button class="btn primary" routerLink="/register">Get Started</button>
+    </div>
+  </ng-template>
+</p-menubar>
+
+<section class="hero" id="top">
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="trusted-badge">
+        <i class="pi pi-bolt"></i> Trusted by 10,000+ investors
+      </div>
+      <h1>Your Wealth, <br><span>Intelligently Managed</span></h1>
+      <p>Advanced portfolio management and personalized investment advisory for high-net-worth individuals. Comprehensive analytics, compliance tracking, and expert recommendations—all in one platform.</p>
+      <div class="hero-btns">
+        <button class="btn primary" routerLink="/register">Start Investing <i class="pi pi-chevron-right" style="font-size: 0.8rem; margin-left: 8px;"></i></button>
+        <!-- <button class="btn ghost">Watch Demo</button> -->
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <p-card class ="portfolio-card-modern">
+        <div class="value-highlight-box">
+          <div class="value-header">
+            <span class="label">Portfolio Value</span>
+            <div class="growth-badge">
+              <i class="pi pi-arrow-up-right"></i>
+              <span>+12.4%</span>
+            </div>
+          </div>
+          <h1 class="main-amount">$2,547,892</h1>
+        </div>
+
+        <div class="asset-grid-modern">
+          <div class="asset-col">
+            <span class="asset-label">Equities</span>
+            <span class="asset-value">45%</span>
+          </div>
+          <div class="asset-col">
+            <span class="asset-label">Bonds</span>
+            <span class="asset-value">30%</span>
+          </div>
+          <div class="asset-col">
+            <span class="asset-label">MF</span>
+            <span class="asset-value">25%</span>
+          </div>
+        </div>
+
+        <hr class="card-divider">
+
+        <div class="metric-row">
+          <span class="metric-label">Risk Score</span>
+          <span class="metric-tag low-risk">Low (2.4/10)</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Annual Return</span>
+          <span class="metric-value-green">+18.2%</span>
+        </div>
+      </p-card>
+    </div>
+  </div>
+</section>
+
+<section class="features-grid-section" id="features">
+  <div class="section-header">
+    <h2>Everything You Need to Manage Wealth</h2>
+    <p>Powerful tools designed for sophisticated investors and their advisors</p>
+  </div>
+  <div class="feature-cards-container">
+    <p-card class ="info-card">
+      <div class="icon-box teal-bg"><i class="pi pi-chart-line"></i></div>
+      <h3>Portfolio Management</h3>
+      <p>Create and manage diversified portfolios across multiple asset classes with real-time tracking.</p>
+    </p-card>
+    <p-card class ="info-card">
+      <div class="icon-box teal-bg"><i class="pi pi-chart-bar"></i></div>
+      <h3>Wealth Analytics</h3>
+      <p>Advanced analytics and reporting for performance monitoring and risk assessment.</p>
+    </p-card>
+    <p-card class ="info-card">
+      <div class="icon-box teal-bg"><i class="pi pi-shield"></i></div>
+      <h3>Compliance Tracking</h3>
+      <p>Automated compliance monitoring and regulatory reporting to ensure adherence.</p>
+    </p-card>
+    <p-card class ="info-card">
+      <div class="icon-box teal-bg"><i class="pi pi-users"></i></div>
+      <h3>Advisory Engine</h3>
+      <p>AI-powered investment recommendations and personalized rebalancing strategies.</p>
+    </p-card>
+  </div>
+</section>
+
+<section class="security-split">
+  <div class="security-left">
+    <h2>Why Choose WealthWise?</h2>
+    <p class="left-subtitle">Advanced portfolio management and personalized investment advisory for high-net-worth individuals.</p>
+    <ul class="check-list">
+      <li><i class="pi pi-check-circle"></i> Real-time portfolio tracking and performance analytics</li>
+      <li><i class="pi pi-check-circle"></i> Personalized investment recommendations based on risk profile</li>
+      <li><i class="pi pi-check-circle"></i> Automated compliance monitoring and regulatory reporting</li>
+      <li><i class="pi pi-check-circle"></i> Multi-asset class support: equities, bonds, mutual funds</li>
+      <li><i class="pi pi-check-circle"></i> Secure client data with enterprise-grade encryption</li>
+      <li><i class="pi pi-check-circle"></i> Comprehensive wealth reports and audit trails</li>
+    </ul>
+  </div>
+  <div class="security-card">
+    <i class="pi pi-lock security-main-icon"></i>
+    <h3>Enterprise-Grade Security</h3>
+    <p>Your financial data is protected with bank-level security measures including end-to-end encryption, multi-factor authentication, and regular security audits.</p>
+    <div class="card-divider-light"></div>
+    <ul class="security-sub-list">
+      <li><i class="pi pi-check-circle"></i> 256-bit AES encryption</li>
+      <li><i class="pi pi-check-circle"></i> SOC 2 Type II certified</li>
+      <li><i class="pi pi-check-circle"></i> Regular penetration testing</li>
+    </ul>
+  </div>
+</section>
+
+<section class="transform-cta">
+  <h2>Ready to Transform Your Wealth Management?</h2>
+  <p>Join thousands of high-net-worth individuals who trust WealthWise for their investment needs.</p>
+  <button class="btn primary-large" routerLink="/register">
+    Get Started Today <i class="pi pi-chevron-right" style="margin-left: 10px; font-size: 0.9rem;"></i>
+  </button>
+</section>
+
+<footer class="footer-dark" id="footer">
+  <div class="footer-logo" routerLink="/">
+      <img src = "Wealth_full.png" style="width: auto; height: 40px;" class=" logo-icon"/>
+    </div>
+  <p>© 2026 WealthWise. Digital Wealth Management & Portfolio Advisory System.</p>
+</footer>
+
+

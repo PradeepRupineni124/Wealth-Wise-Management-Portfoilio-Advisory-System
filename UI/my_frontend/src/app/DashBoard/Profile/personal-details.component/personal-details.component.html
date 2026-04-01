@@ -1,0 +1,69 @@
+<div class="details-card">
+  <h3 class="section-title mb-4">Personal Details</h3>
+
+  <form [formGroup]="profileForm" class="grid-form" ngSkipHydration>
+    
+    <div class="form-field">
+      <label>Full Name</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-user" />
+        <input pInputText formControlName="fullName" />
+      </p-iconField>
+    </div>
+
+    <div class="form-field">
+      <label>Email Address</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-envelope" />
+        <input pInputText formControlName="email" />
+      </p-iconField>
+    </div>
+
+    <div class="form-field">
+      <label>Phone Number</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-phone" />
+        <input pInputText formControlName="phone" />
+      </p-iconField>
+    </div>
+
+    <div class="form-field">
+      <label>Date of Birth</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-calendar" style="z-index: 1" />
+        <p-datepicker 
+          formControlName="dob" 
+          dateFormat="dd-mm-yy" 
+          [showIcon]="false" 
+          appendTo="body"
+          class="w-full"> 
+        </p-datepicker>
+      </p-iconField>
+    </div>
+
+    <div class="form-field full-width">
+      <label>Address</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-map-marker" />
+        <input pInputText formControlName="address" />
+      </p-iconField>
+    </div>
+
+    <div class="form-field">
+      <label>Occupation</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-briefcase" />
+        <input pInputText formControlName="occupation" />
+      </p-iconField>
+    </div>
+
+    <div class="form-field">
+      <label>Employer</label>
+      <p-iconField iconPosition="left">
+        <p-inputIcon class="pi pi-building" />
+        <input pInputText formControlName="employer" />
+      </p-iconField>
+    </div>
+
+  </form>
+</div>

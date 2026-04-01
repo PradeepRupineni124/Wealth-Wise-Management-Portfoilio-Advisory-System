@@ -1,0 +1,72 @@
+<p-toast></p-toast>
+<div class="advisory-container">
+  <h1 class="page-title">AI Investment Advisory</h1>
+  <p class="page-subtitle">Real-time strategies routed through Secure Gateway</p>
+
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let s of stats">
+      <div class="icon-box" [ngClass]="s.bgClass">
+        <i [class]="s.icon + ' ' + s.colorClass"></i>
+      </div>
+      <div>
+        <div class="stat-label">{{ s.label }}</div>
+        <div class="stat-value">{{ s.value }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading-area text-center py-8">
+    <i class="pi pi-spin pi-spinner text-4xl mb-3"></i>
+    <p>Analyzing portfolio with Gemini AI...</p>
+  </div>
+
+  <p-tabs *ngIf="!loading" value="0" styleClass="advisory-segmented">
+    <p-tablist>
+      <p-tab value="0">Active Recommendations</p-tab>
+      <p-tab value="1">History</p-tab>
+    </p-tablist>
+    
+    <p-tabpanels>
+      <p-tabpanel value="0">
+        <div class="tab-content mt-4">
+          <app-recommendation-card 
+            *ngFor="let rec of activeRecommendations" 
+            [data]="rec"
+            (onAccept)="acceptRec($event)"
+            (onReject)="rejectRec($event)">
+          </app-recommendation-card>
+          <div *ngIf="activeRecommendations.length === 0" class="empty-state">No active recommendations.</div>
+        </div>
+      </p-tabpanel>
+
+      <p-tabpanel value="1">
+        <div class="tab-content mt-4 history-container-bg">
+          <div class="history-header">
+            <h2 class="history-section-title">Past Recommendations Performance</h2>
+            <p class="history-section-subtitle">Track record of accepted advisory recommendations</p>
+          </div>
+
+          <app-recommendation-card 
+            *ngFor="let rec of historyRecommendations" 
+            [data]="rec">
+          </app-recommendation-card>
+
+          <div class="advisory-performance-summary" *ngIf="historyRecommendations.length > 0">
+            <div class="summary-icon-box"><i class="pi pi-chart-line"></i></div>
+            <div class="summary-details">
+              <div class="summary-main-title">Advisory Performance Summary</div>
+              <p class="summary-p">Your accepted recommendations have generated an average return of +6.9%.</p>
+              <div class="summary-metrics">
+                <div class="metric"><span class="m-label">Total Gain</span><span class="m-val text-green">+$23,800</span></div>
+                <div class="metric"><span class="m-label">Win Rate</span><span class="m-val">87%</span></div>
+                <div class="metric"><span class="m-label">Recommendations</span><span class="m-val">{{ historyRecommendations.length }}</span></div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="historyRecommendations.length === 0" class="empty-state">No history found.</div>
+        </div>
+      </p-tabpanel>
+    </p-tabpanels>
+  </p-tabs>
+</div>

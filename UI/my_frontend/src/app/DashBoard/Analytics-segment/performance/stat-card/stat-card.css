@@ -1,0 +1,53 @@
+
+:host ::ng-deep .p-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    height: 100%; 
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+:host ::ng-deep .p-card-body {
+    padding: 1.25rem !important;
+    height: 100%;
+}
+
+:host ::ng-deep .p-card-content {
+    padding: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+}
+
+
+.card-title {
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    margin-bottom: 1rem;
+}
+
+.stat-value {
+    font-size: 2rem; 
+    font-weight: 700;
+    color: #059669;
+    line-height: 1;
+    margin-bottom: 0.75rem;
+}
+
+.stat-subtext {
+    font-size: 0.85rem;
+    color: #64748b;
+    line-height: 1.4;
+    margin-top: auto; 
+}
+
+.text-positive {
+    color: #059669 !important;
+}

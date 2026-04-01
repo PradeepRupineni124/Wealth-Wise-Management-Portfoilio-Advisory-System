@@ -1,0 +1,15 @@
+<div class="card-container">
+  <div class="card-header">
+    <span class="card-title">{{ title }}</span>
+    <span *ngIf="badgeText" class="badge" 
+      [style.backgroundColor]="badgeBgColor" [style.color]="trendColor">
+      {{ badgeText }}
+    </span>
+  </div>
+
+  <div class="card-value" [style.color]="valueColor">{{ value }}</div>
+
+  <div *ngIf="trendText" class="card-footer" [style.color]="trendColor">
+    {{ trendText }}
+  </div>
+</div>

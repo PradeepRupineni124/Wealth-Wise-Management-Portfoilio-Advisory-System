@@ -1,0 +1,30 @@
+<div class="reports-layout-grid">
+  @for (report of reports; track report.title) {
+    <div class="report-card">
+      <div class="card-content">
+        <div class="report-icon-box" [style.backgroundColor]="report.iconBg">
+          <i [class]="report.icon" [style.color]="report.iconColor"></i>
+        </div>
+
+        <div class="text-wrapper">
+          <h3 class="report-title">{{ report.title }}</h3>
+          <p class="report-desc">{{ report.description }}</p>
+        </div>
+      </div>
+
+      <div class="footer-row">
+        <span class="report-date">Generated: {{ report.date }}</span>
+        
+        <p-button 
+          label="Download PDF" 
+          icon="pi pi-download" 
+          [outlined]="true" 
+          severity="secondary"
+          styleClass="p-button-sm download-btn"
+          (onClick)="downloadReport(report)">
+        </p-button>
+        
+      </div>
+    </div>
+  }
+</div>

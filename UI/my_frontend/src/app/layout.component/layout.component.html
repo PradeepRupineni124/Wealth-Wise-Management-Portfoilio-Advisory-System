@@ -1,0 +1,91 @@
+<div class="shell-container">
+  <header class="shell-header">
+    <p-menubar styleClass="dashboard-menubar">
+      <ng-template pTemplate="start">
+        <div class="brand-container">
+          <img src="Wealth.png" alt="WealthWise Logo" class="brand-logo">
+          <span class="brand-text">WealthWise</span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="end">
+        <div class="header-actions">
+          
+          <p-autoComplete 
+            [(ngModel)]="searchQuery" 
+            [suggestions]="filteredClients" 
+            (completeMethod)="filterClients($event)" 
+            (onSelect)="onClientSelect($event)"
+            optionLabel="fullName"     dataKey="clientId"         
+            [completeOnFocus]="true"
+            [forceSelection]="true"
+            placeholder="Search Client" 
+            styleClass="client-selector-auto"
+            inputStyleClass="w-full">
+            
+            <ng-template let-client pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <i class="pi pi-user text-primary"></i>
+                <span>{{ client.fullName }}</span> 
+              </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+              <div class="border-top-1 surface-border p-2">
+                <button 
+                    pButton 
+                    label="Add New Client" 
+                    icon="pi pi-plus" 
+                    class="p-button-text p-button-plain w-full text-left"
+                    style="justify-content: start;"
+                    (click)="onAddClient()">
+                </button>
+              </div>
+            </ng-template>
+          </p-autoComplete>
+
+          <div class="v-separator"></div>
+
+          <div class="profile-section">
+            <div class="profile-details">
+              <span class="profile-name">{{ advisorName }}</span>
+              <span class="profile-role">Advisor</span>
+            </div>
+            <p-avatar 
+              image="Advisor_full.png"
+              shape="circle" 
+              styleClass="profile-avatar">
+            </p-avatar>
+          </div>
+
+          <p-button 
+            icon="pi pi-sign-out" 
+            [rounded]="true" 
+            [text]="true" 
+            severity="secondary"
+            pTooltip="Logout" 
+            tooltipPosition="bottom" 
+            (onClick)="logout()">
+          </p-button>
+        </div>
+      </ng-template>
+    </p-menubar>
+  </header>
+
+  <div class="shell-body">
+    <aside class="shell-sidebar">
+      <app-sidebar></app-sidebar>
+    </aside>
+
+    <main class="shell-main-content">
+      <section class="router-view">
+        <router-outlet></router-outlet>
+      </section>
+    </main>
+  </div>
+</div>
+
+<app-client-registration 
+  #registrationModal 
+  (onClientAdded)="handleNewClient($event)">
+</app-client-registration>

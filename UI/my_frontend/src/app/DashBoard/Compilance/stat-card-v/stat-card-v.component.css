@@ -1,0 +1,76 @@
+
+.stat-card {
+  background: white;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  padding: 20px;
+  height: 100%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.card-header { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  margin-bottom: 16px; 
+}
+
+
+.icon-container {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 18px;
+}
+
+
+.green { background: #dcfce7; color: #16a34a; }
+.orange { background: #fef3c7; color: #d97706; }
+.blue { background: #dbeafe; color: #2563eb; }
+
+.red { background: #fee2e2; color: #dc2626; }
+
+.header-label { 
+  color: #64748b; 
+  font-weight: 600; 
+  font-size: 13px; 
+}
+
+.stat-value { 
+  font-size: 26px; 
+  font-weight: 800; 
+  
+  margin: 0 0 8px 0; 
+  line-height: 1.2;
+}
+
+.stat-subtext { 
+  color: #94a3b8; 
+  font-size: 12px; 
+  margin: 0; 
+  font-weight: 500;
+}
+
+
+.progress-track { 
+  height: 6px; 
+  background: #f1f5f9; 
+  border-radius: 10px; 
+  overflow: hidden; 
+  margin-bottom: 12px; 
+  width: 100%;
+}
+
+.progress-bar-fill { 
+  height: 100%; 
+  background: #0f172a; 
+  border-radius: 10px;
+  transition: width 0.5s ease-out;
+}

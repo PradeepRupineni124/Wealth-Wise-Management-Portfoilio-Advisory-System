@@ -1,0 +1,16 @@
+<div class="stat-card">
+  <div class="card-header">
+    <div class="icon-container" [ngClass]="colorClass">
+      <i [class]="icon"></i>
+    </div>
+    <span class="header-label">{{ label }}</span>
+  </div>
+  <div class="card-content">
+    <h2 class="stat-value" [style.color]="textColor">{{ value }}</h2>
+    
+    <div *ngIf="showProgress" class="progress-track">
+      <div class="progress-bar-fill" [style.width]="progressValue + '%'"></div>
+    </div>
+    <p class="stat-subtext">{{ subtext }}</p>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<p-toast></p-toast>
+
+@if (selectedClient()) {
+  <div class="profile-wrapper">
+    
+    @if (activeTab() !== 'KYC Verification') {
+      <div class="flex justify-content-end gap-3 mb-3">
+        @if (!isEditing()) {
+          <p-button label="Edit Profile" icon="pi pi-pencil" (onClick)="onEdit()"></p-button>
+        } @else {
+          <p-button label="Cancel" severity="secondary" [outlined]="true" (onClick)="onCancel()"></p-button>
+          <p-button label="Save Changes" icon="pi pi-check" (onClick)="onSave()"></p-button>
+        }
+      </div>
+    }
+
+   <app-client-card 
+      [name]="selectedClient()?.fullName || selectedClient()?.name" 
+      [clientId]="selectedClient()?.clientId"
+      [riskProfile]="selectedClient()?.riskProfile"
+      [goal]="selectedClient()?.investmentGoal"
+      [kycStatus]="selectedClient()?.kycStatus">
+    </app-client-card>
+
+    <div class="mt-4">
+      <app-tab-filter 
+        [tabs]="profileTabs" 
+        (tabChanged)="onTabChange($any($event))">
+      </app-tab-filter>
+    </div>
+
+    <div class="tab-content mt-4">
+      
+      <div [hidden]="activeTab() !== 'Personal Information'">
+        <app-personal-details 
+          [personalData]="personalData()" 
+          [isEditMode]="isEditing()">
+        </app-personal-details>
+      </div>
+
+      <div [hidden]="activeTab() !== 'Investment Profile'">
+        <app-investement-profile 
+          [profileData]="investProfile()" 
+          [summary]="investSummary()"
+          [isEditMode]="isEditing()">
+        </app-investement-profile>
+      </div>
+
+      <div [hidden]="activeTab() !== 'KYC Verification'">
+        <app-security-settings 
+          [client]="selectedClient()">
+        </app-security-settings>
+      </div>
+
+    </div>
+
+  </div>
+} 
+@else {
+  <div class="empty-profile-state">
+    <div class="empty-icon-wrapper">
+      <i class="pi pi-users"></i>
+    </div>
+    <h2>No Client Selected</h2>
+    <p>Please search for a client in the top navigation bar, or click "Add Client" to create a new profile.</p>
+  </div>
+}

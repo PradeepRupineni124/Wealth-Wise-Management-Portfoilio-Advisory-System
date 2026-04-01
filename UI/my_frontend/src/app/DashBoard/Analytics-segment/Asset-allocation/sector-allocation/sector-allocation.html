@@ -1,0 +1,21 @@
+<div class="allocation-card">
+  <h3 class="card-title">Sector Allocation</h3>
+  
+  <div class="chart-content">
+    
+    <div class="chart-wrapper">
+      <p-chart type="pie" [data]="data" [options]="options" height="250px"></p-chart>
+    </div>
+
+    <div class="custom-legend">
+      @for (sector of currentSectors; track sector.name) {
+        <div class="legend-item">
+          <span class="legend-color" [style.background-color]="sector.color"></span>
+          <span class="legend-text">{{ sector.name }}</span>
+          <span class="legend-value">{{ sector.value }}%</span>
+        </div>
+      }
+    </div>
+
+  </div>
+</div>

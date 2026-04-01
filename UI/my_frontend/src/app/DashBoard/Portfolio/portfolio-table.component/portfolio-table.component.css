@@ -1,0 +1,131 @@
+.portfolio-table-container {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  margin: 20px 0;
+}
+
+.portfolio-table-header {
+  background: #f8fafc;
+  border: 1px solid #edf2f7;
+  border-radius: 18px;
+  padding: 10px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 99px;
+  padding: 6px 16px;
+  width: 320px;
+  transition: border-color 0.2s;
+}
+
+.search-wrapper:focus-within { 
+  border-color: #059669; 
+}
+
+.search-wrapper i { 
+  color: #94a3b8; 
+  font-size: 0.95rem; 
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  margin-left: 8px; 
+  width: 100%;
+  font: 0.9rem 'Inter', sans-serif;
+  color: #1e293b;
+}
+
+.search-input::placeholder { 
+  color: #94a3b8; 
+  opacity: 1; 
+}
+
+.filter-tabs button {
+  padding: 8px 20px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 5px;
+  transition: all 0.2s ease;
+}
+
+.filter-tabs button.active {
+  background: #059669;
+  color: white;
+  border-color: #059669;
+}
+
+.portfolio-grid { 
+  border: none !important; 
+  width: 100%;
+}
+
+/* AG Grid Header & Row Overrides */
+::ng-deep .ag-theme-alpine .ag-header {
+    background-color: transparent;
+    border-bottom: 1px solid #e2e8f0;
+}
+::ng-deep .ag-theme-alpine .ag-row {
+    border-bottom-color: #f1f5f9;
+}
+
+/* Ensures the cell contents (like pills) stay perfectly centered vertically */
+::ng-deep .ag-theme-alpine .ag-cell {
+    display: flex;
+    align-items: center; 
+}
+
+/* Base Asset Badge Style (Fixed the chopped bottom!) */
+::ng-deep .asset-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  height: 26px; /* Strict height prevents AG grid from flattening the bottom */
+  border-radius: 50px; /* Forces a perfect oval shape */
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+}
+
+/* Badge Modifiers for Colors */
+::ng-deep .asset-badge--equity { 
+    background-color: #eefdf3; 
+    color: #059669; 
+    border-color: #a7f3d0; 
+}
+
+::ng-deep .asset-badge--bond { 
+    background-color: #eff6ff; 
+    color: #2563eb; 
+    border-color: #bfdbfe; 
+}
+
+::ng-deep .asset-badge--mutual-fund { 
+    background-color: #fffbeb; 
+    color: #d97706; 
+    border-color: #fde68a; 
+}
+
+.loading-state {
+  padding: 40px;
+  text-align: center;
+  color: #94a3b8;
+}

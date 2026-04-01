@@ -1,0 +1,38 @@
+<p-toast position="top-right"></p-toast>
+
+<div class="wealth-wrapper">
+    <div class="wealth-card">
+        <p-card>
+            <div class="back-nav">
+                <a routerLink="/forgot-password" class="back-link">← Back</a>
+            </div>
+
+            <form [formGroup]="otpForm" (ngSubmit)="onVerifyOtp()">
+                <h2 class="wealth-title">Enter Code</h2>
+                <p class="wealth-desc">Please enter the 4-digit code sent to your email address.</p>
+
+                <div class="otp-container">
+                    <p-inputOtp formControlName="otp" [length]="4" [style]="{ gap: '15px' }" />
+                </div>
+
+                <div class="error-placeholder center-error">
+                    @if (otpForm.controls['otp'].invalid && otpForm.controls['otp'].touched) {
+                        <small class="p-error">Please enter the valid 4-digit code.</small>
+                    }
+                </div>
+
+                <div class="resend-section">
+                    If you don't receive code <br>
+                    <span class="resend-link" (click)="onResend()">Resend</span>
+                </div>
+
+                <div class="button-row">
+                    <p-button label="Verify and Proceed" type="submit" styleClass="wealth-btn"
+                        [loading]="isVerifying()"
+                        [disabled]="otpForm.invalid">
+                    </p-button>
+                </div>
+            </form>
+        </p-card>
+    </div>
+</div>

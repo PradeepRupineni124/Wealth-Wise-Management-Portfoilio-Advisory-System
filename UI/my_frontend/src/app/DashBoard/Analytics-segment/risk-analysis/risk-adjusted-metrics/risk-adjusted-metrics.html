@@ -1,0 +1,26 @@
+<div class="risk-container">
+  <h3 class="section-title">Risk-Adjusted Metrics</h3>
+
+  <div class="metrics-grid">
+    <div class="metric-card" *ngFor="let item of metrics">
+      
+      <div class="card-header">
+        <span class="metric-name">{{ item.title }}</span>
+      </div>
+
+      <div class="values-row">
+        
+        <div class="value-col portfolio">
+          <span class="label">Your Portfolio</span>
+          <span class="number main-value">{{ item.portfolioValue }}</span>
+        </div>
+
+        <div class="value-col benchmark">
+          <span class="label">Benchmark</span>
+          <span class="number sub-value">{{ item.benchmarkValue }}</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

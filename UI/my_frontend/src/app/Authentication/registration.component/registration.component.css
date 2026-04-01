@@ -1,0 +1,297 @@
+@import "primeicons/primeicons.css";
+
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+
+.split-layout {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: var(--p-surface-50);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-y: auto;
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    background-color: var(--p-surface-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem; 
+}
+
+.content-wrapper {
+    max-width: 550px;
+    width: 100%;
+}
+
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+
+
+
+.brand{
+    margin-bottom: 0.3rem;
+}
+
+.brand-logo {
+    width: 270px; 
+    height: auto; 
+    display: block; 
+}
+
+
+.hero-text h1 {
+    font-size: 2.75rem;
+    line-height: 1.2;
+    color: var(--p-surface-900);
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+}
+
+.hero-text .highlight {
+    color: var(--p-primary-500);
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: var(--p-surface-500);
+    margin-bottom: 3rem;
+}
+
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+
+::ng-deep .stat-card {
+    background-color: #ffffff !important;
+    border: 1px solid var(--p-surface-200) !important;
+    border-radius: 12px !important;
+    height: 100%;
+    /* Green Shadow */
+    box-shadow: 0 10px 30px rgba(16, 185, 129, 0.15) !important; 
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+::ng-deep .stat-card:hover {
+    animation: shake 0.4s ease-in-out;
+    border-color: var(--p-primary-500) !important;
+    cursor: pointer;
+}
+
+::ng-deep .stat-card .p-card-body {
+    padding: 1.5rem !important;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--p-primary-500);
+    margin: 0 0 0.25rem 0;
+}
+
+.stat-label {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--p-surface-500);
+    font-weight: 500;
+}
+
+
+
+.register_wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent; 
+    padding: 1rem;
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+.register_card {
+    width: 100%;
+    max-width: 440px;
+}
+
+
+::ng-deep .register-card-custom {
+    background-color: #ffffff !important;
+    border: none !important;
+    border-radius: 14px !important;
+    /* Stronger Green Shadow */
+    box-shadow: 0 15px 40px rgba(16, 185, 129, 0.15) !important;
+    width: 100%; 
+}
+
+::ng-deep .register-card-custom .p-card-body {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+/* ---  FORM INTERNALS --- */
+.card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 0.5rem;
+    padding-top: 0;
+    width: 100%;
+}
+
+.account-icon {
+    display: inline-block;
+    font-size: 2.5rem;
+    color: var(--p-primary-500);
+    margin-bottom: 0.5rem;
+    padding-top: 7px;                  
+}
+
+h2 {
+    margin: 0;
+    text-align: center;
+    font-size: 1.8rem;
+    color: var(--p-surface-900);
+    font-weight: 700;
+}
+
+.form_group {
+    width: 100%;
+}
+
+.form-column {
+    width: 100%;
+    max-width: 380px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.field-container {
+    width: 100%;
+}
+
+::ng-deep .p-floatlabel {
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Input Fields */
+::ng-deep .p-inputtext {
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 1rem 3rem 1rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    background-color: #eef2f6; 
+    border: 1px solid transparent;
+}
+
+::ng-deep .p-inputtext:focus {
+    background-color: #ffffff;
+    border-color: var(--p-primary-500);
+    box-shadow: 0 0 0 1px var(--p-primary-500);
+}
+
+::ng-deep .p-password {
+    width: 100% !important;
+}
+
+::ng-deep .p-password-input {
+    width: 100% !important;
+    box-sizing: border-box;
+    padding: 1rem 3rem 1rem 1rem !important;
+    font-size: 1rem;
+    border-radius: 8px;
+    background-color: #eef2f6;
+    border: 1px solid transparent;
+}
+
+::ng-deep .p-password-input:focus {
+    background-color: #ffffff;
+    border-color: var(--p-primary-500);
+    box-shadow: 0 0 0 1px var(--p-primary-500);
+}
+
+.error-placeholder {
+    min-height: 21px;
+    margin-top: 0.25rem;
+    font-size: 0.8rem;
+}
+
+::ng-deep .register-btn {
+    width: 100% !important;
+    display: block;
+    margin-top: 1rem;
+    /* padding-top: 10px; */
+}
+
+::ng-deep .register-btn .p-button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: var(--p-primary-500);
+    border: none;
+}
+
+::ng-deep .register-btn .p-button:hover {
+    background-color: var(--p-primary-600);
+}
+
+.login-text {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+    color: var(--p-surface-500);
+}
+
+.login-text span {
+    color: var(--p-primary-500);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .split-layout {
+        flex-direction: column;
+    }
+    .left-panel, .right-panel {
+        padding: 2rem;
+    }
+    .hero-text h1 {
+        font-size: 2rem;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
